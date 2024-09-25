@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+   
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow p-5 bg-dark text-white-50">
+                    <h4 class="text-white">Uma Jornada Começa!!!</h4>
+                    <p>
+                        Bem-vindo, {{current_user.nome}}! Estamos entusiasmados em tê-lo conosco! Aqui,
+                        nossa missão é elevar a experiência de jogadores e mestres, tornando suas aventuras
+                        mais dinâmicas e divertidas. Com nossos geradores automáticos, organizadores de campanhas,
+                        ferramentas para encontros, rolagens de dados e uma série de funcionalidades, jogar RPG de
+                        mesa será mais imersivo e gratificante do que nunca! Sua jornada não para por aqui — queremos
+                        ouvir você! Envie suas sugestões, críticas e até agradecimentos. Nossa equipe está ansiosa para
+                        trocar ideias e continuar aprimorando cada detalhe deste espaço que criamos com tanto carinho.
+                        Nesta página, você poderá acompanhar de perto nosso progresso, novidades e os planos incríveis que
+                        temos para o futuro. Prepare-se para descobrir novas possibilidades no mundo do RPG!
+                    </p>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="card shadow p-5 bg-dark text-white-50">
+                    <h4 class="text-white">Últimas Atualizações</h4>
+                    <p>
+                        A equipe está desenvolvendo o criador de NPCs aleatórios com base no livro do mestre de 2014, em breve mais informações...
+                    </p>
+                </div>
+                <br>
+                <div class="card shadow p-5 bg-dark text-white-50">
+                    <h4 class="text-white">Propaganda</h4>
+                    <p>
+                        Anuncie aqui!
+                    </p>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% endif %}
+
+{% endblock %}

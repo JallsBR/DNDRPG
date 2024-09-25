@@ -1,0 +1,246 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
+  font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+/*body > div, #bruno, #donate, #changelog, #changelog > h2, #about, #about > h2, #suggestions{
+  transition: all 0.3s ease;
+}
+*/
+/* Wrapper for page content to push down footer */
+#wrap {
+  height: auto;
+  margin-bottom: 50px;
+}
+
+#header {
+  padding: 20px 0 0 0px;
+}
+
+.form-horizontal .form-group {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+hr {
+    height: 4px;
+    background: #2d1247;
+    /*background: -webkit-gradient(linear, 0 0, 100% 0, from(#2d1247), to(white));
+    background: -moz-linear-gradient(left, rgba(45,18,71,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(45,18,71,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+
+    background: -webkit-linear-gradient(left, rgba(45,18,71,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+
+    background: -o-linear-gradient(left, rgba(45,18,71,1) 0%,rgba(255,255,255,0) 100%); /* Opera 11.10+
+    background: -ms-linear-gradient(left, rgba(45,18,71,1) 0%,rgba(255,255,255,0) 100%); /* IE10+
+    background: linear-gradient(to right, rgba(45,18,71,1) 0%,rgba(255,255,255,0) 100%); /* W3C
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2d1247', endColorstr='#00ffffff',GradientType=1 );
+    */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+h1{
+    font-size: 30px;
+}
+
+a {
+    color: #2d1247;
+}
+
+a:hover, h3:hover{
+    color: #442897;
+}
+
+#logo{
+    width: 100%;
+    height: 100%;
+}
+
+.paypal{
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/** Ficha **/
+
+#class_icon{
+    width: 60px;
+    height: 60px;
+}
+
+.character-sheet p{
+  margin-bottom: 2px;
+}
+
+.character-sheet p .action{
+  margin-bottom: 10px;
+}
+
+.small_text{
+    font-size: 10px;
+    font-style: italic;
+    margin-bottom: 10px !important;
+}
+
+.glyphicon{
+  margin-left: 5px;
+}
+
+.racePanel{
+    margin-bottom: 10px;
+}
+
+.racePanelHeading{
+    padding: 5px 0 5px 0;
+}
+
+/** Sidebar - npc options **/
+
+.npc-options{
+    margin-top: 32px;
+}
+
+.tooltip{
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+}
+
+.tooltip-inner{
+    background-color: #2d1247;
+}
+
+.btn-primary{
+  background-color: #321d6f;
+  border-color: #461d6f;
+}
+
+.btn-primary:hover{
+  background-color: #442897;
+  border-color: #321d6f;
+}
+
+
+/** Footer **/
+
+#footer{
+    background-color: #2d1247;
+    padding: 20px 0 20px 0;
+}
+
+#ending{
+    margin-top: 100px;
+    padding: 50px 0px 50px 0px;
+    background-color: #2d1247;
+}
+
+.description{
+    font-size: 20px !important;
+    padding: 50px 50px 50px 50px;
+    background-color: #2d1247;
+    color: white;
+}
+
+.description .btn{
+    padding: 15px 30px 15px 30px;
+    font-size: 14px;
+}
+
+.description:hover .btn{
+    background-color: #2d1247;
+    border-color: #461d6f;
+    color: white;
+}
+
+.description:hover .btn:hover{
+    background-color: #442897;
+    border-color: #321d6f;
+}
+
+.description h2, .ogl{
+    margin: 0px;
+    color: white;
+}
+
+.description:hover, .description:hover h2, .description:hover .ogl{
+    background-color: white;
+    color: #2d1247;
+}
+
+/** Acordion **/
+.panel-body p{
+    color: #2d1247 !important;
+}
+
+.friendlynpcs{
+    font-size: 10px;
+    font-style: italic;
+    margin-bottom: 10px !important;
+    color: #2d1247 !important;
+}
+
+
+.sidebyside{
+    height: 250px;
+}
+
+/** ImpressÃ£o */
+
+@media print { .noprint {display: none;}}
+
+@media screen { .noscreen {display: none;}}
+
+/** Bestiary **/
+table a:not(.btn), .table a:not(.btn){
+    text-decoration: none;
+}
+
+table.bestiary td{
+    min-width: 70px;
+}
+
+.call-to-action{
+    padding: 10px 10px 10px 10px;
+    color:white;
+    background-color: #2d1247;
+}
+
+.call-to-action h4{
+    color:white;
+    background-color: #2d1247;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.image-bestiary{
+    background-image: url('https://rpgtinker.com/img/icons/Bestiary.png');
+    height: 70px;
+    width: 70px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.image-generator{
+    background-image: url('https://rpgtinker.com/img/icons/Generator.png');
+    height: 70px;
+    width: 70px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.image-support{
+    background-image: url('https://rpgtinker.com/img/icons/Beer.png');
+    height: 70px;
+    width: 70px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}

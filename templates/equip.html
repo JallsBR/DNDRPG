@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+
+<!-- Índice de navegação -->
+<div class="navbar navbar-expand-lg navbar bg-dark">
+    <h5 class="d-inline-block mx-3">
+        <a href="#armas" class="text-white-50 link-underline link-underline-opacity-0">Armas</a>
+    </h5>
+    <h5 class="d-inline-block mx-3">
+        <a href="#armaduras" class="text-white-50 link-underline link-underline-opacity-0">Armaduras</a>
+    </h5>
+    <h5 class="d-inline-block mx-3">
+        <a href="#equipamentos" class="text-white-50 link-underline link-underline-opacity-0">Equipamentos Gerais</a>
+    </h5>
+    <h5 class="d-inline-block mx-3">
+        <a href="#pocoes" class="text-white-50 link-underline link-underline-opacity-0">Consumíveis</a>
+    </h5>
+    <h5 class="d-inline-block mx-3">
+        <a href="#itens_magicos" class="text-white-50  link-underline link-underline-opacity-0">Itens Mágicos</a>
+    </h5>
+</div>
+<br>
+
+
+    <!-- Lista de Armas -->
+    <div id="armas" class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Lista de Armas</h4>       
+        
+        <table class="table table-striped table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Dano</th> 
+                    <th>Propriedades</th>
+                    <th>Maestria</th>
+                    <th>Peso</th>
+                    <th>Preço</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for arma in armas %}
+                    <tr>
+                        <td>{{ arma.nome }} <i>({{ arma.nome_original }})</i></td>
+                        <td>{{ arma.categoria }}</td>
+                        <td>{{ arma.dado_dano }} - {{ arma.tipo_dano }}</td>
+                        <td>{{ arma.propriedades }}</td>
+                        <td>{{ arma.maestria }}</td>
+                        <td>{{ arma.peso }}</td>
+                        <td>{{ arma.preco }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+    <!-- Lista de Armaduras -->
+    <div id="armaduras" class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Lista de Armaduras</h4>
+        
+        <table class="table table-striped table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Classe de Armadura (CA)</th>
+                    <th>Força</th>
+                    <th>Furtividade</th>
+                    <th>Peso</th>
+                    <th>Preço</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for armadura in armaduras %}
+                    <tr>
+                        <td>{{ armadura.nome }} <i>({{ armadura.nome_original }})</i></td>
+                        <td>{{ armadura.categoria }}</td>
+                        <td>{{ armadura.classe_armadura }}</td>
+                        <td>{% if armadura.forca %} {{ armadura.forca }} {% else %} - {% endif %}</td>
+                        <td>{% if armadura.furtividade %} Desvantagem {% else %} - {% endif %}</td>
+                        <td>{{ armadura.peso }}</td>
+                        <td>{{ armadura.preco }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+    <!-- Lista de Equipamentos -->
+    <div id="equipamentos" class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Lista de Equipamentos</h4>
+    
+        <table class="table table-striped table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Peso</th>
+                    <th>Preço</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in equip %}
+                    <tr>
+                        <td>{{ item.nome }} <i>({{ item.nome_original }})</i></td>
+                        <td>{{ item.descrição }}</td>
+                        <td>{{ item.peso }}</td>
+                        <td>{{ item.preco }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+    <!-- Poções -->
+    <div id="pocoes" class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Consumíveis</h4>
+        <p>Em Construção</p>
+    </div>
+    <br>
+
+    <!-- Itens Mágicos -->
+    <div id="itens_magicos" class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Itens Mágicos</h4>
+        <p>Em construção</p>
+    </div>
+    <br>
+
+    {% endif %}
+
+{% endblock %}

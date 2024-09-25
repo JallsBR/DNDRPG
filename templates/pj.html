@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+    <div class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Lista de Personagens</h4>
+        <p>
+            <strong class="text-white">Nome:</strong> Aristemy <strong class="text-white">Classe:</strong> Bladesinger <strong class="text-white">Raça:</strong> Alto Elfo <strong class="text-white">Nível:</strong> 13
+        </p>
+    </div>
+    <br>
+
+    <div class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Criar Personagem</h4>
+        <p>
+            Formulário Aqui
+        </p>
+    </div>
+    <br>
+
+    <div class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Lista de NPCs</h4>
+        <p>
+            <strong class="text-white">Nome:</strong> Aristemy <strong class="text-white">Classe:</strong> Bladesinger <strong class="text-white">Raça:</strong> Alto Elfo <strong class="text-white">Nível:</strong> 13
+        </p>
+    </div>
+    <br>
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,1252 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+    <form action="/npc/create" method="post">
+    <div class="card shadow p-5 bg-dark text-white-50">
+        <div class="row">
+            <div class="col-md-6 form-group">
+            <h1 class="text-white">Criação de NPCs Aleatórios</h1>            
+        </div>            
+        <div class="col-md-4 form-group">
+            <label for="template">Base</label>
+            <select id="template" name="template" class="form-control bg-dark text-white border-light">
+                <option value="">Selecione uma Base</option>
+                <option value="aarakocra">Aarakocra</option>
+                <option value="acoitador-kuo-toa">Açoitador kuo-toa</option>
+                <option value="acolito">Acólito</option>
+                <option value="arcano">Arcano</option>
+                <option value="arcebispo-kuo-toa">Arcebispo kuo-toa</option>
+                <option value="arquimago">Arquimago</option>
+                <option value="assassino">Assassino</option>
+                <option value="bandido">Bandido</option>
+                <option value="barao-sahuagin">Barão sahuagin</option>
+                <option value="batedor">Batedor</option>
+                <option value="bugbear">Bugbear</option>
+                <option value="bugbear-comandante">Bugbear comandante</option>
+                <option value="bullywug">Bullywug</option>
+                <option value="capitao-dos-bandidos">Capitão dos bandidos</option>
+                <option value="cavaleiro">Cavaleiro</option>
+                <option value="cavaleiro-githyanki">Cavaleiro githyanki</option>
+                <option value="chefe-goblin">Chefe goblin</option>
+                <option value="comandante-de-guerra-orc">Comandante de guerra orc</option>
+                <option value="cultista">Cultista</option>
+                <option value="drow">Drow</option>
+                <option value="drow-arcano">Drow arcano</option>
+                <option value="drow-guerreiro-de-elite">Drow guerreiro de elite</option>
+                <option value="drow-sacerdotisa-de-lolth">Drow sacerdotisa de Lolth</option>
+                <option value="druida">Druida</option>
+                <option value="duergar">Duergar</option>
+                <option value="espiao">Espião</option>
+                <option value="fanatico-do-culto">Fanático do culto</option>
+                <option value="furioso">Furioso</option>
+                <option value="gladiador">Gladiador</option>
+                <option value="gnomo-das-profundezas">Gnomo das profundezas</option>
+                <option value="gnoll">Gnoll</option>
+                <option value="gnoll-lider-de-matilha">Gnoll líder de matilha</option>
+                <option value="goblin">Goblin</option>
+                <option value="grimlock">Grimlock</option>
+                <option value="guarda">Guarda</option>
+                <option value="guerreiro-githyanki">Guerreiro githyanki</option>
+                <option value="guerreiro-tribal">Guerreiro tribal</option>
+                <option value="hobgoblin">Hobgoblin</option>
+                <option value="hobgoblin-capitao">Hobgoblin capitão</option>
+                <option value="hobgoblin-senhor-da-guerra">Hobgoblin senhor da guerra</option>
+                <option value="homem-chacal">Homem-chacal</option>
+                <option value="homem-javali">Homem-javali</option>
+                <option value="homem-rato">Homem-rato</option>
+                <option value="homem-tigre">Homem-tigre</option>
+                <option value="homem-urso">Homem-urso</option>
+                <option value="kenku">Kenku</option>
+                <option value="kobold">Kobold</option>
+                <option value="kobold-alado">Kobold alado</option>
+                <option value="kuo-toa">Kuo-toa</option>
+                <option value="kuo-toa-monitor">Kuo-toa monitor</option>
+                <option value="lobisomem">Lobisomem</option>
+                <option value="meio-dragao-vermelho-veterano">Meio-dragão vermelho veterano</option>
+                <option value="monge-githzerai">Monge githzerai</option>
+                <option value="nobre">Nobre</option>
+                <option value="orc">Orc</option>
+                <option value="orc-olho-de-gruumsh">Orc olho de Gruumsh</option>
+                <option value="orog">Orog</option>
+                <option value="plebeu">Plebeu</option>
+                <option value="povo-do-mar">Povo do mar</option>
+                <option value="povo-lagarto">Povo lagarto</option>
+                <option value="quaggoth">Quaggoth</option>
+                <option value="quaggoth-thonot">Quaggoth thonot</option>
+                <option value="rei-rainha-do-povo-lagarto">Rei/Rainha do povo lagarto</option>
+                <option value="rufiao">Rufião</option>
+                <option value="sacerdote">Sacerdote</option>
+                <option value="sacerdotisa-sahuagin">Sacerdotisa sahuagin</option>
+                <option value="sahuagin">Sahuagin</option>
+                <option value="thri-kreen">Thri-kreen</option>
+                <option value="troglodita">Troglodita</option>
+                <option value="veterano">Veterano</option>
+                <option value="xama-do-povo-lagarto">Xamã do povo lagarto</option>
+                <option value="yuan-ti-puro-sangue">Yuan-ti puro-sangue</option>
+                <option value="zerth-githzerai">Zerth githzerai</option>
+            </select>
+        </div>
+        
+    
+        </div>
+        <br>
+        <p class="text-white">Deseja criar um NPC aleatoriamente? Simples! Deixe em branco os campos que deseja que sejam gerados automaticamente. Você também pode escolher se quer adicionar <strong>Ações Especiais</strong>, <strong>Reações</strong> ou <strong>Ações Lendárias</strong> de forma aleatória, basta marcar as opções correspondentes.</p>
+        <p class="text-white">Preenchendo o campo <strong>Nível de Desafio (ND)</strong>, ajustaremos as características do NPC para refletir o valor mais próximo e adequado, garantindo que ele esteja preparado para o desafio certo!</p>
+        
+        
+        <br>
+        <hr>
+        
+        
+
+            <div class="container">
+                <h3 class="text-white">Descrição</h3>
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        <label for="npc_nome">Nome</label>
+                        <input type="text" id="npc_nome" name="npc_nome" class="form-control bg-dark text-white border-light">
+                    </div>
+                
+
+                            <div class="col-md-3 form-group">
+                                <label for="raca">Raça</label>
+                                <div class="dropdown-container">
+                                    <select id="raca" name="raca" class="form-control bg-dark text-white border-light">
+                                        <option value="" disabled selected>Selecione uma raça</option>
+                                        <option value="Humano">Humano</option>
+                                        <option value="Aasimar">Aasimar</option>
+                                        <option value="Draconato">Draconato</option>
+                                        <option value="Anão">Anão</option>
+                                        <option value="Drow">Drow</option>
+                                        <option value="Alto elfo">Alto Elfo</option>
+                                        <option value="Elfo da floresta">Elfo da Floresta</option>
+                                        <option value="Gnomo">Gnomo</option>
+                                        <option value="Goliath">Goliath</option>
+                                        <option value="Halfling">Halfling</option>
+                                        <option value="Orc">Orc</option>
+                                        <option value="Tiefling">Tiefling</option>
+                                        <option value="Morto vivo">Morto-Vivo</option>
+                                        <option value="Aberracao">Aberração</option>
+                                        <option value="Celestial">Celestial</option>
+                                        <option value="Constructo">Constructo</option>
+                                        <option value="Corruptor">Corruptor</option>
+                                        <option value="Dragão">Dragão</option>
+                                        <option value="Elemental">Elemental</option>
+                                        <option value="Fada">Fada</option>
+                                        <option value="Gigante">Gigante</option>
+                                        <option value="outro">Outro...</option>
+                                    </select>
+                                    <input type="text" id="raca-custom" name="raca-custom" class="form-control form-control-custom bg-dark text-white border-light mt-2" placeholder="Digite a nova raça">
+                                </div>
+                            </div>
+
+                
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const select = document.getElementById('raca');
+                            const customInput = document.getElementById('raca-custom');
+                
+                            select.addEventListener('change', function () {
+                                if (select.value === 'outro') {
+                                    select.style.display = 'none';
+                                    customInput.style.display = 'block';
+                                    customInput.focus();
+                                }
+                            });
+                
+                            customInput.addEventListener('blur', function () {
+                                if (customInput.value.trim() !== '') {
+                                    select.value = customInput.value.trim();
+                                }
+                                select.style.display = 'block';
+                                customInput.style.display = 'none';
+                            });
+                        });
+                    </script>
+                
+                    <div class="col-md-3 form-group">
+                        <label for="tendencia">Tendência</label>
+                        <select id="tendencia" name="tendencia" class="form-control bg-dark text-white border-light">
+                            <option value="" disabled selected>Tendência</option>
+                            <option value="leal_bom">Leal e Bom</option>
+                            <option value="neutro_bom">Neutro e Bom</option>
+                            <option value="caotico_bom">Caótico e Bom</option>
+                            <option value="leal_neutro">Leal e Neutro</option>
+                            <option value="neutro">Neutro</option>
+                            <option value="caotico_neutro">Caótico e Neutro</option>
+                            <option value="leal_mau">Leal e Mau</option>
+                            <option value="neutro_mau">Neutro e Mau</option>
+                            <option value="caotico_mau">Caótico e Mau</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-md-3 form-group">
+                        <label for="genero">Gênero</label>
+                        <select id="genero" name="genero" class="form-control bg-dark text-white border-light">
+                            <option value="" disabled selected>Gênero</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Outro">Outro</option>                            
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-1 form-group">
+                        <label for="ca">CA</label>
+                        <input type="number" id="ca" name="ca" class="form-control bg-dark text-white border-light" min="8" max="30">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="pv">PV</label>
+                        <input type="number" id="pv" name="pv" class="form-control bg-dark text-white border-light"min="1" max="1000">
+                    </div>
+
+                    <div class="col-md-2 form-group">
+                        <label for="dadosvida">DadosVida</label>
+                        <input type="text" id="dadosvida" name="dadosvida" class="form-control bg-dark text-white border-light">
+                    </div>
+                    
+                    
+                    <div class="col-md-1 form-group">
+                        <label for="speed">Mov.</label>
+                        <input type="number" id="speed" name="speed" value="30" class="form-control bg-dark text-white border-light">
+                    </div>
+                    
+                    <div class="col-md-1 form-group">
+                        <label for="voo">Vôo</label>
+                        <input type="number" id="speed" name="voo"  class="form-control bg-dark text-white border-light">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="natacao">Natação</label>
+                        <input type="number" id="natacao" name="natacao"  class="form-control bg-dark text-white border-light">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="darkvision">Infravisão</label>
+                        <input type="number" id="darkvision" name="darkvision"  class="form-control bg-dark text-white border-light">
+                    </div>
+
+                    <div class="col-md-3 form-group">                
+                        <label for="classe_base">Classe Base</label>
+                        <select id="classe_base" name="classe_base" class="form-control bg-dark text-white border-light">
+                            <option value="" disabled selected>Classe</option>
+                            <option value="barbaro">Bárbaro</option>
+                            <option value="bardo">Bardo</option>
+                            <option value="bruxo">Bruxo</option>
+                            <option value="clerigo">Clérigo</option>
+                            <option value="druida">Druida</option>
+                            <option value="feiticeiro">Feiticeiro</option>
+                            <option value="guerreiro">Guerreiro</option>
+                            <option value="ladino">Ladino</option>
+                            <option value="mago">Mago</option>
+                            <option value="monge">Monge</option>
+                            <option value="paladino">Paladino</option>
+                            <option value="patrulheiro">Patrulheiro</option>
+                            <option value="artifice">Artífice</option>
+                            <option value="especialista">Especialista</option>
+                            <option value="conjurador">Conjurador</option>
+                            <option value="combatente">Combatente</option>
+                        </select>
+                    </div>
+                    
+                    
+                    <div class="col-md-1 form-group">
+                        <label for="nd">ND</label>
+                            <select id="nd" name="nd" class="form-control bg-dark text-white border-light">
+                                <option value="" disabled selected> - </option>
+                                <option value="1/8">1/8</option>
+                                <option value="1/4">1/4</option>
+                                <option value="1/2">1/2</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                            </select>
+                    </div>       
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-1 form-group">
+                        <label for="força">For</label>
+                        <input type="number" id="força" name="força"  class="form-control bg-dark text-white border-light" min="8" max="30">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="destreza">Des</label>
+                        <input type="number" id="destreza" name="destreza"  class="form-control bg-dark text-white border-light" min="8" max="30">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="constituição">Con</label>
+                        <input type="number" id="constituição" name="constituição"  class="form-control bg-dark text-white border-light" min="0" max="30">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="sabedoria">Sab</label>
+                        <input type="number" id="sabedoria" name="sabedoria" class="form-control bg-dark text-white border-light" min="3" max="30">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="inteligência">Int</label>
+                        <input type="number" id="inteligência" name="inteligência"  class="form-control bg-dark text-white border-light" min="3" max="30">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="carisma">Car</label>
+                        <input type="number" id="carisma" name="carisma" class="form-control bg-dark text-white border-light" min="8" max="30">
+                    </div>
+                    <div class="col-md-1 form-group">
+                        <label for="nataques">Ataques</label>
+                        <input type="number" id="nataques" name="nataques" class="form-control bg-dark text-white border-light">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="nmagias">Magias</label>
+                        <input type="number" id="nmagias" name="nmagias" class="form-control bg-dark text-white border-light">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="cd">CD</label>
+                        <input type="number" id="cd" name="cd" class="form-control bg-dark text-white border-light">
+                    </div>
+
+
+                </div>
+
+
+                <hr>
+
+
+                <!------------------- Saves ----------->
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex align-items-center">
+                            <h3 class="text-white mb-0 me-3">Salvaguardas</h3>
+                            <div class="form-check form-switch">
+                                <input type="checkbox" class="form-check-input" id="saves" name= "saves">
+                                <label class="form-check-label text-white"   for="saves">Aleatório</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <br>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="saveforca" name="saveforca">
+                    <label class="form-check-label" for="saveforca">Força</label>
+                </div>
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="savedestreza" name="savedestreza">
+                    <label class="form-check-label" for="savedestreza">Destreza</label>
+                </div>
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="saveconstituicao" name="saveconstituicao">
+                    <label class="form-check-label" for="saveconstituicao">Constituição</label>
+                </div>
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="savesabedoria" name="savesabedoria">
+                    <label class="form-check-label" for="savesabedoria">Sabedoria</label>
+                </div>
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="saveinteligencia" name="saveinteligencia">
+                    <label class="form-check-label" for="saveinteligencia">Inteligência</label>
+                </div>
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="savecarisma" name="savecarisma">
+                    <label class="form-check-label" for="savecarisma">Carisma</label>
+                </div>
+            </div>
+
+            <hr>
+
+
+
+                
+            <!------------------- Resistências ----------->
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center">
+                        <h3 class="text-white mb-0 me-3">Resistências</h3>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="resistencia" name= "resistencia">
+                            <label class="form-check-label text-white"   for="resistencia">Aleatório</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciaacido" name="resistenciaacido">
+                <label class="form-check-label" for="resistenciaacido">Ácido</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciaconcussao" name="resistenciaconcussao">
+                <label class="form-check-label" for="resistenciaconcussao">Concussão</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciacortante" name="resistenciacortante">
+                <label class="form-check-label" for="resistenciacortante">Cortante</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciaeletrico" name="resistenciaeletrico">
+                <label class="form-check-label" for="resistenciaeletrico">Elétrico</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciaenergia" name="resistenciaenergia">
+                <label class="form-check-label" for="resistenciaenergia">Energia</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciafogo" name="resistenciafogo">
+                <label class="form-check-label" for="resistenciafogo">Fogo</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciafrio" name="resistenciafrio">
+                <label class="form-check-label" for="resistenciafrio">Frio</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistencianecronico" name="resistencianecronico">
+                <label class="form-check-label" for="resistencianecronico">Necrótico</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciaperfurante" name="resistenciaperfurante">
+                <label class="form-check-label" for="resistenciaperfurante">Perfurante</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciapsiquico" name="resistenciapsiquico">
+                <label class="form-check-label" for="resistenciapsiquico">Psíquico</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciaradiante" name="resistenciaradiante">
+                <label class="form-check-label" for="resistenciaradiante">Radiante</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciatrovejante" name="resistenciatrovejante">
+                <label class="form-check-label" for="resistenciatrovejante">Trovejante</label>
+            </div>
+            
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistenciaveneno" name="resistenciaveneno">
+                <label class="form-check-label" for="resistenciaveneno">Veneno</label>
+            </div>
+
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistataques_n_magico" name="resistataques_n_magico">
+                <label class="form-check-label" for="resistataques_n_magico">Não-mágicos</label>
+            </div>
+
+            <div class="col-md-2 form-group">
+                <input type="checkbox" class="form-check-input" id="resistmagia" name="resistmagia">
+                <label class="form-check-label" for="resistmagia">Magia</label>
+            </div>
+
+
+            
+        </div>    
+
+        <hr>
+
+            <!------------------- Imunidades ----------->
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center">
+                        <h3 class="text-white mb-0 me-3">Imunidades</h3>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="imunidade" name="imunidade">
+                            <label class="form-check-label text-white" for="imunidade">Aleatório</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeagarrado" name="imunidadeagarrado">
+                    <label class="form-check-label" for="imunidadeagarrado">Agarrado</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeamedrontado" name="imunidadeamedrontado">
+                    <label class="form-check-label" for="imunidadeamedrontado">Amedrontado</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeatordoado" name="imunidadeatordoado">
+                    <label class="form-check-label" for="imunidadeatordoado">Atordoado</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadecaido" name="imunidadecaido">
+                    <label class="form-check-label" for="imunidadecaido">Caído</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadecego" name="imunidadecego">
+                    <label class="form-check-label" for="imunidadecego">Cego</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeenfeitiçado" name="imunidadeenfeitiçado">
+                    <label class="form-check-label" for="imunidadeenfeitiçado">Enfeitiçado</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeenvenenado" name="imunidadeenvenenado">
+                    <label class="form-check-label" for="imunidadeenvenenado">Envenenado</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeimpedido" name="imunidadeimpedido">
+                    <label class="form-check-label" for="imunidadeimpedido">Impedido</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeincapacitado" name="imunidadeincapacitado">
+                    <label class="form-check-label" for="imunidadeincapacitado">Incapacitado</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeinconsciente" name="imunidadeinconsciente">
+                    <label class="form-check-label" for="imunidadeinconsciente">Inconsciente</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeinvisivel" name="imunidadeinvisivel">
+                    <label class="form-check-label" for="imunidadeinvisivel">Invisível</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeparalisado" name="imunidadeparalisado">
+                    <label class="form-check-label" for="imunidadeparalisado">Paralisado</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadepetrificado" name="imunidadepetrificado">
+                    <label class="form-check-label" for="imunidadepetrificado">Petrificado</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadesurdo" name="imunidadesurdo">
+                    <label class="form-check-label" for="imunidadesurdo">Surdo</label>
+                </div>
+
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeacido" name="imunidadeacido">
+                    <label class="form-check-label" for="imunidadeacido">Ácido</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeconcussao" name="imunidadeconcussao">
+                    <label class="form-check-label" for="imunidadeconcussao">Concussão</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadecortante" name="imunidadecortante">
+                    <label class="form-check-label" for="imunidadecortante">Cortante</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeeletrico" name="imunidadeeletrico">
+                    <label class="form-check-label" for="imunidadeeletrico">Elétrico</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeenergia" name="imunidadeenergia">
+                    <label class="form-check-label" for="imunidadeenergia">Energia</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadefogo" name="imunidadefogo">
+                    <label class="form-check-label" for="imunidadefogo">Fogo</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadefrio" name="imunidadefrio">
+                    <label class="form-check-label" for="imunidadefrio">Frio</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunididanecronico" name="imunididanecronico">
+                    <label class="form-check-label" for="imunididanecronico">Necrótico</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeperfurante" name="imunidadeperfurante">
+                    <label class="form-check-label" for="imunidadeperfurante">Perfurante</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadepsiquico" name="imunidadepsiquico">
+                    <label class="form-check-label" for="imunidadepsiquico">Psíquico</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidaderadiante" name="imunidaderadiante">
+                    <label class="form-check-label" for="imunidaderadiante">Radiante</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadetrovejante" name="imunidadetrovejante">
+                    <label class="form-check-label" for="imunidadetrovejante">Trovejante</label>
+                </div>
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidadeveneno" name="imunidadeveneno">
+                    <label class="form-check-label" for="imunidadeveneno">Veneno</label>
+                </div>
+
+                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidade_nmagicos" name="imunidade_nmagicos">
+                    <label class="form-check-label" for="imunidade_nmagicos"> Não-mágicos</label>
+                </div>
+                                
+                <div class="col-md-2 form-group">
+                    <input type="checkbox" class="form-check-input" id="imunidade_magia" name="imunidade_magia">
+                    <label class="form-check-label" for="imunidade_magia"> Magia</label>
+                </div>
+
+            </div>
+
+
+
+            <hr>
+
+                <!------------------- PERICIAS ----------->
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex align-items-center">
+                            <h3 class="text-white mb-0 me-3">Perícias</h3>
+                            <div class="form-check form-switch">
+                                <input type="checkbox" class="form-check-input" id="pericias" name= "pericias">
+                                <label class="form-check-label text-white"   for="pericias">Aleatório</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <br>
+
+
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="acrobacia" name="acrobacia">
+                            <label class="form-check-label" for="acrobacia">Acrobacia</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="adestrar-animais" name="adestrar-animais">
+                            <label class="form-check-label" for="adestrar-animais">Adestrar Animais</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="arcanismo" name="arcanismo">
+                            <label class="form-check-label" for="arcanismo">Arcanismo</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="atletismo" name="atletismo">
+                            <label class="form-check-label" for="atletismo">Atletismo</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="atuacao" name="atuacao">
+                            <label class="form-check-label" for="atuacao">Atuação</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="engancao" name="engancao">
+                            <label class="form-check-label" for="engancao">Enganação</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="furtividade" name="furtividade">
+                            <label class="form-check-label" for="furtividade">Furtividade</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="historia" name="historia">
+                            <label class="form-check-label" for="historia">História</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="intimidacao" name="intimidacao">
+                            <label class="form-check-label" for="intimidacao">Intimidação</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="intuicao" name="intuicao">
+                            <label class="form-check-label" for="intuicao">Intuição</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="investigacao" name="investigacao">
+                            <label class="form-check-label" for="investigacao">Investigação</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="medicina" name="medicina">
+                            <label class="form-check-label" for="medicina">Medicina</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="natureza" name="natureza">
+                            <label class="form-check-label" for="natureza">Natureza</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="percepcao" name="percepcao">
+                            <label class="form-check-label" for="percepcao">Percepção</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="persuacao" name="persuacao">
+                            <label class="form-check-label" for="persuacao">Persuasão</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="prestidigitacao" name="prestidigitacao">
+                            <label class="form-check-label" for="prestidigitacao">Prestidigitação</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="religiao" name="religiao">
+                            <label class="form-check-label" for="religiao">Religião</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="checkbox" class="form-check-input" id="sobrevivencia" name="sobrevivencia">
+                            <label class="form-check-label" for="sobrevivencia">Sobrevivência</label>
+                        </div>
+                    </div>
+                    
+
+                </div>
+
+
+
+
+                <hr>
+
+                <!------------------- HABILIDADES ----------->
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex align-items-center">
+                            <h3 class="text-white mb-0 me-3">Habilidades</h3>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-primary"
+                                style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-habilidade">+</button>
+                            </div>
+                            <div class="form-check form-switch ms-3">
+                                <input type="checkbox" class="form-check-input" id="habilidades" name= "habilidades">
+                                <label class="form-check-label text-white"  for="habilidades">Aleatório</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                    <br>
+
+                    <!-- Área onde as habilidades serão adicionadas -->
+                    <div id="habilidades-container">
+                        <div class="row habilidade-row">
+                            <div class="col-md-3 form-group">
+                                <label for="nomehabilidade1">Habilidade</label>
+                                <input type="text" id="nomehabilidade1" name="nomehabilidade[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <label for="deschabilidade1">Descrição da Habilidade</label>
+                                <input type="text" id="deschabilidade1" name="deschabilidade[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botão para adicionar nova habilidade -->
+                  
+
+                    <br>
+                    <hr>
+
+                    <!-- Script para adicionar novas linhas de habilidades -->
+                    <script>
+                        let habilidadeCount = 1;
+
+                        document.getElementById('add-habilidade').addEventListener('click', function() {
+                            habilidadeCount++;
+                            
+                            const habilidadeContainer = document.getElementById('habilidades-container');
+                            
+                            // Criando a nova linha de habilidade
+                            const newHabilidade = `
+                            <div class="row habilidade-row mt-3">
+                                <div class="col-md-3 form-group">
+                                    <label for="nomehabilidade${habilidadeCount}">Habilidade</label>
+                                    <input type="text" id="nomehabilidade${habilidadeCount}" name="nomehabilidade[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <label for="deschabilidade${habilidadeCount}">Descrição da Habilidade</label>
+                                    <input type="text" id="deschabilidade${habilidadeCount}" name="deschabilidade[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                            </div>
+                            `;
+                            
+                            // Adicionando a nova linha ao container
+                            habilidadeContainer.insertAdjacentHTML('beforeend', newHabilidade);
+                        });
+                    </script>
+
+
+
+
+                <!------------------- Ações Especiais ----------->
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex align-items-center">
+                            <h3 class="text-white mb-0 me-3">Ações Especiais</h3>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-primary"
+                                style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-acao">+</button>
+                            </div>
+                            <div class="form-check form-switch ms-3">
+                                <input type="checkbox" class="form-check-input" id="aespeciais" name= "aespeciais">
+                                <label class="form-check-label text-white" for="aespeciais">Aleatório</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <!-- Área onde as ações especiais serão adicionadas -->
+                <div id="acoes-container">
+                    <div class="row acao-row">
+                        <div class="col-md-3 form-group">
+                            <label for="nomeacao1">Nome da Ação</label>
+                            <input type="text" id="nomeacao1" name="nomeacao[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label for="descacao1">Descrição da Ação</label>
+                            <input type="text" id="descacao1" name="descacao[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <hr>
+
+                <!-- Script para adicionar novas linhas de ações especiais -->
+                <script>
+                    let acaoCount = 1;
+
+                    document.getElementById('add-acao').addEventListener('click', function() {
+                        acaoCount++;
+                        
+                        const acoesContainer = document.getElementById('acoes-container');
+                        
+                        // Criando a nova linha de ação
+                        const newAcao = `
+                        <div class="row acao-row mt-3">
+                            <div class="col-md-3 form-group">
+                                <label for="nomeacao${acaoCount}">Nome da Ação</label>
+                                <input type="text" id="nomeacao${acaoCount}" name="nomeacao[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <label for="descacao${acaoCount}">Descrição da Ação</label>
+                                <input type="text" id="descacao${acaoCount}" name="descacao[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                        </div>
+                        `;
+                        
+                        // Adicionando a nova linha ao container
+                        acoesContainer.insertAdjacentHTML('beforeend', newAcao);
+                    });
+                </script>
+
+
+                <!-- ---------------------- ATAQUES ---------------------- -->
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex align-items-center">
+                                <h3 class="text-white mb-0 me-3">Tipos de Ataque</h3>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary"
+                                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-ataque">+</button>
+                                </div>
+                                <div class="form-check form-switch ms-3">
+                                    <input type="checkbox" class="form-check-input" id="tatack" name= "tatack">
+                                    <label class="form-check-label text-white" for="tatack">Aleatório</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <!-- Área onde os ataques serão adicionados -->
+                    <div id="ataques-container">
+                        <div class="row ataque-row">
+                            <div class="col-md-2 form-group">
+                                <label for="nomeataque1">Ataque</label>
+                                <input type="text" id="nomeataque1" name="nomeataque[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="tipo1">Tipo</label>
+                                <select id="tipo1" name="tipo[]" class="form-control bg-dark text-white border-light">
+                                    <option value="" disabled selected>Tipo</option>
+                                    <option value="corpo_a_corpo">Corpo a Corpo</option>
+                                    <option value="distancia">À Distância</option>
+                                    <option value="magico_corpo_a_corpo">Mágico Corpo a Corpo</option>
+                                    <option value="magico_distancia">Mágico à Distância</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="bonusataque1">Bônus</label>
+                                <select id="bonusataque1" name="bonusataque[]" class="form-control bg-dark text-white border-light">
+                                    <option value="" disabled selected>-</option>
+                                    <option value="forca">Força</option>
+                                    <option value="destreza">Destreza</option>
+                                    <option value="constituicao">Constituição</option>
+                                    <option value="inteligencia">Inteligência</option>
+                                    <option value="sabedoria">Sabedoria</option>
+                                    <option value="carisma">Carisma</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="alcanceataque1">Alcance</label>
+                                <input type="text" id="alcanceataque1" name="alcanceataque[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="danoataque1">Dano</label>
+                                <input type="text" id="danoataque1" name="danoataque[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="dadoataque1">Dado</label>
+                                <input type="text" id="dadoataque1" name="dadoataque[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="tipodanoataque1">Tipo Dano</label>
+                                <select id="tipodanoataque1" name="tipodanoataque[]" class="form-control bg-dark text-white border-light">
+                                    <option value="" disabled selected>Tipo</option>
+                                    <option value="cortante">Cortante</option>
+                                    <option value="perfurante">Perfurante</option>
+                                    <option value="concussao">Concussão</option>
+                                    <option value="acido">Ácido</option>
+                                    <option value="eletrico">Elétrico</option>
+                                    <option value="energia">Energia</option>
+                                    <option value="fogo">Fogo</option>
+                                    <option value="necrotrico">Necrótico</option>
+                                    <option value="psiquico">Psíquico</option>
+                                    <option value="radiante">Radiante</option>
+                                    <option value="trovejante">Trovejante</option>
+                                    <option value="veneno">Veneno</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="extraataque1">Extra</label>
+                                <input type="text" id="extraataque1" name="extraataque[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="danototalataque1">Total</label>
+                                <input type="text" id="danototalataque1" name="danototalataque[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <hr>
+
+                    <!-- Script para adicionar novas linhas de ataques -->
+                    <script>
+                        let ataqueCount = 1;
+
+                        document.getElementById('add-ataque').addEventListener('click', function() {
+                            ataqueCount++;
+                            
+                            const ataqueContainer = document.getElementById('ataques-container');
+                            
+                            // Criando a nova linha de ataque
+                            const newAtaque = `
+                            <div class="row ataque-row mt-3">
+                                <div class="col-md-2 form-group">
+                                    <label for="nomeataque${ataqueCount}">Ataque</label>
+                                    <input type="text" id="nomeataque${ataqueCount}" name="nomeataque[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-1 form-group">
+                                    <label for="tipo${ataqueCount}">Tipo</label>
+                                    <select id="tipo${ataqueCount}" name="tipo[]" class="form-control bg-dark text-white border-light">
+                                        <option value="" disabled selected>Tipo</option>
+                                        <option value="corpo_a_corpo">Corpo a Corpo</option>
+                                        <option value="distancia">À Distância</option>
+                                        <option value="magico_corpo_a_corpo">Mágico Corpo a Corpo</option>
+                                        <option value="magico_distancia">Mágico à Distância</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 form-group">
+                                    <label for="bonusataque${ataqueCount}">Bônus</label>
+                                    <select id="bonusataque${ataqueCount}" name="bonusataque[]" class="form-control bg-dark text-white border-light">
+                                        <option value="" disabled selected>-</option>
+                                        <option value="forca">Força</option>
+                                        <option value="destreza">Destreza</option>
+                                        <option value="constituicao">Constituição</option>
+                                        <option value="inteligencia">Inteligência</option>
+                                        <option value="sabedoria">Sabedoria</option>
+                                        <option value="carisma">Carisma</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 form-group">
+                                    <label for="alcanceataque${ataqueCount}">Alcance</label>
+                                    <input type="text" id="alcanceataque${ataqueCount}" name="alcanceataque[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-1 form-group">
+                                    <label for="danoataque${ataqueCount}">Dano</label>
+                                    <input type="text" id="danoataque${ataqueCount}" name="danoataque[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-1 form-group">
+                                    <label for="dadoataque${ataqueCount}">Dado</label>
+                                    <input type="text" id="dadoataque${ataqueCount}" name="dadoataque[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <label for="tipodanoataque${ataqueCount}">Tipo Dano</label>
+                                    <select id="tipodanoataque${ataqueCount}" name="tipodanoataque[]" class="form-control bg-dark text-white border-light">
+                                        <option value="" disabled selected>Tipo</option>
+                                        <option value="cortante">Cortante</option>
+                                        <option value="perfurante">Perfurante</option>
+                                        <option value="concussao">Concussão</option>
+                                        <option value="acido">Ácido</option>
+                                        <option value="eletrico">Elétrico</option>
+                                        <option value="energia">Energia</option>
+                                        <option value="fogo">Fogo</option>
+                                        <option value="necrotrico">Necrótico</option>
+                                        <option value="psiquico">Psíquico</option>
+                                        <option value="radiante">Radiante</option>
+                                        <option value="trovejante">Trovejante</option>
+                                        <option value="veneno">Veneno</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <label for="extraataque${ataqueCount}">Extra</label>
+                                    <input type="text" id="extraataque${ataqueCount}" name="extraataque[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-1 form-group">
+                                    <label for="danototalataque${ataqueCount}">Total</label>
+                                    <input type="text" id="danototalataque${ataqueCount}" name="danototalataque[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                            </div>`;
+
+                            // Adiciona a nova linha ao container de ataques
+                            ataqueContainer.insertAdjacentHTML('beforeend', newAtaque);
+                        });
+                    </script>
+
+                <br>
+                <hr>
+
+                <!------------------- REACOES ----------->
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex align-items-center">
+                            <h3 class="text-white mb-0 me-3">Reações</h3>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-primary"
+                                style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-reacao">+</button>
+                            </div>
+                            <div class="form-check form-switch ms-3">
+                                <input type="checkbox" class="form-check-input" id="reacao" name="reacao">
+                                <label class="form-check-label text-white" for="reacao">Aleatório</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <!-- Container de Reações -->
+                <div id="reacaoContainer">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <label for="nomereacao1">Reação</label>
+                            <input type="text" id="nomereacao1" name="nomereacao[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label for="descreacao1">Descrição da Reação</label>
+                            <input type="text" id="descreacao1" name="descreacao[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <hr>
+
+                <script>
+                    let reacaoCount = 1; // Contador de reações
+
+                    document.getElementById('add-reacao').addEventListener('click', function() {
+                        reacaoCount++; // Incrementa o contador
+
+                        // Container de reações
+                        const reacaoContainer = document.getElementById('reacaoContainer');
+
+                        // HTML para adicionar uma nova reação
+                        const novaReacao = `
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="nomereacao${reacaoCount}">Reação</label>
+                                <input type="text" id="nomereacao${reacaoCount}" name="nomereacao[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <label for="descreacao${reacaoCount}">Descrição da Reação</label>
+                                <input type="text" id="descreacao${reacaoCount}" name="descreacao[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                        </div>`;
+
+                        // Adiciona a nova linha ao container de reações
+                        reacaoContainer.insertAdjacentHTML('beforeend', novaReacao);
+                    });
+                </script>
+
+
+
+                <!------------------- ACOES LENDÁRIAS ----------->
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex align-items-center">
+                            <h3 class="text-white mb-0 me-3">Ações Lendárias</h3>
+                            <div class="form-check form-switch">
+                                <input type="checkbox" class="form-check-input" id="lendarias" name="lendarias">
+                                <label class="form-check-label text-white" for="lendarias">Aleatório</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+
+                <br>
+
+                <div class="col-md-12 form-group">
+                    <label for="classe">Descrição das Ações Lendárias</label>
+                    <input type="text" id="desclendaria" name="desclendaria" class="form-control bg-dark text-white border-light">
+                </div>
+                <br>
+                <!------------------- ACOES ----------->
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex align-items-center">
+                            <p class="text-white mb-0 me-3">Ações</p>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-primary"
+                                style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-acao-lendaria">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <!-- Container de Ações Lendárias -->
+                <div id="acaoLendariaContainer">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <label for="nomelendaria1">Ação Lendária</label>
+                            <input type="text" id="nomelendaria1" name="nomelendaria[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label for="descacaolendaria1">Descrição </label>
+                            <input type="text" id="descacaolendaria1" name="descacaolendaria[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botão para adicionar nova ação lendária -->
+                <br>
+                <hr>
+
+                <div id="informacoesDicasContainer">
+                    <div class="row">
+                        <!-- Campo de Informações -->
+                        <div class="col-md-12 form-group">
+                            <label for="informacoes">Informações</label>
+                            <textarea id="informacoes" name="informacoes" class="form-control bg-dark text-white border-light" rows="4"></textarea>
+                        </div>
+                    </div>
+                
+                    <br>
+                    <hr>
+                
+                    <div class="row">
+                        <!-- Campo de Dicas de Uso -->
+                        <div class="col-md-12 form-group">
+                            <label for="dicasUso">Dicas de Uso</label>
+                            <textarea id="dicasUso" name="dicasUso" class="form-control bg-dark text-white border-light" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+                <script>
+                    let acaoLendariaCount = 1; // Contador de ações lendárias
+
+                    document.getElementById('add-acao-lendaria').addEventListener('click', function() {
+                        acaoLendariaCount++; // Incrementa o contador
+
+                        // Container de ações lendárias
+                        const acaoLendariaContainer = document.getElementById('acaoLendariaContainer');
+
+                        // HTML para adicionar uma nova ação lendária
+                        const novaAcaoLendaria = `
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="nomelendaria${acaoLendariaCount}">Ação Lendária</label>
+                                <input type="text" id="nomelendaria${acaoLendariaCount}" name="nomelendaria[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <label for="descacaolendaria${acaoLendariaCount}">Descrição</label>
+                                <input type="text" id="descacaolendaria${acaoLendariaCount}" name="descacaolendaria[]" class="form-control bg-dark text-white border-light">
+                            </div>
+                        </div>`;
+
+                        // Adiciona a nova linha ao container de ações lendárias
+                        acaoLendariaContainer.insertAdjacentHTML('beforeend', novaAcaoLendaria);
+                    });
+                </script>
+
+
+                <br>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    {% endif %}
+
+{% endblock %}

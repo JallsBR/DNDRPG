@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RPG Tools</title>
+    <link rel="icon" href="/static/imagem/ico.png" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+      .dropdown-container {
+          position: relative;
+      }
+
+      .form-control-custom {
+          display: none;
+      }
+  </style>
+  </head> 
+  <body class="bg-black"> 
+    
+    <nav class="navbar navbar-expand-lg navbar bg-dark"  data-bs-theme="dark">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+              <img src="/static/imagem/logo35.png"/>
+              {% if current_user.is_authenticated %}  
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/">Inicial</a> </li>             
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/npc/create">NPCs</a> </li>
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/pj/">Personagens</a> </li>
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/equip/">Equipamentos</a> </li>              
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/campanha/">Campanhas</a> </li>
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/encontros/">Encontros</a> </li>
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/rolador/">Rolador de Dados</a> </li>
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="#">Referências</a> </li>
+              {% endif %}
+            </ul>
+   
+              <ul class="navbar-nav ms-auto">
+              {% if current_user.is_authenticated %}                
+                <li class="nav-item"><p class="nav-link active mb-0 h1 text-white-50"><b> {{current_user.nome}} {{current_user.sobrenome}}</b></p> </li>
+                <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/logout">Logout</a> </li>
+              {% else %}
+                <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/login">Login</a> </li>
+                <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/login/register">Register</a> </li>
+              {% endif %}
+              </ul>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+      <br>
+      <br>
+     
+    
+
+    
+        {% block conteudo %}
+        {% endblock %}
+
+        <br>
+        <br>
+        <br>
+        <br>
+       
+    </div>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+  </body>

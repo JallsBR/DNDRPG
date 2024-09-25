@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+   <h1>Rolador</h1>
+
+    {% endif %}
+
+{% endblock %}

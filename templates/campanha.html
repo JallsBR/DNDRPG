@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow p-5 bg-dark text-white-50">
+                    <h4 class="text-white">Campanhas Ativas</h4>
+                    <p>
+                        <strong class="text-white">Campanha:</strong> Mundo do Conan <strong class="text-white">Personagens:</strong> Aristemy, Kitai, Gernon, Big Pig <strong class="text-white">Cenário:</strong> Forgotten Realms <strong class="text-white">Nível:</strong> 13
+                    </p>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="card shadow p-5 bg-dark text-white-50">
+                    <h4 class="text-white">Criar Nova Campanha</h4>
+                    <p>
+                        formulário aqui
+                    </p>
+                </div>
+                <br>
+                <div class="card shadow p-5 bg-dark text-white-50">
+                    <h4 class="text-white">Campanhas Arquivadas</h4>
+                    <p>
+                        lista de campanhas
+                    </p>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    
+    
+
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow p-5 bg-dark text-white-50">
+                    <h4 class="text-white">Arquivo de Encontros</h4>
+                    <p>
+                        <strong class="text-white">Descrição</strong> Monolíto de Pedra <strong class="text-white">ND:</strong> 6 <strong class="text-white">NPCs:</strong> Golem de Pedra e Cultistas 
+                    </p>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="card shadow p-5 bg-dark text-white-50">
+                    <h4 class="text-white">Criar Novo Encontro</h4>
+                    <p>
+                        formulário aqui
+                    </p>
+                </div>
+                <br>
+                <div class="card shadow p-5 bg-dark text-white-50">
+                    <h4 class="text-white">Encontros Aleatórios</h4>
+                    <p>
+                        Criação de encontro aleatório
+                    </p>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    
+    
+    
+
+
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,11 @@
+# Ignorar virtual environment (exemplo: venv)
+venv/
+
+# Ignorar a pasta referências
+referencias/
+
+# Ignorar o arquivo Falta Fazer.txt
+Falta Fazer.txt
+
+# Ignorar a pasta .vscode
+.vscode/

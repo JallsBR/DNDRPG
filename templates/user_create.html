@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+    <form method="post" action="/user/create">
+        <div class="mb-3">            
+            <label for="nome" class="form-label">Nome:</label>
+            <input class="form-control" type="text" name="nome" required>
+        </div>
+        <div class="mb-3">
+            <label for="sobrenome" class="form-label">Sobrenome:</label>
+            <input class="form-control" type="text" name="sobrenome" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input class="form-control" type="email" name="email" required>
+        </div>
+        <div class="mb-3"> 
+            <label for="telefone" class="form-label">Telefone:</label>
+            <input class="form-control" type="text" name="telefone" required>
+        </div>
+        <div class="mb-3"> 
+            <label for="login" class="form-label">Login:</label>
+            <input class="form-control" type="text" name="login" required>
+        </div>
+        <div class="mb-3"> 
+            <label for="senha" class="form-label">Senha:</label>
+            <input class="form-control" type="password" name="senha" required>
+        </div>
+        <div class="mb-3"> 
+            <label for="csenha" class="form-label">Confirma senha:</label>
+            <input class="form-control" type="password" name="csenha" required>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Cadastrar">
+        <br><br>
+    </form>
+{% endblock %}
