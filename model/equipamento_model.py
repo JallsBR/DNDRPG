@@ -6,7 +6,7 @@ class Equipamento(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(120), nullable=False, unique=True)
-    nome_original = db.Column(db.String(120), nullable=False, unique=True)
+    nome_original = db.Column(db.String(120), nullable=False)
     descrição = db.Column(db.Text, nullable=False)   
     peso = db.Column(db.String(40))
     preco = db.Column(db.String(40))

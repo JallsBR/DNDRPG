@@ -6,6 +6,7 @@ from random import randint
 from controller.constante import nd_livro
 import re
 from math import floor
+from flask_login import logout_user, current_user
 
 class NPCController:
     
@@ -39,7 +40,7 @@ class NPCController:
 
         # Atributo Força
         if data.get('forca'):
-            atributos['forca'] = data.get('forca')
+            atributos['forca'] = int(data.get('forca'))
         else:
             atributos['forca'] = RPGController.gerar_atributo()
         atributos['bforca'] = (atributos['forca'] - 10) // 2
@@ -47,7 +48,7 @@ class NPCController:
 
         # Atributo Destreza
         if data.get('destreza'):
-            atributos['destreza'] = data.get('destreza')
+            atributos['destreza'] = int(data.get('destreza'))
         else:
             atributos['destreza'] = RPGController.gerar_atributo()
         atributos['bdestreza'] = (atributos['destreza'] - 10) // 2
@@ -55,7 +56,7 @@ class NPCController:
 
         # Atributo Constituição
         if data.get('constituição'):
-             atributos['constituição'] = data.get('constituição')
+             atributos['constituição'] = int(data.get('constituição'))
         else:
             atributos['constituição'] = RPGController.gerar_atributo()
         atributos['bconstituição'] = (atributos['constituição'] - 10) // 2
@@ -63,7 +64,7 @@ class NPCController:
 
         # Atributo Sabedoria
         if data.get('sabedoria'):
-            atributos['sabedoria'] = data.get('sabedoria')
+            atributos['sabedoria'] = int(data.get('sabedoria'))
         else:
             atributos['sabedoria'] = RPGController.gerar_atributo()
         atributos['bsabedoria'] = (atributos['sabedoria'] - 10) // 2
@@ -71,7 +72,7 @@ class NPCController:
 
         # Atributo Inteligência
         if data.get('inteligência'):
-            atributos['inteligência'] = data.get('inteligência')
+            atributos['inteligência'] = int(data.get('inteligência'))
         else:
             atributos['inteligência'] = RPGController.gerar_atributo()
         atributos['binteligência'] = (atributos['inteligência'] - 10) // 2
@@ -79,7 +80,7 @@ class NPCController:
 
         # Atributo Carisma
         if data.get('carisma'):
-            atributos['carisma'] = data.get('carisma')
+            atributos['carisma'] = int(data.get('carisma'))
         else:
             atributos['carisma'] = RPGController.gerar_atributo()
         atributos['bcarisma'] = (atributos['carisma'] - 10) // 2
@@ -251,6 +252,11 @@ class NPCController:
         if 'savecarisma' in proefsaves:
             atributos['save_carisma'] += proef
             
+        iniciativa = atributos['bdes']
+        
+        
+        percepção_passiva = linguas = 0
+            
             
                      
             
@@ -269,6 +275,7 @@ class NPCController:
             'proef': proef,
             'atributos': atributos,
             'ca': ca,
+            'iniciativa': iniciativa,
             'pv': pv,
             'dadosvida': dadosvida,
             'speed': speed,
@@ -302,4 +309,12 @@ class NPCController:
         print ('_____________________________________________________________________________')
         print ('Npc: ', npc_data)
         
+        try:
+            personagem = Personagem(id_user=current_user.id, ficha=npc_data, nome=npc_data['nome'], tipo='NPC')
+            db.session.add(personagem)
+            db.session.commit()
+            print("NPC inserido com sucesso no banco de dados.")
+        except Exception as e:
+            db.session.rollback()  # Desfaz qualquer mudança no banco de dados no caso de erro
+            print(f"Erro ao inserir NPC no banco de dados: {str(e)}")                
         return npc_data

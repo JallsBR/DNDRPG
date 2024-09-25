@@ -1,6 +1,7 @@
 from database.database import db
 
 
+
 class Personagem(db.Model):
     __tablename__ = "personagens"
     
@@ -19,3 +20,10 @@ class Personagem(db.Model):
         self.ficha = ficha
         self.nome = nome
         self.tipo = tipo    
+    
+    @classmethod
+    def npcs_id(cls, id_user, id=None):
+        query = cls.query.filter_by(id_user=id_user, tipo="NPC")        
+        if id is not None:
+            query = query.filter_by(id=id)          
+        return query.all()  
