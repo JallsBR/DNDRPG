@@ -35,7 +35,7 @@ class RPGController:
     @staticmethod
     def nome_aleatorio(raca, sexo, quantidade=2):  
         try:
-            # Normalização de raças
+
             if raca in ['Alto Elfo', 'Elfo da Floresta', 'Dríade', 'Planta', 'Fada', 'Centauro', 'Sátiro']:
                 raca = 'Elfo'
             elif raca == "Celestial":
@@ -53,8 +53,7 @@ class RPGController:
 
 
             nome = Nome.query.filter_by(raca=raca, sexo=sexo).all()
-            
-            # Caso não encontre nomes para a combinação raça/sexo, tenta outras combinações
+
             if not nome:
                 nome = Nome.query.filter_by(sexo=sexo).all()
             if not nome or sexo == 'Outros' or sexo is None:
@@ -62,7 +61,7 @@ class RPGController:
             if not nome:
                 nome = Nome.query.all()
 
-            # Seleciona uma quantidade aleatória de nomes
+
             nomes_aleatorios = sample(nome, k=min(quantidade, len(nome)))
             nomes_aleatorios = [obj.nome for obj in nomes_aleatorios]
             nomes_aleatorios = ' '.join(nomes_aleatorios)
@@ -95,11 +94,11 @@ class RPGController:
             pesos = [1, 1, 15, 10, 10, 1, 1, 5, 15, 1, 1, 1, 10, 
                     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 35]        
             
-            # Verifica se as listas raças e pesos têm o mesmo tamanho
+
             if len(raças) != len(pesos):
                 raise ValueError("O número de raças e pesos deve ser igual.")
             
-            # Escolhendo uma raça com base nos pesos
+
             escolhe_raça = choices(raças, weights=pesos, k=1)[0]
             return escolhe_raça
 
@@ -116,12 +115,12 @@ class RPGController:
     def genero_aleatorio():
         try:
             genero = ["Masculino", "Feminino", "Outro"]
-            # Pesos correspondentes ao gênero
+
             pesos = [49, 49, 2]            
-            # Verifica se as listas genero e pesos têm o mesmo tamanho
+
             if len(genero) != len(pesos):
                 raise ValueError("O número de gêneros e pesos deve ser igual.")            
-            # Escolhendo um gênero com base nos pesos
+
             escolhe_genero = choices(genero, weights=pesos, k=1)[0]
             return escolhe_genero
 
@@ -142,7 +141,7 @@ class RPGController:
                 "Leal e Mau", "Neutro e Mau", "Caótico e Mau"
             ]
             
-            # Escolhendo uma tendência aleatoriamente
+
             return choice(tendências)
 
         except IndexError as ie:
@@ -157,35 +156,34 @@ class RPGController:
     def gera_nd():
         try:
             numeros = []            
-            # Adiciona números menores mais vezes para aumentar a probabilidade
-            for i in range(1, 30):  # Supondo que a ND varia de 1 a 30
-                numeros.extend([i] * (30 - i))  # Quanto maior o número, menos ele aparece na lista            
+
+            for i in range(1, 30):
+                numeros.extend([i] * (30 - i))         
             # Retorna um número aleatório da lista ponderada
             return choice(numeros)
         
         except Exception as e:
             print(f"Ocorreu um erro ao gerar o número: {e}")
-            return None  # Retorna None em caso de erro
+            return None
 
 
             
     @staticmethod
     def saves_aleatorios(proefsaves):
         try:
-            # Lista de possíveis saves
+
             todos_saves = [ 'saveforca', 'savedestreza', 'saveconstituicao',
                 'savesabedoria', 'saveinteligencia', 'savecarisma']             
-            # Cria um conjunto para evitar duplicatas
+
             saves_set = set(proefsaves)
             
             while len(saves_set) < len(proefsaves) + 2:
                 novo_save = choice(todos_saves)
                 if novo_save not in saves_set:
                     saves_set.add(novo_save)
-                                    
-                # Verifica se já temos todos os saves
+
                 if len(saves_set) == len(todos_saves):
-                    break  # Interrompe o loop se todos os saves foram adicionados
+                    break
                 
             return list(saves_set)
         except Exception as e:
@@ -200,19 +198,16 @@ class RPGController:
                 "Ácido", "Concussão", "Cortante", "Elétrico", "Energia", "Fogo",
                 "Frio", "Necrótico", "Perfurante", "Psíquico", "Radiante",
                 "Trovejante", "Veneno", "Ataques Não-mágicos", "Magia" ]
-            
-            # Conjunto para evitar resistências duplicadas
+
             resistencias_set = set(resistencias)
-            
-            # Adiciona novas resistências até que tenha duas a mais
+
             while len(resistencias_set) < len(resistencias) + 2:
                 nova_resistencia = choice(resist)
                 if nova_resistencia not in resistencias_set:
                     resistencias_set.add(nova_resistencia)
                 if len(resistencias_set) == len(resist):
                     break
-            
-            # Converte o conjunto de volta para uma lista e retorna
+
             return list(resistencias_set)
 
         except TypeError as te:
@@ -238,20 +233,20 @@ class RPGController:
             "Ataques Não-mágicos", "Magia"
             ]
             
-            # Conjunto para evitar imunidades duplicadas
+
             imunidades_set = set(imunidades)
             
-            # Adiciona novas imunidades até que tenha duas a mais
+
             while len(imunidades_set) < len(imunidades) + 2:
                 nova_imunidade = choice(resist)
                 if nova_imunidade not in imunidades_set:
                     imunidades_set.add(nova_imunidade)
                 
-                # Interrompe o loop se todas as imunidades possíveis já foram adicionadas
+
                 if len(imunidades_set) == len(resist):
                     break
             
-            # Converte o conjunto de volta para uma lista e retorna
+
             return list(imunidades_set)
 
         except TypeError as te:
@@ -274,20 +269,19 @@ class RPGController:
                 'Prestidigitação', 'Religião', 'Sobrevivência'
             ]
             
-            # Conjunto para evitar perícias duplicadas
+
             pericias_set = set(pericias_atuais)
-            
-            # Adiciona novas perícias até que tenha duas a mais
+
             while len(pericias_set) < len(pericias_atuais) + 2:
                 nova_pericia = choice(pericias_lista)
                 if nova_pericia not in pericias_set:
                     pericias_set.add(nova_pericia)
                 
-                # Interrompe o loop se todas as perícias possíveis já foram adicionadas
+
                 if len(pericias_set) == len(pericias_lista):
                     break
             
-            # Converte o conjunto de volta para uma lista e retorna
+
             return list(pericias_set)
 
         except TypeError as te:
@@ -303,7 +297,7 @@ class RPGController:
     @staticmethod
     def transformar_pericias(bdes, bfor, bcon, bint, bsab, bcar, proef, pericias_atuais):
         try:
-            # Mapeia as perícias aos seus respectivos atributos
+
             atributos = {
                 'Acrobacia': bdes + proef,
                 'Adestrar Animais': bsab + proef,
@@ -328,9 +322,9 @@ class RPGController:
 
             for pericia in pericias_atuais:
                 if pericia in atributos:
-                    # Obtém o valor diretamente do dicionário
+
                     valor = atributos[pericia]
-                    # Adiciona o dicionário à lista
+
                     pericias_dict.append({'nome': pericia, 'valor': valor})
 
             return pericias_dict
@@ -352,9 +346,9 @@ class RPGController:
     @staticmethod
     def gerar_atributo():
         try:
-            # Gera 4 números aleatórios entre 1 e 6
+
             dados = [randint(1, 6) for _ in range(4)]
-            # Soma os dados e subtrai o menor valor
+
             atributo_total = sum(dados) - min(dados)
             return atributo_total
 
@@ -380,11 +374,10 @@ class RPGController:
                 padrao = re.match(r'(\d+)d(\d+)(\+(\d+))?', parte)
 
                 if padrao:
-                    rolagens = int(padrao.group(1))  # O número antes do 'd'
-                    lados = int(padrao.group(2))     # O número depois do 'd'
-                    bonus = int(padrao.group(4)) if padrao.group(4) else 0  # O número após o '+', ou 0 se não houver
+                    rolagens = int(padrao.group(1))
+                    lados = int(padrao.group(2))
+                    bonus = int(padrao.group(4)) if padrao.group(4) else 0
 
-                    # Chamar a função de rolagem de dados
                     pv = RPGController.rolagem_de_dados(rolagens=rolagens, lados=lados, bonus=bonus)
                     total_pv += pv
                 else:
@@ -392,7 +385,7 @@ class RPGController:
 
         except ValueError as e:
             print(f"Erro: {e}")
-            # Retorna 0 no caso de erro
+
             return 0
 
         return total_pv
@@ -401,21 +394,14 @@ class RPGController:
     @staticmethod    
     def deduzir_dvs(pv, bcons):
         try:
-            # Verifica se pv e bcons são números
+
             if not isinstance(pv, (int, float)) or not isinstance(bcons, (int, float)):
                 raise ValueError("PV e bcons devem ser números.")
 
-            # Calcula a média de vida por dado
             media_por_dado = 5 + bcons
-            
-            # Calcula o número de dados necessários
             numero_de_dados = ceil(pv / media_por_dado)
-            
-            # Verifica se o número de dados é menor que 0
             if numero_de_dados < 0:
                 raise ValueError("O número de dados não pode ser negativo.")
-            
-            # Formata a saída
             if bcons > 0:
                 resultado = f"{numero_de_dados}d8 + {numero_de_dados*bcons}"
             
@@ -432,30 +418,29 @@ class RPGController:
     @staticmethod
     def ca_armor(armorusada, bdes):
         try:
-            # Se a armadura não for 'Nenhuma', 'Natural' ou 'Proteções Mágicas', pega a classe_armadura
+
             if armorusada not in ['Nenhuma', 'Natural', 'Proteções Mágicas']:
                 armadura = Armadura.get_classe_armadura_by_nome(armorusada)
 
-                # Se a classe_armadura for do tipo "número", retorna o valor fixo
+
                 if armadura.isdigit():
                     return int(armadura)
 
-                # Se for do tipo escudo, adiciona 2 ao valor base (10 + bdes)
+
                 elif armadura.startswith("+"):
                     return 10 + bdes + int(armadura)
 
-                # Se for do tipo "numero + modificador de Des (máx. +2)", limita o bdes ao valor máximo (neste caso, 2)
                 elif "máx." in armadura:
-                    base_value = int(armadura.split()[0])  # Pega o valor base (ex.: "11")
-                    max_bdes = int(armadura.split("máx. +")[1].split(")")[0])  # Pega o valor máximo permitido para o bdes
+                    base_value = int(armadura.split()[0]) 
+                    max_bdes = int(armadura.split("máx. +")[1].split(")")[0])
                     return base_value + min(bdes, max_bdes)
 
-                # Caso seja do tipo "11 + modificador de Des", apenas soma o valor base com o bdes
+
                 elif "+ modificador de Des" in armadura:
-                    base_value = int(armadura.split()[0])  # Pega o valor base (ex.: "11")
+                    base_value = int(armadura.split()[0])
                     return base_value + bdes
 
-            # Se a armadura usada for 'Nenhuma', 'Natural' ou 'Proteções Mágicas', calcula diretamente
+
             elif armorusada in ['Natural', 'Proteções Mágicas']:
                 return 13 + bdes
             else:
@@ -467,53 +452,45 @@ class RPGController:
     @staticmethod
     def descobrir_armadura(ca, bdes):
         try:
-            # Todas as armaduras que você tem disponíveis
+
             armaduras = Armadura.get_armadura()
-
-            # Lista para armazenar possíveis correspondências
             possiveis_armaduras = []
-
-            # Valor máximo da classe de armadura com as armaduras disponíveis
             valor_maximo_armadura = 0
 
-            # Verifica cada armadura
+
             for armadura in armaduras:
                 classe_armadura = armadura.classe_armadura
 
-                # Se a classe de armadura for um número fixo (ex.: "17")
                 if classe_armadura.isdigit():
                     valor = int(classe_armadura)
-                    valor_maximo_armadura = max(valor_maximo_armadura, valor)  # Atualiza o valor máximo
+                    valor_maximo_armadura = max(valor_maximo_armadura, valor)
                     if valor == ca:
                         possiveis_armaduras.append(armadura.nome)
 
-                # Se a classe de armadura tiver um modificador de destreza simples (ex.: "11 + modificador de Des")
                 elif "+ modificador de Des" in classe_armadura:
                     base_value = int(classe_armadura.split()[0])
-                    valor_maximo_armadura = max(valor_maximo_armadura, base_value + 5)  # +5 para o máximo bdes
+                    valor_maximo_armadura = max(valor_maximo_armadura, base_value + 5) 
                     if base_value + bdes == ca:
                         possiveis_armaduras.append(armadura.nome)
 
-                # Se a classe de armadura tiver um limite no modificador de destreza (ex.: "14 + modificador de Des (máx. +2)")
                 elif "máx." in classe_armadura:
                     base_value = int(classe_armadura.split()[0])
                     max_bdes = int(classe_armadura.split("máx. +")[1].split(")")[0])
-                    valor_maximo_armadura = max(valor_maximo_armadura, base_value + max_bdes)  # Atualiza o valor máximo
+                    valor_maximo_armadura = max(valor_maximo_armadura, base_value + max_bdes)
                     if base_value + min(bdes, max_bdes) == ca:
                         possiveis_armaduras.append(armadura.nome)
 
-                # Se a classe de armadura tiver um modificador fixo adicional (ex.: "+2")
+
                 elif classe_armadura.startswith("+"):
                     if 10 + bdes + int(classe_armadura) == ca:
                         possiveis_armaduras.append(armadura.nome)
 
-            # Se a CA fornecida for maior que o valor máximo calculado, retorna "Proteções Mágicas"
+
             if ca > valor_maximo_armadura:
                 return "Proteções Mágicas"
 
-            # Retorna a primeira armadura correspondente, se houver
             if possiveis_armaduras:
-                return possiveis_armaduras[0]  # Retorna a primeira armadura correspondente
+                return possiveis_armaduras[0]
 
             return "Nenhuma armadura corresponde ao valor de CA fornecido."
 
@@ -523,7 +500,7 @@ class RPGController:
     @staticmethod    
     def extrair_alcance(propriedades):
         if 'distância' in propriedades:
-            # Extrai o valor entre parênteses que contém o alcance
+
             inicio = propriedades.find('distância') + len('distância ')
             fim = propriedades.find(')', inicio)
             alcance = propriedades[inicio:fim].strip() if fim != -1 else '5'
@@ -532,12 +509,12 @@ class RPGController:
 
     @staticmethod
     def ataques_aleatorio(nataques, bdes, bfor, proef):
-        # Seleciona 2 armas aleatórias
+
         armas = Arma.get_armas()
-        arma1, arma2 = sample(armas, 2)  # Corrigido para pegar 2 armas
+        arma1, arma2 = sample(armas, 2)
 
         def calcular_dano(arma, bfor, bdes):
-            # Bônus com base no tipo de arma e nas propriedades
+
             if 'acuidade' in arma.propriedades:
                 bonus = max(bfor, bdes)
             elif arma.categoria in ['Arma Simples', 'Arma Marcial Corpo-a-Corpo']:
@@ -545,19 +522,15 @@ class RPGController:
             else:
                 bonus = bdes
 
-            # Extrai o número de dados e o tipo de dado de dano
+
             num_dados, faces_dado = map(int, arma.dado_dano.split('d'))
-            
-            # Calcula o dano fixo (média dos dados, mínimo + máximo // 2)
             dano_base = (1 + faces_dado) // 2 * num_dados
-            
-            # Dano total é a soma do dano base e do bônus
             dano_total = dano_base + bonus
             
             return dano_total
 
         def criar_formato_arma(arma, dano_total):
-            # Organiza o formato final da arma
+
             num_ataques = int(nataques) if nataques else 1
             return {
                 'nome': arma.nome,
@@ -571,18 +544,16 @@ class RPGController:
                 'danototal': dano_total * num_ataques
             }
 
-        # Calcula o dano para cada arma
+
         dano_arma1 = calcular_dano(arma1, bfor, bdes)
         dano_arma2 = calcular_dano(arma2, bfor, bdes)
-
-        # Cria os formatos das armas
         formato_arma1 = criar_formato_arma(arma1, dano_arma1)
         formato_arma2 = criar_formato_arma(arma2, dano_arma2)
 
-        # Retorna as duas armas de uma vez
+
         return formato_arma1, formato_arma2
 
-    # Calculando ataques atuais
+
     @staticmethod
     def calcular_ataques_atuais(ataques_atuais, nataques, bdes, bfor, bcar, bint, bsab, bcon, proef):
         ataques_final = []
@@ -603,19 +574,13 @@ class RPGController:
             elif ataque['bonus'] == 'constituicao':
                 bonus = bcon
             
-            # Extrai o número de dados e o tipo de dado de dano
-            num_dados, faces_dado = map(int, ataque['dado'].split('d'))
-            
-            # Calcula o valor médio do dano (mínimo + máximo) / 2 arredondado para cima
+
+            num_dados, faces_dado = map(int, ataque['dado'].split('d'))          
             dano_por_dado = (1 + faces_dado) // 2
-            
-            # Dano base é o valor médio do dado multiplicado pelo número de dados
             dano_base = dano_por_dado * num_dados
-            
-            # Garantir que 'nataques' seja tratado corretamente como um número inteiro
             num_ataques = int(nataques) if nataques else 1
             
-            # Formata o resultado final do ataque
+
             ataques_resultado = {
                 'nome': ataque['nome'],
                 'tipo': ataque['tipo'],
@@ -638,7 +603,7 @@ class RPGController:
             
 
 
-#_______________________________________________________________________________________________________________________________
+#______________________ Antigo sistema , REVISAR_________________________________________________________________________________
 
 
 
@@ -718,28 +683,6 @@ class RPGController:
             return {'Aptidão Mágica': 0}
 
     
-
-    @staticmethod
-    def ataques_aleatorios_teste(proef=2, bfor=0, bdes=0, bônusataque=0, bonusdano = 0):
-        """
-            Randomiza 2 armas e seus ataques
-        :param proef: Bônus de proeficiência
-        :param bfor: Bônus de Força
-        :param bdes: Bônus de Destreza
-        :param bônusataque: Bônus de ataque
-        :param bonusdano: Bônus de dano
-        :return:
-        """
-
-        armaslista = [
-            f'Adaga. Ataque Corpo-a-Corpo ou a distância com Arma: +{proef + bdes + bônusataque} para atingir, alcance 6/18 m, um alvo.Acerto: {bdes + bonusdano + 3}(1d4 + {bdes + bonusdano}) de dano perfurante.',
-            f'Lança. Ataque Corpo-a-Corpo ou a distância com Arma: +{proef + bdes + bônusataque} para atingir, alcance 6/18 m, um alvo.Acerto: {bdes + bonusdano + 5}(1d8 + {bdes + bonusdano}) de dano perfurante.',
-            f'Espada Curta. Ataque Corpo-a-Corpo com Arma: +{proef + bfor+ bônusataque} para atingir, alcance 1,5m, um alvo.Acerto: {bfor + bonusdano + 4}(1d6 + {bfor + bonusdano}) de dano perfurante.',
-            f'Maça. Ataque Corpo-a-Corpo com Arma: +{proef + bfor + bônusataque} para atingir, alcance 1,5m, um alvo.Acerto: {bfor+ bonusdano + 4}(1d6 + {bfor + bonusdano}) de dano contundente.',
-            f'Espada Longa. Ataque Corpo-a-Corpo com Arma: +{proef + bfor+ bônusataque} para atingir, alcance 1,5m, um alvo.Acerto: {bfor + bonusdano + 5}(1d8 + {bfor + bonusdano}) de dano perfurante.',
-            f'Arco Longo.Ataque à Distância com Arma: +{proef + bdes + bônusataque} para atingir, distância 45 / 180m, um alvo.Acerto: {5 + bdes + bonusdano}(1d8 + {bdes + bonusdano}) de dano perfurante.']
-        ataques = sample(armaslista, k=len(armaslista))
-        return {'Ataque1': ataques[0:1], 'Ataque2': ataques[2:3]}
 
     @staticmethod
     def livro_nd (nd_pretendido = 0):

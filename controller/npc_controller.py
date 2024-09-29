@@ -12,9 +12,9 @@ class NPCController:
     
     @staticmethod
     def criar_npc(data):
-        # Acessando os dados do JSON
-        print('________________________________________________________')
-        print('DATA',data)
+
+        #print('________________________________________________________')
+        #print('DATA',data)
         
         
         tipo_personagem = data.get('tipo_personagem')
@@ -39,10 +39,9 @@ class NPCController:
         tendencia = data.get('tendencia')
         if tendencia == None:
             tendencia = RPGController.tendencia_aleatoria()
-                # Atributos do NPC
+
         atributos = {}
 
-        # Atributo Força
         if data.get('forca'):
             atributos['forca'] = int(data.get('forca'))
         else:
@@ -50,7 +49,6 @@ class NPCController:
         atributos['bforca'] = (atributos['forca'] - 10) // 2
         atributos['save_forca'] = atributos['bforca']
 
-        # Atributo Destreza
         if data.get('destreza'):
             atributos['destreza'] = int(data.get('destreza'))
         else:
@@ -58,7 +56,6 @@ class NPCController:
         atributos['bdestreza'] = (atributos['destreza'] - 10) // 2
         atributos['save_destreza'] = atributos['bdestreza']
 
-        # Atributo Constituição
         if data.get('constituição'):
              atributos['constituição'] = int(data.get('constituição'))
         else:
@@ -66,7 +63,6 @@ class NPCController:
         atributos['bconstituição'] = (atributos['constituição'] - 10) // 2
         atributos['save_constituicao'] = atributos['bconstituição']
 
-        # Atributo Sabedoria
         if data.get('sabedoria'):
             atributos['sabedoria'] = int(data.get('sabedoria'))
         else:
@@ -74,7 +70,7 @@ class NPCController:
         atributos['bsabedoria'] = (atributos['sabedoria'] - 10) // 2
         atributos['save_sabedoria'] = atributos['bsabedoria']
 
-        # Atributo Inteligência
+
         if data.get('inteligência'):
             atributos['inteligência'] = int(data.get('inteligência'))
         else:
@@ -82,7 +78,7 @@ class NPCController:
         atributos['binteligência'] = (atributos['inteligência'] - 10) // 2
         atributos['save_inteligencia'] = atributos['binteligência']
 
-        # Atributo Carisma
+
         if data.get('carisma'):
             atributos['carisma'] = int(data.get('carisma'))
         else:
@@ -99,7 +95,7 @@ class NPCController:
             
         else:
             try:
-                # Tenta converter 'nd' para inteiro, se não for possível, trata como string
+
                 nd = int(nd)
             except ValueError:
                 pass
@@ -133,11 +129,11 @@ class NPCController:
         elif nd_pretendido == '1/2':
             nd_pretendido = nd_livro[3]
         elif isinstance(nd_pretendido, int) and 1 <= nd_pretendido <= 30:
-            # Ajusta o índice para valores inteiros entre 1 e 30
+
               nd_pretendido = nd_livro[nd_pretendido + 3]
         else:
-            # Caso nd_pretendido não esteja nos valores esperados, escolhe um valor aleatório
-            nd_pretendido = nd_livro[randint(4, 30)]
+
+            nd_pretendido = nd_livro[randint(4, 14)]
         
         dadosvida = data.get('dadosvida')
         pv = data.get('pv', 0)
@@ -339,8 +335,8 @@ class NPCController:
             'desclendaria': desclendaria,
             'acoes_lendarias_atuais': acoes_lendarias_atuais
         }
-        print ('_____________________________________________________________________________')
-        print ('Npc: ', npc_data)
+        #print ('_____________________________________________________________________________')
+        #print ('Npc: ', npc_data)
         
         
         
@@ -350,7 +346,7 @@ class NPCController:
             db.session.commit()
             print("NPC inserido com sucesso no banco de dados.")
         except Exception as e:
-            db.session.rollback()  # Desfaz qualquer mudança no banco de dados no caso de erro
+            db.session.rollback() 
             print(f"Erro ao inserir NPC no banco de dados: {str(e)}")
                        
         return npc_data
