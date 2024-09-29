@@ -19,17 +19,32 @@
     </div>
     <br>
 
-    <div class="card shadow p-5 bg-dark text-white-50">
-        <h4 class="text-white">Lista de NPCs</h4>
+    <div class="card shadow p-5 bg-dark text-white-50 no-margin">
+        <div class="d-flex align-items-center mb-3">
+            <!-- Lista de NPCs -->
+            <h4 class="text-white col-md-2 mb-0">Lista de NPCs</h4>
+            
+            <!-- Campo de seleção -->
+            <div class="col-md-4">
+                <select id="npc-select" class="form-select bg-dark text-white border-light">
+                    <option value="" disabled selected>Selecione um NPC</option>
+                    {% for npc in npcs %}
+                        <option value="{{ npc.id }}">{{ npc.ficha['nome'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
         
         {% for npc in npcs %}
         <p> 
-            <strong class="text-white">{{npc.ficha['nome']}} - {{npc.ficha['raca']}} - ND: {{npc.ficha['nd']}}</strong>
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"> Vizualizar </button>
+            
+            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ npc.id }}"> <strong class="text-white">{{npc.ficha['nome']}} - {{npc.ficha['raca']}} - ND: {{npc.ficha['nd']}}</strong> </button>
         </p>       
         
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal{{ npc.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
             <div class="modal-content bg-dark text-white">
 
@@ -38,8 +53,9 @@
 
                     <p><I>{{npc.ficha['raca']}}, {{npc.ficha['tamanho']}}, {{npc.ficha['tendencia']}} </I></p>
                     
-                    <p><strong>CA:</strong> {{npc.ficha['ca']}} - <strong>Iniciativa:</strong> {{npc.ficha['atributos']['bdestreza']}} </p>                
+                    <p><strong>CA:</strong> {{npc.ficha['ca']}} - <strong>Iniciativa:</strong> {{npc.ficha['iniciativa']}} </p>                
                     <p> <strong>PV:</strong> {{npc.ficha['pv']}} <I>( {{npc.ficha['dadosvida']}} )</I> </p>
+                    <p> <strong>Linguas:</strong> {{npc.ficha['linguas']}}</p>
                     <p><strong>Movimento </strong> {{npc.ficha['speed']}}                         
                         {% if npc.ficha['voo'] %}
                           <strong> Vôo </strong> {{npc.ficha['voo']}}
@@ -143,20 +159,8 @@
                     
                     <p>
                         <strong>Sentidos:</strong> 
+                        Percepção Passiva {{ npc.ficha['Percepcão_passiva'] }}
 
-                        {% set percepcao_valor = None %}
-                        {% for pericia in npc.ficha['pericias_atuais'] %}
-                            {% if pericia['nome'] == 'Percepção ' %}
-                                {% set percepcao_valor = pericia['valor'] %}
-                            {% endif %}
-                        {% endfor %}
-                        
-                        {% if percepcao_valor is not none %}
-                            Percepção Passiva {{ 10 + percepcao_valor }}
-                        {% else %}
-                            Percepção Passiva {{ 10 + npc.ficha['atributos']['bsabedoria'] }}
-                        {% endif %}
-                    
                         {% if npc.ficha['darkvision'] %}
                             , Visão no escuro {{npc.ficha['darkvision']}}'
                         {% endif %}
@@ -189,15 +193,25 @@
                         {% endfor %}
                     {% endif %}
                     
-                    {% if npc.ficha['ataques_atuais'] %}
-                    {% for ataque in npc.ficha['ataques_atuais'] %}
-                        <p>
-                            <strong>{{ ataque['nome'] }}</strong> +{{ npc.ficha['proef'] + ((npc.ficha['atributos'][ataque['bonus']] - 10) // 2) }} 
-                            Ataque {{ ataque['tipo'] }} Alcance {{ ataque['alcance'] }}. Acerto {{ ataque['dano'] }} 
-                            ({{ ataque['dado'] }} + bônus de {{ ataque['bonus'] }}) {{ ataque['tipodano'] }} {{ ataque['extra'] }}
-                        </p>
+
+                    {% for ataque in npc.ficha['ataques_atuais'] %}                   
+
+                            <p>
+                                <strong>{{ ataque['nome'] }}</strong> +{{ ataque['bonus'] }} 
+                                Ataque {{ ataque['tipo'] }} Alcance {{ ataque['alcance'] }}. Acerto {{ ataque['dano'] }} 
+                                ({{ ataque['dado'] }}) {{ ataque['tipodano'] }} {{ ataque['extra'] }}
+                            </p>
+
                     {% endfor %}
-                {% endif %}
+
+                    {% if npc.ficha['desclendaria'] and npc.ficha['desclendaria'] != [''] and npc.ficha['acoes_lendarias_atuais'] %}
+                        <h3>Ações Lendárias</h3>
+                        <hr>
+                            {% for lendarias in npc.ficha['acoes_lendarias_atuais'] %}
+                                <p> <strong>{{ lendarias['nome'] }}</strong> {{ lendarias['descricao'] }}</p>
+                            {% endfor %}
+                     {% endif %}
+
 
                 </div>
                 <div class="modal-footer">
@@ -209,9 +223,19 @@
         </div>
 
         {% endfor %}  
-
+        </div>
     </div>
     <br>
+    <script>
+        document.getElementById('npc-select').addEventListener('change', function() {
+            var npcId = this.value;
+            if (npcId) {
+                var modalId = '#exampleModal' + npcId;
+                var modal = new bootstrap.Modal(document.querySelector(modalId));
+                modal.show();
+            }
+        });
+    </script>
 
     {% endif %}
 

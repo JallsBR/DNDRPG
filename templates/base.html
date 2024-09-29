@@ -6,6 +6,7 @@
     <title>RPG Tools</title>
     <link rel="icon" href="/static/imagem/ico.png" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     <style>
       .dropdown-container {
           position: relative;
@@ -16,7 +17,7 @@
       }
   </style>
   </head> 
-  <body class="bg-black"> 
+  <body class="bg-black font_rpg"> 
     
     <nav class="navbar navbar-expand-lg navbar bg-dark"  data-bs-theme="dark">
         <div class="container-fluid">
@@ -63,6 +64,7 @@
         <br>
        
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
   </body>

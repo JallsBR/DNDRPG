@@ -23,7 +23,12 @@ class Personagem(db.Model):
     
     @classmethod
     def npcs_id(cls, id_user, id=None):
-        query = cls.query.filter_by(id_user=id_user, tipo="NPC")        
+        query = cls.query.filter_by(id_user=id_user, tipo="NPC")
+        
         if id is not None:
-            query = query.filter_by(id=id)          
-        return query.all()  
+            query = query.filter_by(id=id)
+        
+        # Ordenar os NPCs pelo campo 'nome'
+        query = query.order_by(cls.nome.asc())
+        
+        return query.all()

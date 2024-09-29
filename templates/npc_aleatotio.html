@@ -201,6 +201,24 @@
                         <input type="number" id="ca" name="ca" class="form-control bg-dark text-white border-light" min="8" max="30">
                     </div>
 
+                    <div class="col-md-3 form-group">
+                        <label for="armadurausada">Armadura</label>
+                        <select id="armadurausada" name="armadurausada" class="form-control bg-dark text-white border-light">
+                            <option value="" disabled selected>Armadura</option>
+                            <option value="Nenhuma">Nenhuma</option>
+                            <option value="Natural">Armadura Natural</option>
+                            <option value="Proteções Mágicas">Proteções Mágicas</option> 
+                            {% for armadura in armaduras  %}
+                            <option value="{{armadura.nome}}">{{armadura.nome}}</option>
+                            {% endfor %}                                
+                          
+                        </select>
+                    </div>
+
+
+
+
+
                     <div class="col-md-1 form-group">
                         <label for="pv">PV</label>
                         <input type="number" id="pv" name="pv" class="form-control bg-dark text-white border-light"min="1" max="1000">
@@ -232,28 +250,7 @@
                         <input type="number" id="darkvision" name="darkvision"  class="form-control bg-dark text-white border-light">
                     </div>
 
-                    <div class="col-md-3 form-group">                
-                        <label for="classe_base">Classe Base</label>
-                        <select id="classe_base" name="classe_base" class="form-control bg-dark text-white border-light">
-                            <option value="" disabled selected>Classe</option>
-                            <option value="barbaro">Bárbaro</option>
-                            <option value="bardo">Bardo</option>
-                            <option value="bruxo">Bruxo</option>
-                            <option value="clerigo">Clérigo</option>
-                            <option value="druida">Druida</option>
-                            <option value="feiticeiro">Feiticeiro</option>
-                            <option value="guerreiro">Guerreiro</option>
-                            <option value="ladino">Ladino</option>
-                            <option value="mago">Mago</option>
-                            <option value="monge">Monge</option>
-                            <option value="paladino">Paladino</option>
-                            <option value="patrulheiro">Patrulheiro</option>
-                            <option value="artifice">Artífice</option>
-                            <option value="especialista">Especialista</option>
-                            <option value="conjurador">Conjurador</option>
-                            <option value="combatente">Combatente</option>
-                        </select>
-                    </div>
+
                     
                     
                     <div class="col-md-1 form-group">
@@ -343,6 +340,14 @@
                         <input type="number" id="cd" name="cd" class="form-control bg-dark text-white border-light">
                     </div>
 
+                    <div class="col-md-3 form-group">                
+                        <label for="tipo_personagem">Tipo de NPC</label>
+                        <select id="tipo_personagem" name="tipo_personagem" class="form-control bg-dark text-white border-light">
+                            <option value="" disabled selected> Obrigatório* </option>
+                            <option value="NPC">NPC Único</option>
+                            <option value="Criatura">Criatura Base</option>
+                        </select>
+                    </div> 
 
                 </div>
 
@@ -922,10 +927,10 @@
                                 <label for="tipo1">Tipo</label>
                                 <select id="tipo1" name="tipo[]" class="form-control bg-dark text-white border-light">
                                     <option value="" disabled selected>Tipo</option>
-                                    <option value="corpo_a_corpo">Corpo a Corpo</option>
-                                    <option value="distancia">À Distância</option>
-                                    <option value="magico_corpo_a_corpo">Mágico Corpo a Corpo</option>
-                                    <option value="magico_distancia">Mágico à Distância</option>
+                                    <option value="Corpo a Corpo">Corpo a Corpo</option>
+                                    <option value="Distância">À Distância</option>
+                                    <option value="Mágico Corpo a Corpo">Mágico Corpo a Corpo</option>
+                                    <option value="Mágico à Distância">Mágico à Distância</option>
                                 </select>
                             </div>
                             <div class="col-md-1 form-group">
@@ -943,10 +948,6 @@
                             <div class="col-md-1 form-group">
                                 <label for="alcanceataque1">Alcance</label>
                                 <input type="text" id="alcanceataque1" name="alcanceataque[]" class="form-control bg-dark text-white border-light">
-                            </div>
-                            <div class="col-md-1 form-group">
-                                <label for="danoataque1">Dano</label>
-                                <input type="text" id="danoataque1" name="danoataque[]" class="form-control bg-dark text-white border-light">
                             </div>
                             <div class="col-md-1 form-group">
                                 <label for="dadoataque1">Dado</label>
@@ -970,14 +971,11 @@
                                     <option value="veneno">Veneno</option>
                                 </select>
                             </div>
-                            <div class="col-md-2 form-group">
+                            <div class="col-md-4 form-group">
                                 <label for="extraataque1">Extra</label>
                                 <input type="text" id="extraataque1" name="extraataque[]" class="form-control bg-dark text-white border-light">
                             </div>
-                            <div class="col-md-1 form-group">
-                                <label for="danototalataque1">Total</label>
-                                <input type="text" id="danototalataque1" name="danototalataque[]" class="form-control bg-dark text-white border-light">
-                            </div>
+
                         </div>
                     </div>
 
@@ -1027,10 +1025,6 @@
                                     <input type="text" id="alcanceataque${ataqueCount}" name="alcanceataque[]" class="form-control bg-dark text-white border-light">
                                 </div>
                                 <div class="col-md-1 form-group">
-                                    <label for="danoataque${ataqueCount}">Dano</label>
-                                    <input type="text" id="danoataque${ataqueCount}" name="danoataque[]" class="form-control bg-dark text-white border-light">
-                                </div>
-                                <div class="col-md-1 form-group">
                                     <label for="dadoataque${ataqueCount}">Dado</label>
                                     <input type="text" id="dadoataque${ataqueCount}" name="dadoataque[]" class="form-control bg-dark text-white border-light">
                                 </div>
@@ -1052,14 +1046,11 @@
                                         <option value="veneno">Veneno</option>
                                     </select>
                                 </div>
-                                <div class="col-md-2 form-group">
+                                <div class="col-md-4 form-group">
                                     <label for="extraataque${ataqueCount}">Extra</label>
                                     <input type="text" id="extraataque${ataqueCount}" name="extraataque[]" class="form-control bg-dark text-white border-light">
                                 </div>
-                                <div class="col-md-1 form-group">
-                                    <label for="danototalataque${ataqueCount}">Total</label>
-                                    <input type="text" id="danototalataque${ataqueCount}" name="danototalataque[]" class="form-control bg-dark text-white border-light">
-                                </div>
+
                             </div>`;
 
                             // Adiciona a nova linha ao container de ataques

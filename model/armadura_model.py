@@ -33,3 +33,10 @@ class Armadura(db.Model):
     @classmethod
     def get_armadura(cls):
         return cls.query.all()
+    
+    @classmethod
+    def get_classe_armadura_por_nome(cls, nome):
+        armadura = cls.query.filter_by(nome=nome).first()
+        if armadura:
+            return armadura.classe_armadura
+        return None

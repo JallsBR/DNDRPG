@@ -3,6 +3,9 @@ from model.nomes_model import Nome
 from random import choice, sample, randint, choices,random
 from math import floor, ceil
 import re
+from model.arma_model import Arma
+from model.armadura_model import Armadura
+from model.arma_model import Arma
 
 
 
@@ -62,7 +65,7 @@ class RPGController:
             # Seleciona uma quantidade aleatória de nomes
             nomes_aleatorios = sample(nome, k=min(quantidade, len(nome)))
             nomes_aleatorios = [obj.nome for obj in nomes_aleatorios]
-            
+            nomes_aleatorios = ' '.join(nomes_aleatorios)
             return nomes_aleatorios
 
         except ValueError as ve:
@@ -425,8 +428,214 @@ class RPGController:
         
         except Exception as e:
             return str(e)
+        
+    @staticmethod
+    def ca_armor(armorusada, bdes):
+        try:
+            # Se a armadura não for 'Nenhuma', 'Natural' ou 'Proteções Mágicas', pega a classe_armadura
+            if armorusada not in ['Nenhuma', 'Natural', 'Proteções Mágicas']:
+                armadura = Armadura.get_classe_armadura_by_nome(armorusada)
 
+                # Se a classe_armadura for do tipo "número", retorna o valor fixo
+                if armadura.isdigit():
+                    return int(armadura)
 
+                # Se for do tipo escudo, adiciona 2 ao valor base (10 + bdes)
+                elif armadura.startswith("+"):
+                    return 10 + bdes + int(armadura)
+
+                # Se for do tipo "numero + modificador de Des (máx. +2)", limita o bdes ao valor máximo (neste caso, 2)
+                elif "máx." in armadura:
+                    base_value = int(armadura.split()[0])  # Pega o valor base (ex.: "11")
+                    max_bdes = int(armadura.split("máx. +")[1].split(")")[0])  # Pega o valor máximo permitido para o bdes
+                    return base_value + min(bdes, max_bdes)
+
+                # Caso seja do tipo "11 + modificador de Des", apenas soma o valor base com o bdes
+                elif "+ modificador de Des" in armadura:
+                    base_value = int(armadura.split()[0])  # Pega o valor base (ex.: "11")
+                    return base_value + bdes
+
+            # Se a armadura usada for 'Nenhuma', 'Natural' ou 'Proteções Mágicas', calcula diretamente
+            elif armorusada in ['Natural', 'Proteções Mágicas']:
+                return 13 + bdes
+            else:
+                return 10 + bdes
+
+        except Exception as e:
+            return str(e)
+        
+    @staticmethod
+    def descobrir_armadura(ca, bdes):
+        try:
+            # Todas as armaduras que você tem disponíveis
+            armaduras = Armadura.get_armadura()
+
+            # Lista para armazenar possíveis correspondências
+            possiveis_armaduras = []
+
+            # Valor máximo da classe de armadura com as armaduras disponíveis
+            valor_maximo_armadura = 0
+
+            # Verifica cada armadura
+            for armadura in armaduras:
+                classe_armadura = armadura.classe_armadura
+
+                # Se a classe de armadura for um número fixo (ex.: "17")
+                if classe_armadura.isdigit():
+                    valor = int(classe_armadura)
+                    valor_maximo_armadura = max(valor_maximo_armadura, valor)  # Atualiza o valor máximo
+                    if valor == ca:
+                        possiveis_armaduras.append(armadura.nome)
+
+                # Se a classe de armadura tiver um modificador de destreza simples (ex.: "11 + modificador de Des")
+                elif "+ modificador de Des" in classe_armadura:
+                    base_value = int(classe_armadura.split()[0])
+                    valor_maximo_armadura = max(valor_maximo_armadura, base_value + 5)  # +5 para o máximo bdes
+                    if base_value + bdes == ca:
+                        possiveis_armaduras.append(armadura.nome)
+
+                # Se a classe de armadura tiver um limite no modificador de destreza (ex.: "14 + modificador de Des (máx. +2)")
+                elif "máx." in classe_armadura:
+                    base_value = int(classe_armadura.split()[0])
+                    max_bdes = int(classe_armadura.split("máx. +")[1].split(")")[0])
+                    valor_maximo_armadura = max(valor_maximo_armadura, base_value + max_bdes)  # Atualiza o valor máximo
+                    if base_value + min(bdes, max_bdes) == ca:
+                        possiveis_armaduras.append(armadura.nome)
+
+                # Se a classe de armadura tiver um modificador fixo adicional (ex.: "+2")
+                elif classe_armadura.startswith("+"):
+                    if 10 + bdes + int(classe_armadura) == ca:
+                        possiveis_armaduras.append(armadura.nome)
+
+            # Se a CA fornecida for maior que o valor máximo calculado, retorna "Proteções Mágicas"
+            if ca > valor_maximo_armadura:
+                return "Proteções Mágicas"
+
+            # Retorna a primeira armadura correspondente, se houver
+            if possiveis_armaduras:
+                return possiveis_armaduras[0]  # Retorna a primeira armadura correspondente
+
+            return "Nenhuma armadura corresponde ao valor de CA fornecido."
+
+        except Exception as e:
+            return str(e)
+    
+    @staticmethod    
+    def extrair_alcance(propriedades):
+        if 'distância' in propriedades:
+            # Extrai o valor entre parênteses que contém o alcance
+            inicio = propriedades.find('distância') + len('distância ')
+            fim = propriedades.find(')', inicio)
+            alcance = propriedades[inicio:fim].strip() if fim != -1 else '5'
+            return alcance
+        return '5'
+
+    @staticmethod
+    def ataques_aleatorio(nataques, bdes, bfor, proef):
+        # Seleciona 2 armas aleatórias
+        armas = Arma.get_armas()
+        arma1, arma2 = sample(armas, 2)  # Corrigido para pegar 2 armas
+
+        def calcular_dano(arma, bfor, bdes):
+            # Bônus com base no tipo de arma e nas propriedades
+            if 'acuidade' in arma.propriedades:
+                bonus = max(bfor, bdes)
+            elif arma.categoria in ['Arma Simples', 'Arma Marcial Corpo-a-Corpo']:
+                bonus = bfor
+            else:
+                bonus = bdes
+
+            # Extrai o número de dados e o tipo de dado de dano
+            num_dados, faces_dado = map(int, arma.dado_dano.split('d'))
+            
+            # Calcula o dano fixo (média dos dados, mínimo + máximo // 2)
+            dano_base = (1 + faces_dado) // 2 * num_dados
+            
+            # Dano total é a soma do dano base e do bônus
+            dano_total = dano_base + bonus
+            
+            return dano_total
+
+        def criar_formato_arma(arma, dano_total):
+            # Organiza o formato final da arma
+            num_ataques = int(nataques) if nataques else 1
+            return {
+                'nome': arma.nome,
+                'tipo': 'Corpo a corpo' if arma.categoria in ['Arma Simples', 'Arma Marcial Corpo-a-Corpo'] else 'Distância',
+                'bonus': str(bfor + proef) if 'acuidade' not in arma.propriedades else str(max(bdes, bfor) + proef),
+                'alcance': RPGController.extrair_alcance(arma.propriedades),
+                'dano': dano_total,
+                'dado': f"{arma.dado_dano} + {str(bfor) if 'acuidade' not in arma.propriedades else str(max(bdes, bfor))}",
+                'tipodano': arma.tipo_dano,
+                'extra': f"{arma.propriedades}, {arma.maestria}",
+                'danototal': dano_total * num_ataques
+            }
+
+        # Calcula o dano para cada arma
+        dano_arma1 = calcular_dano(arma1, bfor, bdes)
+        dano_arma2 = calcular_dano(arma2, bfor, bdes)
+
+        # Cria os formatos das armas
+        formato_arma1 = criar_formato_arma(arma1, dano_arma1)
+        formato_arma2 = criar_formato_arma(arma2, dano_arma2)
+
+        # Retorna as duas armas de uma vez
+        return formato_arma1, formato_arma2
+
+    # Calculando ataques atuais
+    @staticmethod
+    def calcular_ataques_atuais(ataques_atuais, nataques, bdes, bfor, bcar, bint, bsab, bcon, proef):
+        ataques_final = []
+        
+        for ataque in ataques_atuais:
+            # Determina o bônus baseado no tipo de bônus
+            bonus = 0
+            if ataque['bonus'] == 'forca':
+                bonus = bfor
+            elif ataque['bonus'] == 'destreza':
+                bonus = bdes
+            elif ataque['bonus'] == 'carisma':
+                bonus = bcar
+            elif ataque['bonus'] == 'inteligencia':
+                bonus = bint
+            elif ataque['bonus'] == 'sabedoria':
+                bonus = bsab
+            elif ataque['bonus'] == 'constituicao':
+                bonus = bcon
+            
+            # Extrai o número de dados e o tipo de dado de dano
+            num_dados, faces_dado = map(int, ataque['dado'].split('d'))
+            
+            # Calcula o valor médio do dano (mínimo + máximo) / 2 arredondado para cima
+            dano_por_dado = (1 + faces_dado) // 2
+            
+            # Dano base é o valor médio do dado multiplicado pelo número de dados
+            dano_base = dano_por_dado * num_dados
+            
+            # Garantir que 'nataques' seja tratado corretamente como um número inteiro
+            num_ataques = int(nataques) if nataques else 1
+            
+            # Formata o resultado final do ataque
+            ataques_resultado = {
+                'nome': ataque['nome'],
+                'tipo': ataque['tipo'],
+                'bonus': bonus + proef,
+                'alcance': ataque['alcance'],
+                'dano': dano_base + bonus,
+                'dado': f"{ataque['dado']} + {bonus}",
+                'tipodano': ataque['tipodano'],
+                'extra': ataque['extra'],
+                'danototal': (dano_base + bonus) * num_ataques
+            }
+            if 'Magico' in ataques_resultado['tipo']:
+                ataques_resultado['danototal'] = dano_base + bonus        
+            
+            # Adiciona ao resultado final
+            ataques_final.append(ataques_resultado)
+        
+        return ataques_final
+
+            
 
 
 #_______________________________________________________________________________________________________________________________
@@ -511,7 +720,7 @@ class RPGController:
     
 
     @staticmethod
-    def ataques_aleatorios(proef=2, bfor=0, bdes=0, bônusataque=0, bonusdano = 0):
+    def ataques_aleatorios_teste(proef=2, bfor=0, bdes=0, bônusataque=0, bonusdano = 0):
         """
             Randomiza 2 armas e seus ataques
         :param proef: Bônus de proeficiência

@@ -4,13 +4,17 @@ from controller.npc_controller import NPCController
 from extensions import login_manager
 from flask_login import login_user, logout_user
 from controller.rpgcontroller import RPGController
+from model.arma_model import Arma
+from model.armadura_model import Armadura
 
 blueprint_npc = Blueprint("npc", __name__, template_folder="templates")
 
 @blueprint_npc.route('/create', methods=['GET', 'POST'])
 def create():
     if request.method == 'GET':
-        return render_template('npc_aleatotio.html')
+        armas = Arma.get_armas()
+        armaduras = Armadura.get_armadura()
+        return render_template('npc_aleatotio.html', armas=armas, armaduras=armaduras)
     
     if request.method == 'POST':
         # Recuperando os dados do formulário
@@ -28,14 +32,19 @@ def create():
         
         genero = request.form.get('genero')
 
+        tipo_personagem = request.form.get('tipo_personagem')
+
         ca = request.form.get('ca')
+        armadurausada = request.form.get('armadurausada')
+        
+        
+        
         pv = request.form.get('pv')
         dadosvida = request.form.get('dadosvida')
         speed = request.form.get('speed')
         voo = request.form.get('voo')
         natacao = request.form.get('natacao')
         darkvision = request.form.get('darkvision')
-        classe_base = request.form.get('classe_base')
         nd = request.form.get('nd')
         saves=request.form.get('saves')
         forca = request.form.get('força')
@@ -269,7 +278,10 @@ def create():
         desc_habilidades = request.form.getlist('deschabilidade[]')
         habilidades_atuais = []
         for nome, descricao in zip(nome_habilidades, desc_habilidades):
-            habilidades_atuais.append({'nome': nome, 'descricao': descricao})
+            if nome and descricao:  
+                habilidades_atuais.append({'nome': nome, 'descricao': descricao})
+            
+            
         #------ Ações
         aespeciais = request.form.get('aespeciais ')
         nome_acoes = request.form.getlist('nomeacao[]')
@@ -279,32 +291,50 @@ def create():
             if nome and descricao:  
                 acoes_atuais.append({'nome': nome, 'descricao': descricao})
         #------ Ataques
-        tatackes = request.form.get('tatackes')
+        tatackes = request.form.get('tatack')== 'on'
+        print( 'TATACKES', tatackes)
+        
         nome_ataques = request.form.getlist('nomeataque[]')
         tipo_ataques = request.form.getlist('tipo[]')
         bonus_ataques = request.form.getlist('bonusataque[]')
-        alcance_ataques = request.form.getlist('alcanceataque[]')
-        dano_ataques = request.form.getlist('danoataque[]')
+        alcance_ataques = request.form.getlist('alcanceataque[]')        
         dado_ataques = request.form.getlist('dadoataque[]')
         tipodano_ataques = request.form.getlist('tipodanoataque[]')
         extra_ataques = request.form.getlist('extraataque[]')
-        danototal_ataques = request.form.getlist('danototalataque[]')
+        
 
+
+        # Verifica o comprimento das listas
+        comprimento = min(len(nome_ataques), len(tipo_ataques), len(bonus_ataques), 
+                        len(alcance_ataques), len(dado_ataques), len(tipodano_ataques), 
+                        len(extra_ataques))
+
+        # Lista para armazenar os ataques atuais
         ataques_atuais = []
-        for nome, tipo, bonus, alcance, dano, dado, tipodano, extra, danototal in zip(
-                nome_ataques, tipo_ataques, bonus_ataques, alcance_ataques, dano_ataques,
-                dado_ataques, tipodano_ataques, extra_ataques, danototal_ataques):
-            ataques_atuais.append({
-                'nome': nome,
-                'tipo': tipo,
-                'bonus': bonus,
-                'alcance': alcance,
-                'dano': dano,
-                'dado': dado,
-                'tipodano': tipodano,
-                'extra': extra,
-                'danototal': danototal
-            })
+
+        # Usando o comprimento mínimo para iterar
+        for i in range(comprimento):
+            nome = nome_ataques[i]
+            tipo = tipo_ataques[i]
+            bonus = bonus_ataques[i]
+            alcance = alcance_ataques[i]
+            dado = dado_ataques[i]
+            tipodano = tipodano_ataques[i]
+            extra = extra_ataques[i]
+
+
+
+            ataque = {
+                "nome": nome,
+                "tipo": tipo,
+                "bonus": bonus,
+                "alcance": alcance,
+                "dado": dado,
+                "tipodano": tipodano,
+                "extra": extra
+            }
+
+            ataques_atuais.append(ataque)
 
 
         reacao = request.form.get('reacao')
@@ -314,7 +344,8 @@ def create():
 
         reacoes_atuais = []
         for nome, descricao in zip(nome_reacoes, desc_reacoes):
-           reacoes_atuais.append({'nome': nome, 'descricao': descricao})
+            if nome and descricao:
+                reacoes_atuais.append({'nome': nome, 'descricao': descricao})
 
         #------ Ações Lendárias
         lendarias = request.form.get('lendarias')
@@ -324,7 +355,9 @@ def create():
         desc_acoes_lendarias = request.form.getlist('descacaolendaria[]')
         acoes_lendarias_atuais = []
         for nome, descricao in zip(nome_acoes_lendarias, desc_acoes_lendarias):
-           acoes_lendarias_atuais.append({'nome': nome, 'descricao': descricao})
+            if nome and descricao:
+                acoes_lendarias_atuais.append({'nome': nome, 'descricao': descricao})
+           
 
         informacoes = request.form.get('informacoes')
         usos = request.form.get('dicasUso')
@@ -337,15 +370,15 @@ def create():
             "tendencia": tendencia,
             "genero": genero,
             "ca": ca,
+            'armadurausada': armadurausada,
             "pv": pv,
             "dadosvida": dadosvida,
             "speed": speed,
             "voo": voo,
             "natacao": natacao,
             "darkvision": darkvision,
-            "classe_base": classe_base,
             "nd": nd,
-            
+            "tipo_personagem": tipo_personagem,
             "saves": saves,
             "forca": forca,
             "save_forca": save_forca,
@@ -385,7 +418,7 @@ def create():
             "usos": usos
 
         }
-        #print ('NPC FORM: ', npc_form)
+        print ('NPC FORM: ', npc_form)
         
         NPCController.criar_npc(npc_form)
         

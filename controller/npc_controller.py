@@ -15,7 +15,12 @@ class NPCController:
         # Acessando os dados do JSON
         print('________________________________________________________')
         print('DATA',data)
-
+        
+        
+        tipo_personagem = data.get('tipo_personagem')
+        if tipo_personagem == None:
+            tipo_personagem = 'NPC'
+        
         raca = data.get('raca')
         if raca != None:
             raca = raca.strip().title()
@@ -29,8 +34,7 @@ class NPCController:
         npc_nome = data.get('npc_nome')     
         if npc_nome == '':
             npc_nome = RPGController.nome_aleatorio(raca=raca, sexo = genero)
-
-        classe_base = data.get('classe_base')  
+ 
              
         tendencia = data.get('tendencia')
         if tendencia == None:
@@ -85,6 +89,8 @@ class NPCController:
             atributos['carisma'] = RPGController.gerar_atributo()
         atributos['bcarisma'] = (atributos['carisma'] - 10) // 2
         atributos['save_carisma'] = atributos['bcarisma']
+        
+        percepção_passiva = atributos['bsabedoria'] + 10
 
         proef= 0
         nd = data.get('nd')
@@ -145,11 +151,16 @@ class NPCController:
         if not dadosvida:
             dadosvida = RPGController.deduzir_dvs(pv, atributos['bconstituição'])    
                 
-                    
+        armadurausada = data.get('armadurausada')
         ca = data.get('ca')
-        if not ca:
-            ca = nd_pretendido["CA"]
+        if not ca and armadurausada:
+            ca = RPGController.ca_armor(armadurausada, atributos['bdestreza'])        
         
+        if not ca and not armadurausada:
+            ca = nd_pretendido["CA"]
+            armadurausada = RPGController.descobrir_armadura(ca, atributos['bdestreza'])
+            
+
         cd= data.get('cd')
         if not cd:
             cd = nd_pretendido['CD']        
@@ -169,9 +180,6 @@ class NPCController:
             darkvision = '120'
         
         
-        
-        
-      
         resistencias = data.get('resistencias', [])
         resistencia = data.get('resistencia')
         if resistencia == True:
@@ -189,23 +197,21 @@ class NPCController:
         if pericias == True:
             pericias_atuais = RPGController.pericias_aleatorio(pericias_atuais)
 
-        
+       
         
         nmagias = data.get('nmagias')  
         # Habilidades e ações
         habilidades = data.get('habilidades')
         habilidades_atuais = data.get('habilidades_atuais', [])
         
+        
+        
         #Ações
         acoes= data.get('acoes')
         acoes_atuais = data.get('acoes_atuais', [])
-
-
-
-        nataques = data.get('nataques')
-        # Ataques e Reaçoes
-        ataques = data.get('ataques')
-        ataques_atuais = data.get('ataques_atuais', [])
+        
+        
+        
         reacao = data.get('reacão')
         reacoes_atuais = data.get('reacoes_atuais', [])
 
@@ -252,36 +258,63 @@ class NPCController:
         if 'savecarisma' in proefsaves:
             atributos['save_carisma'] += proef
             
-        iniciativa = atributos['bdes']
+        iniciativa = atributos['bdestreza']
         
         
-        percepção_passiva = linguas = 0
+        linguas = ['Comum']
             
             
-                     
+        if 'Percepção' in pericias_atuais:
+            percepção_passiva = atributos['bsabedoria'] + proef + 10                     
             
         pericias_atuais = RPGController.transformar_pericias(bdes = atributos['bdestreza'], bfor= atributos['bforca'], bcon =  atributos['bconstituição'], 
-                                                             bint= atributos['binteligência'], bsab= atributos['bsabedoria'], bcar= atributos['bcarisma'], proef= proef, pericias_atuais=pericias_atuais)
+                                                             bint= atributos['binteligência'], bsab= atributos['bsabedoria'], bcar= atributos['bcarisma'], 
+                                                             proef= proef, pericias_atuais=pericias_atuais)
         
         
+        nataques = data.get('nataques')
+        ataques_atuais = data.get('ataques_atuais', [])
+        ataques_atuais = RPGController.calcular_ataques_atuais(ataques_atuais = ataques_atuais, nataques = nataques, bdes = atributos['bdestreza'], bfor= atributos['bforca'], 
+                                                      bcon =  atributos['bconstituição'], bint= atributos['binteligência'], bsab= atributos['bsabedoria'], 
+                                                      bcar= atributos['bcarisma'], proef= proef)
+        
+        ataques_atuais = [item for sublist in ataques_atuais for item in (sublist if isinstance(sublist, list) else [sublist])]
+        
+        # Ataques e Reaçoes
+        ataques = data.get('ataques')
+        print('ATAQUES', ataques)
+        if ataques or not ataques_atuais:
+            arma1, arma2 = RPGController.ataques_aleatorio(
+                nataques=nataques,
+                bdes=atributos['bdestreza'],
+                bfor=atributos['bforca'],
+                proef=proef
+            )
+            ataques_atuais.append(arma1)
+            ataques_atuais.append(arma2)
+            
+            
 
+        
         npc_data = {
             'nome': npc_nome,
             'tamanho': 'Médio',
-            'classe_base': classe_base,
             'raca': raca,
             'tendencia': tendencia,
             'genero': genero,
             'proef': proef,
             'atributos': atributos,
             'ca': ca,
+            'armadurausada': armadurausada,
             'iniciativa': iniciativa,
             'pv': pv,
             'dadosvida': dadosvida,
+            'linguas': linguas,
             'speed': speed,
             'voo': voo,
             'natacao': natacao,
             'darkvision': darkvision,
+            'Percepcão_passiva': percepção_passiva,
             'nd': nd,
             'xp': xp,
             'resistencia': resistencia,
@@ -309,12 +342,15 @@ class NPCController:
         print ('_____________________________________________________________________________')
         print ('Npc: ', npc_data)
         
+        
+        
         try:
-            personagem = Personagem(id_user=current_user.id, ficha=npc_data, nome=npc_data['nome'], tipo='NPC')
+            personagem = Personagem(id_user=current_user.id, ficha=npc_data, nome=npc_data['nome'], tipo= tipo_personagem)
             db.session.add(personagem)
             db.session.commit()
             print("NPC inserido com sucesso no banco de dados.")
         except Exception as e:
             db.session.rollback()  # Desfaz qualquer mudança no banco de dados no caso de erro
-            print(f"Erro ao inserir NPC no banco de dados: {str(e)}")                
+            print(f"Erro ao inserir NPC no banco de dados: {str(e)}")
+                       
         return npc_data

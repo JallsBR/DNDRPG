@@ -1,0 +1,9 @@
+.font_rpg {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Classe para remover margens com top e bottom de 3px */
+.no-margin p{
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
