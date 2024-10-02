@@ -2,6 +2,7 @@
 
 {% block conteudo %}
 
+
     {% if current_user.is_authenticated %}
     <form action="/npc/create" method="post">
     <div class="card shadow p-5 bg-dark text-white-50">
@@ -349,6 +350,13 @@
                         </select>
                     </div> 
 
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="linguas">Línguas</label>
+                        <input type="text" id="linguas" name="linguas"  class="form-control bg-dark text-white border-light">
+                    </div>
                 </div>
 
 

@@ -31,6 +31,63 @@ class RPGController:
             print(f"Ocorreu um erro inesperado: {e}")
             return None
 
+    @staticmethod
+    def vantagem(bonus=0):
+        """
+        Função para resolver parada de dados de vantagem
+
+            :param bonus: Número a ser somado ao resultado
+            :return: informação sobre a rolagem
+        """
+        global retorno
+    
+
+        rolagem_final = []
+        parada_de_dados = []
+
+        dado1 = randint(1, 20)
+        dado2 = randint(1, 20)
+        vantagem = [dado1, dado2]
+        rolagem_final.append(max(vantagem))
+        parada_de_dados.append(vantagem)
+
+
+        if bonus != 0:
+            retorno = f'As jogadas foram{parada_de_dados}. Final {rolagem_final} + {bonus}, Total {sum(rolagem_final) + bonus}'
+        else:
+            retorno = f'As jogadas foram{parada_de_dados}. Final {rolagem_final}, Total {sum(rolagem_final)}'
+
+        return retorno
+
+    @staticmethod
+    def desvantagem(bonus=0):
+        """
+        Função para resolver parada de dados de desvantagem
+
+            :param desvantagem: Se a funão vantagem ésetada como True, são jogados 2 dados de 20 lados e o resultado é o menor
+            :return: informação sobre a rolagem
+        """
+        global retorno
+
+
+        rolagem_final = []
+        parada_de_dados = []
+
+        dado1 = randint(1, 20)
+        dado2 = randint(1, 20)
+        vantagem = [dado1, dado2]
+        rolagem_final.append(min(vantagem))
+        parada_de_dados.append(vantagem)
+
+
+        if bonus != 0:
+            retorno = f'As jogadas foram{parada_de_dados}. Final {rolagem_final} + {bonus}, Total {sum(rolagem_final) + bonus}'
+        else:
+            retorno = f'As jogadas foram{parada_de_dados}. Final {rolagem_final}, Total {sum(rolagem_final)}'
+
+        return retorno
+
+
 
     @staticmethod
     def nome_aleatorio(raca, sexo, quantidade=2):  
@@ -608,344 +665,6 @@ class RPGController:
 
 
 
-
-
-    @staticmethod
-    def aptidão_mágica(magia=False, classe=''):
-        """
-            Randomiza a possibilidade de um personagem conter magia
-        :param magia: Pro padrão está em False, se modificado para True o personagem possui magias
-        :param classe: Especifica uma determinada classe
-
-        """
-
-
-        aptidão_magica = randint(1, 15)
-        magias1 = magias2 = magias3 = magias4= magias5 =0
-        if magia:
-            aptidão_magica = 15
-        if aptidão_magica == 15:
-            truques = randint(1, 3)
-            magias1 = randint(0, 3)
-            if magias1 > 1:
-                magias2 = (randint(0, 3))
-                if magias2 > 1:
-                    magias3 = randint(0, 3)
-                    if magias3 > 1:
-                        magias4 = randint(0, 3)
-                        if magias4 > 1:
-                            magias5 = randint(0, 3)
-            caster = randint(1, 7)
-            tipomagico = None
-            if classe != '':
-                tipomagico = classe
-            else:
-                if caster == 1:
-                    tipomagico = 'Clérigo'
-                if caster == 2:
-                    tipomagico = 'Mago'
-                if caster == 3:
-                    tipomagico = 'Druida'
-                if caster == 4:
-                    tipomagico = 'Bardo'
-                if caster == 5:
-                    tipomagico = 'Paladino'
-                if caster == 6:
-                    tipomagico = 'Bruxo'
-                if caster == 7:
-                    tipomagico = 'Feiticeiro'
-
-        if aptidão_magica == 15:
-            feitiços = {'Aptidão Mágica': aptidão_magica,'Classe': tipomagico, 'Truques': truques }
-            feitiços['Magias1'] = 0
-            feitiços['Magias2'] = 0
-            feitiços['Magias3'] = 0
-            feitiços['Magias4'] = 0
-            feitiços['Magias5'] = 0
-            if magias1 > 0:
-                feitiços['Magias1']=1
-                feitiços['1Círculo'] = magias1
-                if magias2 > 0:
-                    feitiços['Magias2'] = 1
-                    feitiços['2Círculo'] = magias2
-                    if magias3 > 0:
-                        feitiços['Magias3'] = 1
-                        feitiços['3Círculo'] = magias3
-                        if magias4 > 0:
-                            feitiços['Magias4'] = 1
-                            feitiços['4Círculo'] = magias4
-                            if magias5 > 0:
-                                feitiços['Magias5'] = 1
-                                feitiços['5Círculo'] = magias5
-        if aptidão_magica == 15:
-            return feitiços
-        else:
-            return {'Aptidão Mágica': 0}
-
-    
-
-    @staticmethod
-    def livro_nd (nd_pretendido = 0):
-        """
-            Consulta de um ND segundo o livro do mestre
-        :param nd_pretendido: nd a ser retornado
-
-        """
-
-        nd_livro = [{'ND': 0, 'Proef': 2, "CA": 13, 'PV': randint(1, 6), 'Pvmin': 1, 'Pvmax': 6, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(0, 1), 'Danomin': 0, 'Danomax': 1, 'CD': 13},
-                    {'ND': 1 / 8, 'Proef': 2, "CA": 13, 'PV': randint(7, 35), 'Pvmin': 7, 'Pvmax': 35, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(2, 3), 'Danomin': 2, 'Danomax': 3, 'CD': 13},
-                    {'ND': 1 / 4, 'Proef': 2, "CA": 13, 'PV': randint(36, 49), 'Pvmin': 36, 'Pvmax': 49, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(4, 5), 'Danomin': 4, 'Danomax': 5, 'CD': 13},
-                    {'ND': 1 / 2, 'Proef': 2, "CA": 13, 'PV': randint(50, 70), 'Pvmin': 50, 'Pvmax': 70, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(6, 8), 'Danomin': 6, 'Danomax': 8, 'CD': 13},
-                    {'ND': 1, 'Proef': 2, "CA": 13, 'PV': randint(71, 85), 'Pvmin': 71, 'Pvmax': 85, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(9, 14), 'Danomin': 9, 'Danomax': 14, 'CD': 13},
-                    {'ND': 2, 'Proef': 2, "CA": 13, 'PV': randint(86, 100), 'Pvmin': 86, 'Pvmax': 100, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(15, 20), 'Danomin': 15, 'Danomax': 20, 'CD': 13},
-                    {'ND': 3, 'Proef': 2, "CA": 13, 'PV': randint(101, 115), 'Pvmin': 101, 'Pvmax': 115, 'Bônus Ataque': 4,
-                    'Dano Rodada': randint(21, 26), 'Danomin': 21, 'Danomax': 26, 'CD': 13},
-                    {'ND': 4, 'Proef': 2, "CA": 14, 'PV': randint(116, 130), 'Pvmin': 116, 'Pvmax': 130, 'Bônus Ataque': 5,
-                    'Dano Rodada': randint(27, 32), 'Danomin': 27, 'Danomax': 32, 'CD': 14},
-                    {'ND': 5, 'Proef': 3, "CA": 15, 'PV': randint(131, 145), 'Pvmin': 131, 'Pvmax': 145, 'Bônus Ataque': 6,
-                    'Dano Rodada': randint(33, 38), 'Danomin': 33, 'Danomax': 38, 'CD': 15},
-                    {'ND': 6, 'Proef': 3, "CA": 15, 'PV': randint(146, 160), 'Pvmin': 146, 'Pvmax': 160, 'Bônus Ataque': 6,
-                    'Dano Rodada': randint(39, 44), 'Danomin': 39, 'Danomax': 44, 'CD': 15},
-                    {'ND': 7, 'Proef': 3, "CA": 15, 'PV': randint(161, 175), 'Pvmin': 161, 'Pvmax': 175, 'Bônus Ataque': 6,
-                    'Dano Rodada': randint(45, 50), 'Danomin': 45, 'Danomax': 50, 'CD': 15},
-                    {'ND': 8, 'Proef': 3, "CA": 16, 'PV': randint(176, 190), 'Pvmin': 176, 'Pvmax': 190, 'Bônus Ataque': 7,
-                    'Dano Rodada': randint(51, 56), 'Danomin': 51, 'Danomax': 56, 'CD': 16},
-                    {'ND': 9, 'Proef': 4, "CA": 16, 'PV': randint(191, 205), 'Pvmin': 191, 'Pvmax': 205, 'Bônus Ataque': 7,
-                    'Dano Rodada': randint(57, 62), 'Danomin': 57, 'Danomax': 62, 'CD': 16},
-                    {'ND': 10, 'Proef': 4, "CA": 17, 'PV': randint(206, 220), 'Pvmin': 206, 'Pvmax': 220, 'Bônus Ataque': 7,
-                    'Dano Rodada': randint(63, 68), 'Danomin': 63, 'Danomax': 68, 'CD': 16},
-                    {'ND': 11, 'Proef': +4, "CA": 17, 'PV': randint(221, 235), 'Pvmin': 221, 'Pvmax': 235,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(69, 74), 'Danomin': 69, 'Danomax': 74, 'CD': 17},
-                    {'ND': 12, 'Proef': +4, "CA": 17, 'PV': randint(236, 250), 'Pvmin': 236, 'Pvmax': 250,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(75, 80), 'Danomin': 75, 'Danomax': 80, 'CD': 17},
-                    {'ND': 13, 'Proef': +5, "CA": 18, 'PV': randint(251, 265), 'Pvmin': 251, 'Pvmax': 265,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(81, 86), 'Danomin': 81, 'Danomax': 86, 'CD': 18},
-                    {'ND': 14, 'Proef': +5, "CA": 18, 'PV': randint(266, 280), 'Pvmin': 266, 'Pvmax': 280,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(87, 92), 'Danomin': 87, 'Danomax': 92, 'CD': 18},
-                    {'ND': 15, 'Proef': +5, "CA": 18, 'PV': randint(281, 295), 'Pvmin': 281, 'Pvmax': 295,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(93, 98), 'Danomin': 93, 'Danomax': 98, 'CD': 18},
-                    {'ND': 16, 'Proef': +5, "CA": 18, 'PV': randint(296, 310), 'Pvmin': 296, 'Pvmax': 310,
-                    'Bônus Ataque': 9, 'Dano Rodada': randint(99, 104), 'Danomin': 99, 'Danomax': 104, 'CD': 18},
-                    {'ND': 17, 'Proef': +6, "CA": 19, 'PV': randint(311, 325), 'Pvmin': 311, 'Pvmax': 325,
-                    'Bônus Ataque': 10, 'Dano Rodada': randint(105, 110), 'Danomin': 105, 'Danomax': 110, 'CD': 19},
-                    {'ND': 18, 'Proef': +6, "CA": 19, 'PV': randint(326, 340), 'Pvmin': 326, 'Pvmax': 340,
-                    'Bônus Ataque': 10, 'Dano Rodada': randint(111, 116), 'Danomin': 111, 'Danomax': 116, 'CD': 19},
-                    {'ND': 19, 'Proef': +6, "CA": 19, 'PV': randint(341, 355), 'Pvmin': 341, 'Pvmax': 355,
-                    'Bônus Ataque': 10, 'Dano Rodada': randint(117, 122), 'Danomin': 117, 'Danomax': 122, 'CD': 19},
-                    {'ND': 20, 'Proef': +6, "CA": 19, 'PV': randint(356, 400), 'Pvmin': 356, 'Pvmax': 400,
-                    'Bônus Ataque': 10, 'Dano Rodada': randint(123, 140), 'Danomin': 123, 'Danomax': 140, 'CD': 19},
-                    {'ND': 21, 'Proef': +7, "CA": 19, 'PV': randint(401, 445), 'Pvmin': 401, 'Pvmax': 445,
-                    'Bônus Ataque': 11, 'Dano Rodada': randint(141, 158), 'Danomin': 141, 'Danomax': 158, 'CD': 20},
-                    {'ND': 22, 'Proef': +7, "CA": 19, 'PV': randint(446, 490), 'Pvmin': 446, 'Pvmax': 490,
-                    'Bônus Ataque': 11, 'Dano Rodada': randint(159, 176), 'Danomin': 159, 'Danomax': 176, 'CD': 20},
-                    {'ND': 23, 'Proef': +7, "CA": 19, 'PV': randint(491, 535), 'Pvmin': 491, 'Pvmax': 535,
-                    'Bônus Ataque': 11, 'Dano Rodada': randint(177, 194), 'Danomin': 177, 'Danomax': 194, 'CD': 20},
-                    {'ND': 24, 'Proef': +7, "CA": 19, 'PV': randint(536, 580), 'Pvmin': 536, 'Pvmax': 580,
-                    'Bônus Ataque': 11, 'Dano Rodada': randint(195, 212), 'Danomin': 195, 'Danomax': 212, 'CD': 21},
-                    {'ND': 25, 'Proef': +8, "CA": 19, 'PV': randint(581, 625), 'Pvmin': 581, 'Pvmax': 625,
-                    'Bônus Ataque': 12, 'Dano Rodada': randint(213, 230), 'Danomin': 213, 'Danomax': 230, 'CD': 21},
-                    {'ND': 26, 'Proef': +8, "CA": 19, 'PV': randint(626, 670), 'Pvmin': 626, 'Pvmax': 670,
-                    'Bônus Ataque': 12, 'Dano Rodada': randint(231, 248), 'Danomin': 231, 'Danomax': 248, 'CD': 21},
-                    {'ND': 27, 'Proef': +8, "CA": 19, 'PV': randint(671, 715), 'Pvmin': 671, 'Pvmax': 715,
-                    'Bônus Ataque': 13, 'Dano Rodada': randint(249, 266), 'Danomin': 249, 'Danomax': 266, 'CD': 22},
-                    {'ND': 28, 'Proef': +8, "CA": 19, 'PV': randint(716, 760), 'Pvmin': 715, 'Pvmax': 760,
-                    'Bônus Ataque': 13, 'Dano Rodada': randint(267, 284), 'Danomin': 267, 'Danomax': 284, 'CD': 22},
-                    {'ND': 29, 'Proef': +9, "CA": 19, 'PV': randint(761, 805), 'Pvmin': 761, 'Pvmax': 805,
-                    'Bônus Ataque': 13, 'Dano Rodada': randint(285, 302), 'Danomin': 285, 'Danomax': 302, 'CD': 22},
-                    {'ND': 30, 'Proef': +9, "CA": 19, 'PV': randint(806, 850), 'Pvmin': 806, 'Pvmax': 850,
-                    'Bônus Ataque': 14, 'Dano Rodada': randint(303, 320), 'Danomin': 303, 'Danomax': 320, 'CD': 23} ]
-
-        if nd_pretendido == 0:
-            nd_pretendido = nd_livro[0]
-        elif nd_pretendido == 1/8:
-            nd_pretendido = nd_livro[1]
-        elif nd_pretendido == 1/4:
-            nd_pretendido = nd_livro[2]
-        elif nd_pretendido == 1/2:
-            nd_pretendido = nd_livro[3]
-        elif nd_pretendido > 30:
-            nd_pretendido = 30
-            nd_pretendido = nd_livro[nd_pretendido+3]
-        else:
-            nd_pretendido = nd_livro[nd_pretendido+3]
-        return nd_pretendido
-
-    @staticmethod
-    def nd_resultante (nd_ofensivo=0,  nd_defensivo=0, nd_pretendido=0):
-        """
-            Retorna ND alterado do ND pretendido com os ajustes de nd ofensivo e defensivo
-        :param nd_ofensivo: calculo do nd ofencivo
-        :param nd_defensivo:  calculo do nd defensivo
-        :param nd_pretendido: retorno do ND correto
-
-        """
-
-        nd_livro = [{'ND': 0, 'Proef': 2, "CA": 13, 'PV': randint(1, 6), 'Pvmin': 1, 'Pvmax': 6, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(0, 1), 'Danomin': 0, 'Danomax': 1, 'CD': 13},
-                    {'ND': 1 / 8, 'Proef': 2, "CA": 13, 'PV': randint(7, 35), 'Pvmin': 7, 'Pvmax': 35, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(2, 3), 'Danomin': 2, 'Danomax': 3, 'CD': 13},
-                    {'ND': 1 / 4, 'Proef': 2, "CA": 13, 'PV': randint(36, 49), 'Pvmin': 36, 'Pvmax': 49, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(4, 5), 'Danomin': 4, 'Danomax': 5, 'CD': 13},
-                    {'ND': 1 / 2, 'Proef': 2, "CA": 13, 'PV': randint(50, 70), 'Pvmin': 50, 'Pvmax': 70, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(6, 8), 'Danomin': 6, 'Danomax': 8, 'CD': 13},
-                    {'ND': 1, 'Proef': 2, "CA": 13, 'PV': randint(71, 85), 'Pvmin': 71, 'Pvmax': 85, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(9, 14), 'Danomin': 9, 'Danomax': 14, 'CD': 13},
-                    {'ND': 2, 'Proef': 2, "CA": 13, 'PV': randint(86, 100), 'Pvmin': 86, 'Pvmax': 100, 'Bônus Ataque': 3,
-                    'Dano Rodada': randint(15, 20), 'Danomin': 15, 'Danomax': 20, 'CD': 13},
-                    {'ND': 3, 'Proef': 2, "CA": 13, 'PV': randint(101, 115), 'Pvmin': 101, 'Pvmax': 115, 'Bônus Ataque': 4,
-                    'Dano Rodada': randint(21, 26), 'Danomin': 21, 'Danomax': 26, 'CD': 13},
-                    {'ND': 4, 'Proef': 2, "CA": 14, 'PV': randint(116, 130), 'Pvmin': 116, 'Pvmax': 130, 'Bônus Ataque': 5,
-                    'Dano Rodada': randint(27, 32), 'Danomin': 27, 'Danomax': 32, 'CD': 14},
-                    {'ND': 5, 'Proef': 3, "CA": 15, 'PV': randint(131, 145), 'Pvmin': 131, 'Pvmax': 145, 'Bônus Ataque': 6,
-                    'Dano Rodada': randint(33, 38), 'Danomin': 33, 'Danomax': 38, 'CD': 15},
-                    {'ND': 6, 'Proef': 3, "CA": 15, 'PV': randint(146, 160), 'Pvmin': 146, 'Pvmax': 160, 'Bônus Ataque': 6,
-                    'Dano Rodada': randint(39, 44), 'Danomin': 39, 'Danomax': 44, 'CD': 15},
-                    {'ND': 7, 'Proef': 3, "CA": 15, 'PV': randint(161, 175), 'Pvmin': 161, 'Pvmax': 175, 'Bônus Ataque': 6,
-                    'Dano Rodada': randint(45, 50), 'Danomin': 45, 'Danomax': 50, 'CD': 15},
-                    {'ND': 8, 'Proef': 3, "CA": 16, 'PV': randint(176, 190), 'Pvmin': 176, 'Pvmax': 190, 'Bônus Ataque': 7,
-                    'Dano Rodada': randint(51, 56), 'Danomin': 51, 'Danomax': 56, 'CD': 16},
-                    {'ND': 9, 'Proef': 4, "CA": 16, 'PV': randint(191, 205), 'Pvmin': 191, 'Pvmax': 205, 'Bônus Ataque': 7,
-                    'Dano Rodada': randint(57, 62), 'Danomin': 57, 'Danomax': 62, 'CD': 16},
-                    {'ND': 10, 'Proef': 4, "CA": 17, 'PV': randint(206, 220), 'Pvmin': 206, 'Pvmax': 220, 'Bônus Ataque': 7,
-                    'Dano Rodada': randint(63, 68), 'Danomin': 63, 'Danomax': 68, 'CD': 16},
-                    {'ND': 11, 'Proef': +4, "CA": 17, 'PV': randint(221, 235), 'Pvmin': 221, 'Pvmax': 235,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(69, 74), 'Danomin': 69, 'Danomax': 74, 'CD': 17},
-                    {'ND': 12, 'Proef': +4, "CA": 17, 'PV': randint(236, 250), 'Pvmin': 236, 'Pvmax': 250,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(75, 80), 'Danomin': 75, 'Danomax': 80, 'CD': 17},
-                    {'ND': 13, 'Proef': +5, "CA": 18, 'PV': randint(251, 265), 'Pvmin': 251, 'Pvmax': 265,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(81, 86), 'Danomin': 81, 'Danomax': 86, 'CD': 18},
-                    {'ND': 14, 'Proef': +5, "CA": 18, 'PV': randint(266, 280), 'Pvmin': 266, 'Pvmax': 280,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(87, 92), 'Danomin': 87, 'Danomax': 92, 'CD': 18},
-                    {'ND': 15, 'Proef': +5, "CA": 18, 'PV': randint(281, 295), 'Pvmin': 281, 'Pvmax': 295,
-                    'Bônus Ataque': 8, 'Dano Rodada': randint(93, 98), 'Danomin': 93, 'Danomax': 98, 'CD': 18},
-                    {'ND': 16, 'Proef': +5, "CA": 18, 'PV': randint(296, 310), 'Pvmin': 296, 'Pvmax': 310,
-                    'Bônus Ataque': 9, 'Dano Rodada': randint(99, 104), 'Danomin': 99, 'Danomax': 104, 'CD': 18},
-                    {'ND': 17, 'Proef': +6, "CA": 19, 'PV': randint(311, 325), 'Pvmin': 311, 'Pvmax': 325,
-                    'Bônus Ataque': 10, 'Dano Rodada': randint(105, 110), 'Danomin': 105, 'Danomax': 110, 'CD': 19},
-                    {'ND': 18, 'Proef': +6, "CA": 19, 'PV': randint(326, 340), 'Pvmin': 326, 'Pvmax': 340,
-                    'Bônus Ataque': 10, 'Dano Rodada': randint(111, 116), 'Danomin': 111, 'Danomax': 116, 'CD': 19},
-                    {'ND': 19, 'Proef': +6, "CA": 19, 'PV': randint(341, 355), 'Pvmin': 341, 'Pvmax': 355,
-                    'Bônus Ataque': 10, 'Dano Rodada': randint(117, 122), 'Danomin': 117, 'Danomax': 122, 'CD': 19},
-                    {'ND': 20, 'Proef': +6, "CA": 19, 'PV': randint(356, 400), 'Pvmin': 356, 'Pvmax': 400,
-                    'Bônus Ataque': 10, 'Dano Rodada': randint(123, 140), 'Danomin': 123, 'Danomax': 140, 'CD': 19},
-                    {'ND': 21, 'Proef': +7, "CA": 19, 'PV': randint(401, 445), 'Pvmin': 401, 'Pvmax': 445,
-                    'Bônus Ataque': 11, 'Dano Rodada': randint(141, 158), 'Danomin': 141, 'Danomax': 158, 'CD': 20},
-                    {'ND': 22, 'Proef': +7, "CA": 19, 'PV': randint(446, 490), 'Pvmin': 446, 'Pvmax': 490,
-                    'Bônus Ataque': 11, 'Dano Rodada': randint(159, 176), 'Danomin': 159, 'Danomax': 176, 'CD': 20},
-                    {'ND': 23, 'Proef': +7, "CA": 19, 'PV': randint(491, 535), 'Pvmin': 491, 'Pvmax': 535,
-                    'Bônus Ataque': 11, 'Dano Rodada': randint(177, 194), 'Danomin': 177, 'Danomax': 194, 'CD': 20},
-                    {'ND': 24, 'Proef': +7, "CA": 19, 'PV': randint(536, 580), 'Pvmin': 536, 'Pvmax': 580,
-                    'Bônus Ataque': 11, 'Dano Rodada': randint(195, 212), 'Danomin': 195, 'Danomax': 212, 'CD': 21},
-                    {'ND': 25, 'Proef': +8, "CA": 19, 'PV': randint(581, 625), 'Pvmin': 581, 'Pvmax': 625,
-                    'Bônus Ataque': 12, 'Dano Rodada': randint(213, 230), 'Danomin': 213, 'Danomax': 230, 'CD': 21},
-                    {'ND': 26, 'Proef': +8, "CA": 19, 'PV': randint(626, 670), 'Pvmin': 626, 'Pvmax': 670,
-                    'Bônus Ataque': 12, 'Dano Rodada': randint(231, 248), 'Danomin': 231, 'Danomax': 248, 'CD': 21},
-                    {'ND': 27, 'Proef': +8, "CA": 19, 'PV': randint(671, 715), 'Pvmin': 671, 'Pvmax': 715,
-                    'Bônus Ataque': 13, 'Dano Rodada': randint(249, 266), 'Danomin': 249, 'Danomax': 266, 'CD': 22},
-                    {'ND': 28, 'Proef': +8, "CA": 19, 'PV': randint(716, 760), 'Pvmin': 715, 'Pvmax': 760,
-                    'Bônus Ataque': 13, 'Dano Rodada': randint(267, 284), 'Danomin': 267, 'Danomax': 284, 'CD': 22},
-                    {'ND': 29, 'Proef': +9, "CA": 19, 'PV': randint(761, 805), 'Pvmin': 761, 'Pvmax': 805,
-                    'Bônus Ataque': 13, 'Dano Rodada': randint(285, 302), 'Danomin': 285, 'Danomax': 302, 'CD': 22},
-                    {'ND': 30, 'Proef': +9, "CA": 19, 'PV': randint(806, 850), 'Pvmin': 806, 'Pvmax': 850,
-                    'Bônus Ataque': 14, 'Dano Rodada': randint(303, 320), 'Danomin': 303, 'Danomax': 320, 'CD': 23}]
-        if nd_pretendido == 0:
-            nd_pretendido = nd_livro[0]
-        elif nd_pretendido == 1/8:
-            nd_pretendido = nd_livro[1]
-        elif nd_pretendido == 1/4:
-            nd_pretendido = nd_livro[2]
-        elif nd_pretendido == 1/2:
-            nd_pretendido = nd_livro[3]
-        elif nd_pretendido > 30:
-            nd_pretendido = 30
-            nd_pretendido = nd_livro[nd_pretendido+3]
-        else:
-            nd_pretendido = nd_livro[nd_pretendido+3]
-
-        nd_resultante = floor(((nd_ofensivo + nd_defensivo) / 2) + nd_pretendido['ND'])
-        
-        if nd_resultante == 0:
-            nd_resultante = nd_livro[0]
-        elif nd_resultante == 1 / 8:
-            nd_resultante = nd_livro[1]
-        elif nd_resultante == 1 / 4:
-            nd_resultante = nd_livro[2]
-        elif nd_resultante == 1 / 2:
-            nd_resultante = nd_livro[3]
-        elif nd_resultante > 30:
-            nd_resultante = 30
-            nd_resultante = nd_livro[nd_resultante + 3]
-        else:
-            nd_resultante = nd_livro[nd_resultante + 3]
-
-        return nd_resultante['ND']
-
-
-    
-    
-
-    @staticmethod
-    def vantagem(bonus=0):
-        """
-        Função para resolver parada de dados de vantagem
-
-            :param bonus: Número a ser somado ao resultado
-            :return: informação sobre a rolagem
-        """
-        global retorno
-    
-
-        rolagem_final = []
-        parada_de_dados = []
-
-        dado1 = randint(1, 20)
-        dado2 = randint(1, 20)
-        vantagem = [dado1, dado2]
-        rolagem_final.append(max(vantagem))
-        parada_de_dados.append(vantagem)
-
-
-        if bonus != 0:
-            retorno = f'As jogadas foram{parada_de_dados}. Final {rolagem_final} + {bonus}, Total {sum(rolagem_final) + bonus}'
-        else:
-            retorno = f'As jogadas foram{parada_de_dados}. Final {rolagem_final}, Total {sum(rolagem_final)}'
-
-        return retorno
-
-    @staticmethod
-    def desvantagem(bonus=0):
-        """
-        Função para resolver parada de dados de desvantagem
-
-            :param desvantagem: Se a funão vantagem ésetada como True, são jogados 2 dados de 20 lados e o resultado é o menor
-            :return: informação sobre a rolagem
-        """
-        global retorno
-
-
-        rolagem_final = []
-        parada_de_dados = []
-
-        dado1 = randint(1, 20)
-        dado2 = randint(1, 20)
-        vantagem = [dado1, dado2]
-        rolagem_final.append(min(vantagem))
-        parada_de_dados.append(vantagem)
-
-
-        if bonus != 0:
-            retorno = f'As jogadas foram{parada_de_dados}. Final {rolagem_final} + {bonus}, Total {sum(rolagem_final) + bonus}'
-        else:
-            retorno = f'As jogadas foram{parada_de_dados}. Final {rolagem_final}, Total {sum(rolagem_final)}'
-
-        return retorno
-
     @staticmethod
     def calcular_nd(nome = 'Indefinido', nd_pretendido=0, ca=0, pv=0, b_ataque=0, dano_rodada=0, dano_area = False, n_ataques =1, cd=0, vôo=False, resist=False, imunidade=False, ação_ardilosa=False, aparar=False, matilha = False):
         """
@@ -1165,109 +884,4 @@ class RPGController:
 
         return criação
 
-    @staticmethod
-    def npc(nd =0 ,nome_npc="", raça = '', tendencia='', força = 0 ,destreza = 0, constituição = 0, inteligencia = 0 ,sabedoria = 0 , carisma = 0, ca = 0, pv = 0, magia =False, classe = '', cd = 0 ):
-
-        if nd ==0:
-            nd = randint(0, 5)
-        nd = RPGController.livro_nd(nd)
-
-        if nome_npc =='':
-            nome_npc = RPGController.nome_aleatório()
-        if raça == '':
-            raça = RPGController.raça_aleatória()
-        if tendencia =='':
-            tendencia = RPGController.tendência_aleatória()
-        personagem = nome_npc
-        atributos = RPGController.gerar_atributos(força, destreza, constituição, inteligencia, sabedoria, carisma)
-        força= atributos['Força'][0]
-        bfor= atributos['Força'][1]
-        destreza= atributos['Destreza'][0]
-        bdes = atributos['Destreza'][1]
-        constituição= atributos['Constituição'][0]
-        bcon = atributos['Constituição'][1]
-        inteligencia= atributos['Inteligência'][0]
-        bint = atributos['Inteligência'][1]
-        sabedoria= atributos['Sabedoria'][0]
-        bsab = atributos['Sabedoria'][1]
-        carisma= atributos['Carisma'][0]
-        bcar = atributos['Carisma'][1]
-        proef = nd['Proef']
-
-        if ca == 0:
-            ca = randint(nd['CA']-1, nd['CA']+2)
-        if pv == 0:
-            pv = nd['PV']
-        if cd == 0:
-            cd = nd['CD']
-
-        save = RPGController.saves_aleatorios(proef= nd['Proef'] , bfor= atributos['Força'][1] , bdes=atributos['Destreza'][1], bcon=atributos['Constituição'][1], bint=atributos['Inteligência'][1], bsab=atributos['Sabedoria'][1], bcar=atributos['Carisma'][1])
-
-        perícias = RPGController.pericias_aleatorias(proef= nd['Proef'] , bfor= atributos['Força'][1] , bdes=atributos['Destreza'][1], bcon=atributos['Constituição'][1], bint=atributos['Inteligência'][1], bsab=atributos['Sabedoria'][1], bcar=atributos['Carisma'][1])
-
-        n_de_ataques = floor(nd['Dano Rodada']/7)
-
-        bônusataque = bonusdano = 0
-        if n_de_ataques >3:
-            n_de_ataques = floor(nd['Dano Rodada']/12)
-            bônusataque = 2
-            bonusdano = 4
-            if n_de_ataques > 3:
-                n_de_ataques = floor(nd['Dano Rodada']/16)
-                bônusataque = 4
-                bonusdano = 8
-
-        if bônusataque > 0:
-            ataques = RPGController.ataques_aleatorios(proef=nd['Proef'], bfor=atributos['Força'][1], bdes=atributos['Destreza'][1], bônusataque= bônusataque , bonusdano= bonusdano)
-        else:
-            ataques = RPGController.ataques_aleatorios(proef= nd['Proef'] , bfor= atributos['Força'][1] , bdes=atributos['Destreza'][1])
-
-        if magia:
-            if classe == '':
-                feitiços = RPGController.aptidão_mágica(magia=True)
-            else:
-                feitiços = RPGController.aptidão_mágica(magia=True, classe = classe)
-        else:
-            feitiços = RPGController.aptidão_mágica()
-
-        npc_gerado = {'Nome': personagem,
-                    'Raça': raça,
-                    'Tendência': tendencia,
-                    'Proeficiência': nd['Proef'],
-                    'PV': pv,
-                    'Classe de Armadura': ca,
-                    'Atributos': {'Força': [força, (força - 10) // 2],
-                    'Destreza': [destreza, (destreza - 10) // 2],
-                    'Constituição': [constituição, (constituição - 10) // 2],
-                    'Inteligência': [inteligencia, (inteligencia - 10) // 2],
-                    'Sabedoria': [sabedoria, (sabedoria - 10) // 2],
-                    'Carisma': [carisma, (carisma - 10) // 2]},
-                    'Saves': save,
-                    'Perícias': perícias,
-                    'Número de ataques': n_de_ataques,
-                    'Ataque1': ataques['Ataque1'],
-                    'Ataque2': ataques['Ataque2'],
-                    'CD': cd}
-
-        nd = RPGController.calcular_nd(nome=npc_gerado['Nome'], nd_pretendido=1, pv=npc_gerado['PV'], ca=npc_gerado['Classe de Armadura'],
-                        b_ataque= max(nd['Proef'] + bfor + bônusataque, nd['Proef'] + bdes + bônusataque), dano_rodada=npc_gerado['Número de ataques']*(6+bonusdano))
-
-        if feitiços['Aptidão Mágica'] == 15:
-            npc_gerado['Tipo de magia'] = feitiços['Classe']
-            npc_gerado['Truques'] = feitiços['Truques']
-            if feitiços['Magias1'] > 0:
-                npc_gerado['1° Círculo'] = feitiços['Magias1']
-                if feitiços['Magias2']> 0:
-                    npc_gerado['2° Círculo'] =  feitiços['Magias2']
-                    if feitiços['Magias3']> 0:
-                        npc_gerado['3° Círculo'] =  feitiços['Magias3']
-                        if feitiços['Magias4'] > 0:
-                            npc_gerado['4° Círculo'] = feitiços['Magias4']
-                            if feitiços['Magias5'] > 0:
-                                npc_gerado['5° Círculo'] = feitiços['Magias5']
-
-        npc_gerado['ND'] = nd['ND']
-        return npc_gerado
-
-
-
+   

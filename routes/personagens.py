@@ -9,8 +9,8 @@ blueprint_pj = Blueprint("pj", __name__, template_folder="templates")
 def index_pj():
 
     if request.method == 'GET':       
-        npcs = Personagem.npcs_id(id_user=current_user.id)        
-        return render_template('pj.html', npcs=npcs)
+      
+        return render_template('pj.html', )
     
     if request.method == 'POST':        
         return redirect('/')

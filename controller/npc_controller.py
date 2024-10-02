@@ -21,24 +21,34 @@ class NPCController:
         if tipo_personagem == None:
             tipo_personagem = 'NPC'
         
+        criatura = False
+        if tipo_personagem == 'Criatura':
+            criatura = True
+            
+
+        
         raca = data.get('raca')
         if raca != None:
             raca = raca.strip().title()
-        if raca == None:
+        if raca == None and not criatura:
             raca = RPGController.raça_aleatoria()
+        if raca == None and criatura:
+            raca = 'Qualquer'
         
         genero = data.get('genero')
-        if genero == None:
+        if genero == None and not criatura:
             genero = RPGController.genero_aleatorio()
         
         npc_nome = data.get('npc_nome')     
-        if npc_nome == '':
+        if npc_nome == '' and not criatura:
             npc_nome = RPGController.nome_aleatorio(raca=raca, sexo = genero)
  
              
         tendencia = data.get('tendencia')
-        if tendencia == None:
+        if tendencia == None and not criatura:
             tendencia = RPGController.tendencia_aleatoria()
+        if tendencia == None and criatura:
+            tendencia = 'Qualquer'
 
         atributos = {}
 
@@ -219,28 +229,33 @@ class NPCController:
         
         proefsaves = []
         
-        saveforca = True if data.get('saveforca') else False
+        saveforca = True if data.get('save_forca') else False
         if saveforca == True:
             proefsaves.append('saveforca')            
-        savedestreza = True if data.get('savedestreza') else False
+        savedestreza = True if data.get('save_destreza') else False
         if savedestreza == True:
              proefsaves.append('savedestreza')
-        saveconstituicao = True if data.get('saveconstituicao') else False
+        saveconstituicao = True if data.get('save_constituicao') else False
         if saveconstituicao == True:
              proefsaves.append('saveconstituicao')
-        savesabedoria = True if data.get('savesabedoria') else False
+        savesabedoria = True if data.get('save_sabedoria') else False
         if savesabedoria == True:
              proefsaves.append('savesabedoria')
-        saveinteligencia = True if data.get('saveinteligencia') else False
+        saveinteligencia = True if data.get('save_inteligencia') else False
         if saveinteligencia == True:
             proefsaves.append('saveinteligencia')
-        savecarisma = True if data.get('savecarisma') else False
+        savecarisma = True if data.get('save_carisma') else False
         if savecarisma == True:
             proefsaves.append('savecarisma')
+        
+
             
         saves = True if data.get('saves') else False
         if saves == True:
             proefsaves =RPGController.saves_aleatorios(proefsaves)
+        
+
+        
         if 'saveforca' in proefsaves:
             atributos['save_forca'] += proef
         if 'savedestreza' in proefsaves:
@@ -253,11 +268,15 @@ class NPCController:
             atributos['save_inteligencia'] += proef
         if 'savecarisma' in proefsaves:
             atributos['save_carisma'] += proef
+        
+        print('Atributos', atributos)
             
         iniciativa = atributos['bdestreza']
         
         
-        linguas = ['Comum']
+        linguas = data.get('linguas')
+        if linguas == None:
+            linguas = 'Comum'
             
             
         if 'Percepção' in pericias_atuais:
@@ -278,7 +297,6 @@ class NPCController:
         
         # Ataques e Reaçoes
         ataques = data.get('ataques')
-        print('ATAQUES', ataques)
         if ataques or not ataques_atuais:
             arma1, arma2 = RPGController.ataques_aleatorio(
                 nataques=nataques,
@@ -289,7 +307,8 @@ class NPCController:
             ataques_atuais.append(arma1)
             ataques_atuais.append(arma2)
             
-            
+        informacoes = data.get('informacoes')
+        usos = data.get('usos')
 
         
         npc_data = {
@@ -333,10 +352,12 @@ class NPCController:
             'reacoes_atuais': reacoes_atuais,
             'lendarias': lendarias,
             'desclendaria': desclendaria,
-            'acoes_lendarias_atuais': acoes_lendarias_atuais
+            'acoes_lendarias_atuais': acoes_lendarias_atuais,
+            'informacoes': informacoes,
+            'usos': usos
         }
         #print ('_____________________________________________________________________________')
-        #print ('Npc: ', npc_data)
+        print ('Npc: ', npc_data)
         
         
         
@@ -344,9 +365,13 @@ class NPCController:
             personagem = Personagem(id_user=current_user.id, ficha=npc_data, nome=npc_data['nome'], tipo= tipo_personagem)
             db.session.add(personagem)
             db.session.commit()
-            print("NPC inserido com sucesso no banco de dados.")
+            mensagem = f"{data['tipo_personagem']} inserido com sucesso no banco de dados."
+            status = 'success'
+            print(f"{tipo_personagem} inserido com sucesso no banco de dados.")
         except Exception as e:
             db.session.rollback() 
-            print(f"Erro ao inserir NPC no banco de dados: {str(e)}")
+            mensagem = f"Erro ao inserir {data['tipo_personagem']} no banco de dados: {str(e)}"
+            status = 'error'
+            print(f"Erro ao inserir {tipo_personagem} no banco de dados: {str(e)}")
                        
-        return npc_data
+        return {'mensagem': mensagem, 'status': status}

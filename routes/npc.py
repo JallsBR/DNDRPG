@@ -1,23 +1,34 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for, jsonify
-from controller.user_controller import UserController
 from controller.npc_controller import NPCController
-from extensions import login_manager
-from flask_login import login_user, logout_user
-from controller.rpgcontroller import RPGController
+from flask_login import logout_user, current_user
 from model.arma_model import Arma
 from model.armadura_model import Armadura
+from model.personagens_model import Personagem
+import json
 
 blueprint_npc = Blueprint("npc", __name__, template_folder="templates")
 
+
+@blueprint_npc.route('/', methods=['GET', 'POST'])
+def npc_index():
+    if request.method == 'GET':
+        npcs = Personagem.npcs_id(id_user=current_user.id)
+        return render_template('npc.html', npcs = npcs)
+    if request.method == 'POST':
+        return redirect('/')
+    
+    
 @blueprint_npc.route('/create', methods=['GET', 'POST'])
 def create():
+    armas = Arma.get_armas()
+    armaduras = Armadura.get_armadura()
+
     if request.method == 'GET':
-        armas = Arma.get_armas()
-        armaduras = Armadura.get_armadura()
+         
         return render_template('npc_aleatotio.html', armas=armas, armaduras=armaduras)
     
     if request.method == 'POST':
-        # Recuperando os dados do formulário
+            # Recuperando os dados do formulário
         npc_nome = request.form.get('npc_nome')
 
 
@@ -45,6 +56,7 @@ def create():
         voo = request.form.get('voo')
         natacao = request.form.get('natacao')
         darkvision = request.form.get('darkvision')
+        linguas= request.form.get('linguas')
         nd = request.form.get('nd')
         saves=request.form.get('saves')
         forca = request.form.get('força')
@@ -59,7 +71,7 @@ def create():
         save_inteligencia = request.form.get('saveinteligencia')
         carisma = request.form.get('carisma')
         save_carisma = request.form.get('savecarisma')
-        classe = request.form.get('classe_base')
+
 
 
         resistencia = request.form.get('resistencia') == 'on'
@@ -377,6 +389,7 @@ def create():
             "voo": voo,
             "natacao": natacao,
             "darkvision": darkvision,
+            'linguas': linguas,
             "nd": nd,
             "tipo_personagem": tipo_personagem,
             "saves": saves,
@@ -392,8 +405,6 @@ def create():
             "save_inteligencia": save_inteligencia,
             "carisma": carisma,
             "save_carisma": save_carisma,
-            
-            "classe": classe,
             "imunidade": imunidade,
             "imunidades": imunidades,
             "resistencia": resistencia,
@@ -418,12 +429,12 @@ def create():
             "usos": usos
 
         }
-        print ('NPC FORM: ', npc_form)
+        #print ('NPC FORM: ', npc_form)
         
-        NPCController.criar_npc(npc_form)
+        resultado = NPCController.criar_npc(npc_form)
         
         
         # Retornar os dados como JSON
-        return redirect('/')
+        return redirect('/npc/')
 
       
