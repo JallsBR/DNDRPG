@@ -275,8 +275,10 @@ class NPCController:
         
         
         linguas = data.get('linguas')
-        if linguas == None:
+        if linguas == None and not criatura:
             linguas = 'Comum'
+        if linguas == None and criatura:
+            linguas = 'Qualquer'
             
             
         if 'Percepção' in pericias_atuais:

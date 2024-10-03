@@ -35,7 +35,7 @@ class Personagem(db.Model):
         return query.all()
     
     @classmethod
-    def nonstros(cls, id_user, id=None):
+    def monstros(cls, id_user, id=None):
         query = cls.query.filter_by(id_user=id_user, tipo="Criatura")
         
         if id is not None:

@@ -18,6 +18,16 @@ def npc_index():
         return redirect('/')
     
     
+    
+@blueprint_npc.route('/criatura', methods=['GET', 'POST'])
+def criatura_index():
+    if request.method == 'GET':
+        npcs = Personagem.monstros(id_user=current_user.id)
+        return render_template('criatura.html', npcs=npcs)
+    if request.method == 'POST':
+        return redirect('/')    
+    
+    
 @blueprint_npc.route('/create', methods=['GET', 'POST'])
 def create():
     armas = Arma.get_armas()

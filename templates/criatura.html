@@ -8,7 +8,7 @@
             <a  href="/npc/create" class="text-white-50 link-underline link-underline-opacity-0"> Gerador de NPCs</a>
         </h5>
         <h5 class="d-inline-block mx-3">
-            <a  href="/npc/criatura" class="text-white-50 link-underline link-underline-opacity-0"> Criaturas</a>
+            <a  href="/npc" class="text-white-50 link-underline link-underline-opacity-0"> NPCs</a>
         </h5>
     </div>
     <br>
@@ -16,12 +16,12 @@
     <div class="card shadow p-5 bg-dark text-white-50 no-margin">
         <div class="d-flex align-items-center mb-3">
             <!-- Lista de NPCs -->
-            <h4 class="text-white col-md-2 mb-0">Lista de NPCs</h4>
+            <h4 class="text-white col-md-2 mb-0">Criaturas</h4>
             
             <!-- Campo de seleção -->
             <div class="col-md-4">
                 <select id="npc-select" class="form-select bg-dark text-white border-light">
-                    <option value="" disabled selected>Selecione um NPC</option>
+                    <option value="" disabled selected>Selecione uma Criatura</option>
                     {% for npc in npcs %}
                         <option value="{{ npc.id }}">{{ npc.id }} - {{ npc.ficha['nome'] }} - {{npc.ficha['raca']}} - ND {{npc.ficha['nd']}}</option>
                     {% endfor %}
