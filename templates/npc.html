@@ -34,7 +34,7 @@
         {% for npc in npcs %}
         <p> 
             
-            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ npc.id }}"> {{ npc.id }} <strong class="text-white"> {{npc.ficha['nome']}} - {{npc.ficha['raca']}} - ND {{npc.ficha['nd']}}</strong> </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ npc.id }}"> <strong class="text-white"> {{npc.ficha['nome']}} - {{npc.ficha['raca']}} - ND {{npc.ficha['nd']}}</strong> </button>
         </p>       
         
         <!-- Modal -->
@@ -43,9 +43,10 @@
             <div class="modal-content bg-dark text-white">
 
                 <div class="modal-body">
-                    <h1> {{npc.ficha['nome']}} </h1>
+                    <h1> <strong>{{npc.ficha['nome']}} </strong></h1>
+                    <hr class = 'hr'>
 
-                    <p><I>{{npc.ficha['raca']}}, {{npc.ficha['tamanho']}}, {{npc.ficha['tendencia']}} </I></p>
+                    <p><I>#{{ npc.id }} {{npc.ficha['raca']}}, {{npc.ficha['tamanho']}}, {{npc.ficha['tendencia']}} </I></p>
                     
                     <p><strong>CA:</strong> {{npc.ficha['ca']}} - <strong>Iniciativa:</strong> {{npc.ficha['iniciativa']}} </p>                
                     <p> <strong>PV:</strong> {{npc.ficha['pv']}} <I>( {{npc.ficha['dadosvida']}} )</I> </p>
@@ -163,8 +164,8 @@
 
                     
                     {% if npc.ficha['habilidades_atuais'] %}
-                        <h3>Habilidades</h3>
-                        <hr>
+                    <hr>                        
+                    <h3><strong>Habilidades</strong></h3>
                         {% for habilidade in npc.ficha['habilidades_atuais'] %}
                         <p> <strong>{{habilidade['nome'] }}</strong> {{ habilidade['descricao'] }}</p>
                         {% endfor %}
@@ -172,15 +173,16 @@
 
 
                     {% if npc.ficha['reacoes_atuais'] %}
-                        <h3>Reações</h3>
-                        <hr>
+                    <hr>
+                    <h3><strong>Reações</strong></h3>
+
                         {% for habilidade in npc.ficha['reacoes_atuais'] %}
                         <p> <strong>{{habilidade['nome'] }}</strong> {{ habilidade['descricao'] }}</p>
                         {% endfor %}
                     {% endif %}
-
-                    <h3>Ações</h3>
                     <hr>
+                    <h3><strong>Ações</strong></h3>
+
                     {% if npc.ficha['acoes_atuais'] %}
                         {% for habilidade in npc.ficha['acoes_atuais'] %}
                         <p> <strong>{{habilidade['nome'] }}</strong> {{ habilidade['descricao'] }}</p>
@@ -199,27 +201,31 @@
                     {% endfor %}
 
                     {% if npc.ficha['desclendaria'] and npc.ficha['desclendaria'] != [''] and npc.ficha['acoes_lendarias_atuais'] %}
-                        <h3>Ações Lendárias</h3>
-                        <hr>
+                        <hr>                        
+                        <h3><strong>Ações Lendárias</strong></h3>
+
                             {% for lendarias in npc.ficha['acoes_lendarias_atuais'] %}
                                 <p> <strong>{{ lendarias['nome'] }}</strong> {{ lendarias['descricao'] }}</p>
                             {% endfor %}
                      {% endif %}
                     
                     {% if npc.ficha['informacoes'] %}
-                        <h3>Informações</h3>
+                        <hr>
+                        <h3><strong>Informações</strong></h3>
                         <p>{{ npc.ficha['informacoes'] }}</p>                    
                     {% endif %}
 
                     {% if npc.ficha['usos'] %}
-                        <h3>Dicas de Uso</h3>
+                        <hr>
+                        <h3><strong>Dicas de Uso</strong></h3>
                         <p> {{ npc.ficha['usos'] }}</p>                    
                     {% endif %}
 
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger ms-2" onclick="confirmDelete({{ npc.id }})">Deletar</button> 
+                <button type="button" class="btn btn-primary">Editar</button>
                 </div>
             </div>
             </div>
@@ -229,6 +235,25 @@
         </div>
     </div>
     <br>
+    <script>
+        function deletarNPC(npcId) {
+            if (confirm("Tem certeza que deseja deletar esse NPC?")) {
+                fetch(`/npc/delete/${npcId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert("NPC deletado com sucesso!");
+                        location.reload();
+                    } else {
+                        alert("Erro ao deletar NPC");
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
+            }
+        }
+    </script>
     <script>
         document.getElementById('npc-select').addEventListener('change', function() {
             var npcId = this.value;

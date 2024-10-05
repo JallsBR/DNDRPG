@@ -33,22 +33,23 @@ class NPCController:
         if raca == None and not criatura:
             raca = RPGController.raça_aleatoria()
         if raca == None and criatura:
-            raca = 'Qualquer'
+            raca = 'Qualquer Raça'
         
         genero = data.get('genero')
         if genero == None and not criatura:
             genero = RPGController.genero_aleatorio()
         
-        npc_nome = data.get('npc_nome')     
+        npc_nome = data.get('npc_nome')
+        npc_nome = npc_nome.strip().lower().title()     
         if npc_nome == '' and not criatura:
             npc_nome = RPGController.nome_aleatorio(raca=raca, sexo = genero)
- 
+
              
         tendencia = data.get('tendencia')
         if tendencia == None and not criatura:
             tendencia = RPGController.tendencia_aleatoria()
         if tendencia == None and criatura:
-            tendencia = 'Qualquer'
+            tendencia = 'Qualquer tendencia'
 
         atributos = {}
 
@@ -274,11 +275,17 @@ class NPCController:
         iniciativa = atributos['bdestreza']
         
         
-        linguas = data.get('linguas')
+        linguas = data.get('linguas') 
+
+        
         if linguas == None and not criatura:
-            linguas = 'Comum'
-        if linguas == None and criatura:
-            linguas = 'Qualquer'
+            linguas = ['Comum']
+        elif linguas == None and criatura:
+            linguas = ['Qualquer']
+
+       
+        elif isinstance(linguas, str):
+            linguas = [linguas]
             
             
         if 'Percepção' in pericias_atuais:
@@ -310,8 +317,12 @@ class NPCController:
             ataques_atuais.append(arma2)
             
         informacoes = data.get('informacoes')
+        if informacoes:
+            informacoes= informacoes.replace('\r\n', '<br>')
+        
         usos = data.get('usos')
-
+        if usos:
+            usos = usos.replace('\r\n', '<br>')
         
         npc_data = {
             'nome': npc_nome,

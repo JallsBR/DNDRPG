@@ -5,6 +5,7 @@ from model.arma_model import Arma
 from model.armadura_model import Armadura
 from model.personagens_model import Personagem
 import json
+from database.database import db
 
 blueprint_npc = Blueprint("npc", __name__, template_folder="templates")
 
@@ -26,7 +27,6 @@ def criatura_index():
         return render_template('criatura.html', npcs=npcs)
     if request.method == 'POST':
         return redirect('/')    
-    
     
 @blueprint_npc.route('/create', methods=['GET', 'POST'])
 def create():
@@ -439,12 +439,57 @@ def create():
             "usos": usos
 
         }
-        #print ('NPC FORM: ', npc_form)
-        
+        #print ('NPC FORM: ', npc_form)        
         resultado = NPCController.criar_npc(npc_form)
-        
-        
-        # Retornar os dados como JSON
         return redirect('/npc/')
 
-      
+        
+@blueprint_npc.route('/delete/<id>', methods=['DELETE'])
+def deletar_npc(id):
+    npc = Personagem.query.get(id)  
+    
+    if npc and npc.id_user == current_user.id: 
+        Personagem.delete(id)    
+        return {"message": "NPC deletado com sucesso."}, 200  # Resposta de sucesso
+    else:
+        return {"error": "NPC não encontrado ou não autorizado"}, 404  
+
+
+
+
+
+
+
+"""
+classmethod
+    def update_ficha(cls, id, nova_ficha, novo_nome):
+        npc = cls.query.get(id)
+        if npc:
+            npc.ficha = nova_ficha
+            npc.nome = novo_nome
+            db.session.commit()
+            return npc
+        return None
+"""
+
+
+
+
+
+
+
+
+
+@blueprint_npc.route('/edit/<id>', methods=['GET', 'POST'])
+def editar_npc(id):    
+    if request.method == 'GET':
+            npc = Personagem.npc_por_id(id)
+            return render_template('edit_npc.html', npc = npc)
+    if request.method == 'POST':
+        data = request.get_json()  
+        nova_ficha = data.get('ficha')  
+        novo_nome = data.get('nome')  
+        print ('Ficha: ', nova_ficha, 'Nome: ', novo_nome)
+        
+        #Personagem.update_ficha(id, nova_ficha, novo_nome)  # Atualiza no DB
+        return jsonify({'status': 'success'})  

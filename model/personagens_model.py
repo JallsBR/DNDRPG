@@ -46,3 +46,30 @@ class Personagem(db.Model):
         query = query.order_by(cls.nome.asc())
         
         return query.all()
+    
+        
+    @classmethod
+    def update_ficha(cls, id, nova_ficha, novo_nome):
+        npc = cls.query.get(id)
+        if npc:
+            npc.ficha = nova_ficha
+            npc.nome = novo_nome
+            db.session.commit()
+            return npc
+        return None
+    
+    
+    # Função para deletar o personagem
+    @classmethod
+    def delete(cls, id):
+        npc = cls.query.get(id)
+        if npc:
+            db.session.delete(npc)
+            db.session.commit()
+            return True
+        return False
+    
+    @classmethod
+    def npc_por_id(cls, id):
+        query = cls.query.filter_by(id=id)
+        return query.first()  
