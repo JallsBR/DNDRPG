@@ -19,307 +19,658 @@
     <!--Aqui Começa o NPC -->
 
     <div class="card shadow p-5 bg-dark text-white no-margin">
+        <h1 class="text-white col-md-12 mb-0" ><b>{{ npc.nome }}</b></h1>
+        <hr>
+        <form>
+            <h3 class="text-white mb-0 me-3"><b>Descrição</b></h3>
+            <div class="row">
 
-  <h1 span contenteditable="true" class="editable" data-field="nome"><strong>{{ npc.ficha['nome'] }}</strong></h1>
-    <hr class='hr'>
+                <div class="col-md-2 form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" class="form-control bg-dark text-white border-light" value="{{ npc.nome }}">
+                </div>
+            
 
-    <p><i>#{{ npc.id }} <span contenteditable="true" class="editable" data-field="raca">{{ npc.ficha['raca'] }}</span>, <span contenteditable="true" class="editable" data-field="tamanho">{{ npc.ficha['tamanho'] }}</span>, <span contenteditable="true" class="editable" data-field="tendencia">{{ npc.ficha['tendencia'] }}</span></i></p>
+                <div class="col-md-2 form-group">
+                    <label for="raca">Raça</label>
+                    <input type="text" id="raca" name="raca" class="form-control bg-dark text-white border-light" value= "{{ npc.ficha['raca'] }}">
+                </div>
 
-    <p><strong>CA:</strong> <span contenteditable="true" class="editable" data-field="ca">{{ npc.ficha['ca'] }}</span> - <strong>Iniciativa:</strong> <span contenteditable="true" class="editable" data-field="iniciativa">{{ npc.ficha['iniciativa'] }}</span></p>
+                <div class="col-md-2 form-group">
+                    <label for="tamanho">Tamanho</label>
+                    <input type="text" id="tamanho" name="tamanho" class="form-control bg-dark text-white border-light" value= "{{ npc.ficha['tamanho'] }}">
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="tendencia">Tendencia</label>
+                    <input type="text" id="tendencia" name="tendencia" class="form-control bg-dark text-white border-light" value= "{{ npc.ficha['tendencia'] }}">
+                </div>
+
+                <div class="col-md-1 form-group">
+                    <label for="ca">CA</label>
+                    <input type="text" id="ca" name="ca" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['ca'] }}">
+                </div>
+
+                <div class="col-md-2 form-group">
+                    <label for="armadurausada">Armadura</label>
+                    <input type="text" id="armadurausada" name="armadurausada" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['armadurausada'] }}">
+                </div>
+
+                <div class="col-md-1 form-group">
+                    <label for="iniciativa">Iniciativa</label>
+                    <input type="text" id="iniciativa" name="iniciativa" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['iniciativa'] }}">
+                </div>
+            </div>
+
+                <div class="row">
+                    
+                    <div class="col-md-1 form-group">
+                        <label for="pv">PV</label>
+                        <input type="text" id="pv" name="pv" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['pv'] }}">
+                    </div>
                 
-    <p>
-        <strong>PV:</strong> 
-        <span contenteditable="true" class="editable" data-field="pv">{{ npc.ficha['pv'] }}</span> 
-        <span contenteditable="true" class="editable" data-field="dadosvida"><i>( {{ npc.ficha['dadosvida'] }} )</i></span> 
-    </p>
-    
-    <p>
-        <strong>Línguas:</strong> 
-        <span contenteditable="true" class="editable" data-field="linguas">{{ npc.ficha['linguas'] | join(', ') }}</span>
-    </p>
-    
-    <p>
-        <strong>Movimento:</strong> 
-        <span contenteditable="true" class="editable" data-field="speed">{{ npc.ficha['speed'] }}</span> 
-        {% if npc.ficha['voo'] %}
-            <strong> Vôo:</strong> 
-            <span contenteditable="true" class="editable" data-field="voo">{{ npc.ficha['voo'] }}</span>
-        {% endif %}
-        {% if npc.ficha['natacao'] %}
-            <strong> Natação:</strong> 
-            <span contenteditable="true" class="editable" data-field="natacao">{{ npc.ficha['natacao'] }}</span>
-        {% endif %}
-    </p>
-    
-    <div class="row">
-        <!-- Coluna 1 -->
-        <div class="col-md-4">
-            <table class="table table-dark table-borderless">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>Mod</th>
-                        <th>Save</th> 
-                    </tr>
-                    <tr>
-                        <td><strong>FOR</strong></td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="forca">{{ npc.ficha['atributos']['forca'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="bforca">{{ npc.ficha['atributos']['bforca'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="save_forca">{{ npc.ficha['atributos']['save_forca'] }}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>INT</strong></td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="inteligência">{{ npc.ficha['atributos']['inteligência'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="binteligência">{{ npc.ficha['atributos']['binteligência'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="save_inteligencia">{{ npc.ficha['atributos']['save_inteligencia'] }}</span>
-                        </td>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        
-        <!-- Coluna 2 -->
-        <div class="col-md-4">
-            <table class="table table-dark table-borderless">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>Mod</th>
-                        <th>Save</th> 
-                    </tr>
-                    <tr>
-                        <td><strong>DES</strong></td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="destreza">{{ npc.ficha['atributos']['destreza'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="bdestreza">{{ npc.ficha['atributos']['bdestreza'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="save_destreza">{{ npc.ficha['atributos']['save_destreza'] }}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>SAB</strong></td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="sabedoria">{{ npc.ficha['atributos']['sabedoria'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="bsabedoria">{{ npc.ficha['atributos']['bsabedoria'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="save_sabedoria">{{ npc.ficha['atributos']['save_sabedoria'] }}</span>
-                        </td>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        
-        <!-- Coluna 3 -->
-        <div class="col-md-4">
-            <table class="table table-dark table-borderless">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>Mod</th>
-                        <th>Save</th> 
-                    </tr>
-                    <tr>
-                        <td><strong>CON</strong></td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="constituição">{{ npc.ficha['atributos']['constituição'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="bconstituição">{{ npc.ficha['atributos']['bconstituição'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="save_constituicao">{{ npc.ficha['atributos']['save_constituicao'] }}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>CAR</strong></td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="carisma">{{ npc.ficha['atributos']['carisma'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="bcarisma">{{ npc.ficha['atributos']['bcarisma'] }}</span>
-                        </td>
-                        <td>
-                            <span contenteditable="true" class="editable" data-field="save_carisma">{{ npc.ficha['atributos']['save_carisma'] }}</span>
-                        </td>
-                    </tr>
-                </thead>
-            </table>                        
-        </div>
-    </div>
-            <p>
-            {% if npc.ficha['pericias_atuais'] %}                        
-                <strong>Perícias:</strong>                        
-                {% for pericia in npc.ficha['pericias_atuais'] %}
-                    <span contenteditable="true" class="editable" data-field="pericia_nome_{{ loop.index }}">{{ pericia['nome'] }}</span> 
-                    <span contenteditable="true" class="editable" data-field="pericia_valor_{{ loop.index }}">{{ pericia['valor'] }}</span>{% if not loop.last %}, {% endif %}
-                {% endfor %}
-            {% endif %}
-            </p>
+                    <div class="col-md-1 form-group">
+                        <label for="dadosvida">DV</label>
+                        <input type="text" id="dadosvida" name="dadosvida" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['dadosvida'] }}">
+                    </div>
+                
+                    <div class="col-md-1 form-group">
+                        <label for="linguas">Línguas</label>
+                        <input type="text" id="linguas" name="linguas" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['linguas'] | join(', ') }}">
+                    </div>
+                
+                    <div class="col-md-1 form-group">
+                        <label for="speed">Mov.</label>
+                        <input type="text" id="speed" name="speed" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['speed'] }}">
+                    </div>
+                
 
-            <p>
-                <strong>Sentidos:</strong> 
-                Percepção Passiva 
-                <span contenteditable="true" class="editable" data-field="percepcao_passiva">{{ npc.ficha['Percepcão_passiva'] }}</span>
+                    <div class="col-md-1 form-group">
+                        <label for="voo">Vôo</label>
+                        <input type="text" id="voo" name="voo" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['voo'] }}">
+                    </div>
 
-                {% if npc.ficha['darkvision'] %}
-                    , Visão no escuro 
-                    <span contenteditable="true" class="editable" data-field="darkvision">{{ npc.ficha['darkvision'] }}</span>'
-                {% endif %}
-            </p>
+                
 
-            <p>
-                <strong>ND:</strong> 
-                <span contenteditable="true" class="editable" data-field="nd">{{ npc.ficha['nd'] }}</span> 
-                <span contenteditable="true" class="editable" data-field="xp">({{ npc.ficha['xp'] }})</span>  - 
-                <strong>Proeficiência </strong>+
-                <span contenteditable="true" class="editable" data-field="proef">{{ npc.ficha['proef'] }}</span>
-            </p>
+                    <div class="col-md-1 form-group">
+                        <label for="natacao">Natação</label>
+                        <input type="text" id="natacao" name="natacao" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['natacao'] }}">
+                    </div>
 
-            {% if npc.ficha['habilidades_atuais'] %}
-            <hr>                        
-            <h3><strong>Habilidades</strong></h3>
-                {% for habilidade in npc.ficha['habilidades_atuais'] %}
-                <p> 
-                    <strong>
-                        <span contenteditable="true" class="editable" data-field="habilidade_nome_{{ loop.index }}">{{ habilidade['nome'] }}</span>
-                    </strong> 
-                    <span contenteditable="true" class="editable" data-field="habilidade_descricao_{{ loop.index }}">{{ habilidade['descricao'] }}</span>
-                </p>
-                {% endfor %}
-            {% endif %}
+                    <div class="col-md-1 form-group">
+                        <label for="darkvision">Darkvision</label>
+                        <input type="text" id="darkvision" name="darkvision" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['darkvision'] }}">
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <label for="percepcao_passiva">P. Passiva</label>
+                        <input type="text" id="percepcao_passiva" name="percepcao_passiva" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['Percepcão_passiva'] }}">
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="nd">ND</label>
+                        <input type="text" id="nd" name="nd" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['nd'] }}">        
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="xp">XP</label>                        
+                        <input type="text" id="xp" name="xp" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['xp'] }}">        
+                    </div>
+
+                    <div class="col-md-1 form-group">
+                        <label for="proef">Proef.</label>                        
+                        <input type="text" id="proef" name="proef" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['proef'] }}">        
+                    </div>
+
+                </div>
+                
+                <div class="row">
+                    <!-- Coluna 1 -->
+
+                    <div class="col-md-2">
+                        <label for="forca">FOR</label>
+                        <input type="text" id="forca" name="forca" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['forca'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="bforca">Mod</label>
+                        <input type="text" id="bforca" name="bforca" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['bforca'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="save_forca">Save</label>
+                        <input type="text" id="save_forca" name="save_forca" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['save_forca'] }}">
+                    </div>
+                    <div class="col-md-2">                
+
+                        <label for="inteligencia">INT</label>
+                        <input type="text" id="inteligencia" name="inteligencia" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['inteligência'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="binteligencia">Mod</label>
+                        <input type="text" id="binteligencia" name="binteligencia" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['binteligência'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="save_inteligencia">Save</label>
+                        <input type="text" id="save_inteligencia" name="save_inteligencia" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['save_inteligencia'] }}">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="destreza">DES</label>
+                        <input type="text" id="destreza" name="destreza" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['destreza'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="bdestreza">Mod</label>
+                        <input type="text" id="bdestreza" name="bdestreza" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['bdestreza'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="save_destreza">Save</label>
+                        <input type="text" id="save_destreza" name="save_destreza" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['save_destreza'] }}">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="sabedoria">SAB</label>
+                        <input type="text" id="sabedoria" name="sabedoria" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['sabedoria'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="bsabedoria">Mod</label>
+                        <input type="text" id="bsabedoria" name="bsabedoria" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['bsabedoria'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="save_sabedoria">Save</label>
+                        <input type="text" id="save_sabedoria" name="save_sabedoria" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['save_sabedoria'] }}">
+                    </div>                
+                    <div class="col-md-2">
+                        <label for="constituicao">CON</label>
+                        <input type="text" id="constituicao" name="constituicao" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['constituição'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="bconstituicao">Mod</label>
+                        <input type="text" id="bconstituicao" name="bconstituicao" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['bconstituição'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="save_constituicao">Save</label>
+                        <input type="text" id="save_constituicao" name="save_constituicao" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['save_constituicao'] }}">
+                    </div>
+                    <div class="col-md-2">
+
+                        <label for="carisma">CAR</label>
+                        <input type="text" id="carisma" name="carisma" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['carisma'] }}">
+                    </div>
+                    <div class="col-md-2">   
+                        <label for="bcarisma">Mod</label>
+                        <input type="text" id="bcarisma" name="bcarisma" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['bcarisma'] }}">
+                    </div>
+                    <div class="col-md-2">    
+                        <label for="save_carisma">Save</label>
+                        <input type="text" id="save_carisma" name="save_carisma" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['save_carisma'] }}">
+                    </div>
+                </div>
+
+                    
+                    <br>
+                    <hr>
+
+                    <!-- Perícias -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex align-items-center">
+                                <h3 class="text-white mb-0 me-3"><b>Perícias</b></h3>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary"
+                                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-pericia">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
-            {% if npc.ficha['reacoes_atuais'] %}
-            <hr>
+                    <div class="row" id="pericias-container">
+                        {% for pericia in npc.ficha['pericias_atuais'] %}
+                            <div class="col-md-2 form-group">
+                                <label for="pericia_nome_{{ loop.index }}">Perícia</label>
+                                <input type="text" id="pericia_nome_{{ loop.index }}" name="pericia_nome_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ pericia['nome'] }}">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="pericia_valor_{{ loop.index }}">Valor</label>
+                                <input type="text" id="pericia_valor_{{ loop.index }}" name="pericia_valor_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ pericia['valor'] }}">
+                            </div>
+                        {% endfor %}
+                    </div>
 
-            <h3><strong>Reações</strong></h3>
-                {% for habilidade in npc.ficha['reacoes_atuais'] %}
-                <p>
-                    <strong>
-                        <span contenteditable="true" class="editable" data-field="reacao_nome_{{ loop.index }}">{{ habilidade['nome'] }}</span>
-                    </strong> 
-                    <span contenteditable="true" class="editable" data-field="reacao_descricao_{{ loop.index }}">{{ habilidade['descricao'] }}</span>
-                </p>
-                {% endfor %}
-            {% endif %}
-            <hr>
-            <h3><strong>Ações</strong></h3>
+                        <hr>    
 
-            {% if npc.ficha['acoes_atuais'] %}
-                {% for habilidade in npc.ficha['acoes_atuais'] %}
-                <p>
-                    <strong>
-                        <span contenteditable="true" class="editable" data-field="acao_nome_{{ loop.index }}">{{ habilidade['nome'] }}</span>
-                    </strong> 
-                    <span contenteditable="true" class="editable" data-field="acao_descricao_{{ loop.index }}">{{ habilidade['descricao'] }}</span>
-                </p>
-                {% endfor %}
-            {% endif %}
+                    <!-- Habilidades -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex align-items-center">
+                                <h3 class="text-white mb-0 me-3"><b>Habilidades</b></h3>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary"
+                                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-habilidade">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="habilidades-container">
+                        {% for habilidade in npc.ficha['habilidades_atuais'] %}
+                        <div class="row">
+                            <div class="col-md-2 form-group">
+                                <label for="habilidade_nome_{{ loop.index }}">Habilidade</label>
+                                <input type="text" id="habilidade_nome_{{ loop.index }}" name="habilidade_nome_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ habilidade['nome'] }}">
+                            </div>
+                            <div class="col-md-10 form-group">
+                                <label for="habilidade_descricao_{{ loop.index }}">Descrição</label>
+                                <input type="text" id="habilidade_descricao_{{ loop.index }}" name="habilidade_descricao_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ habilidade['descricao'] }}">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
 
-            {% for ataque in npc.ficha['ataques_atuais'] %}                   
-                <p>
-                    <strong>
-                        <span contenteditable="true" class="editable" data-field="ataque_nome_{{ loop.index }}">{{ ataque['nome'] }}</span>
-                    </strong> 
-                    +<span contenteditable="true" class="editable" data-field="ataque_bonus_{{ loop.index }}">{{ ataque['bonus'] }}</span> 
-                    Ataque <span contenteditable="true" class="editable" data-field="ataque_tipo_{{ loop.index }}">{{ ataque['tipo'] }}</span> 
-                    Alcance <span contenteditable="true" class="editable" data-field="ataque_alcance_{{ loop.index }}">{{ ataque['alcance'] }}</span>. 
-                    Acerto <span contenteditable="true" class="editable" data-field="ataque_dano_{{ loop.index }}">{{ ataque['dano'] }}</span> 
-                    (<span contenteditable="true" class="editable" data-field="ataque_dado_{{ loop.index }}">{{ ataque['dado'] }}</span>) 
-                    <span contenteditable="true" class="editable" data-field="ataque_tipodano_{{ loop.index }}">{{ ataque['tipodano'] }}</span> 
-                    <span contenteditable="true" class="editable" data-field="ataque_extra_{{ loop.index }}">{{ ataque['extra'] }}</span>
-                </p>
-            {% endfor %}
-      
-            {% if npc.ficha['desclendaria'] and npc.ficha['desclendaria'] != [''] and npc.ficha['acoes_lendarias_atuais'] %}
-            
-            <hr>                        
-            
-            
-            <h3><strong>Ações Lendárias</strong></h3>
-                {% for lendarias in npc.ficha['acoes_lendarias_atuais'] %}
-                    <p>
-                        <strong>
-                            <span contenteditable="true" class="editable" data-field="acao_lendaria_nome_{{ loop.index }}">{{ lendarias['nome'] }}</span>
-                        </strong> 
-                        <span contenteditable="true" class="editable" data-field="acao_lendaria_descricao_{{ loop.index }}">{{ lendarias['descricao'] }}</span>
-                    </p>
-                {% endfor %}
-            {% endif %}
 
-            {% if npc.ficha['informacoes'] %}
-            <hr>
-            <h3><strong>Informações</strong></h3>
-            <p>
-                <span contenteditable="true" class="editable" data-field="informacoes">{{ npc.ficha['informacoes'] }}</span>
-            </p>                    
-            {% endif %}
+                    <!-- Reações -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex align-items-center">
+                                <h3 class="text-white mb-0 me-3"><b>Reações</b></h3>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary"
+                                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-reacao">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="reacoes-container">
+                        {% if npc.ficha['reacoes_atuais'] %}
+                        <hr>
+                            {% for habilidade in npc.ficha['reacoes_atuais'] %}
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="reacao_nome_{{ loop.index }}">Nome da Reação</label>
+                                    <input type="text" id="reacao_nome_{{ loop.index }}" name="reacao_nome_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ habilidade['nome'] }}">
+                                </div>
+                                <div class="col-md-10 form-group">
+                                    <label for="reacao_descricao_{{ loop.index }}">Descrição</label>
+                                    <input type="text" id="reacao_descricao_{{ loop.index }}" name="reacao_descricao_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ habilidade['descricao'] }}">
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <hr>
+                    
+                    <!-- Ações -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex align-items-center">
+                                <h3 class="text-white mb-0 me-3"><b>Ações</b></h3>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary"
+                                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-acao">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="acoes-container">
+                        {% for habilidade in npc.ficha['acoes_atuais'] %}
+                        <div class="col-md-2 form-group">
+                            <label for="acao_nome_{{ loop.index }}">Nome da Ação</label>
+                            <input type="text" id="acao_nome_{{ loop.index }}" name="acao_nome_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ habilidade['nome'] }}">
+                        </div>
+                        <div class="col-md-10 form-group">
+                            <label for="acao_descricao_{{ loop.index }}">Descrição da Ação</label>
+                            <input type="text" id="acao_descricao_{{ loop.index }}" name="acao_descricao_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ habilidade['descricao'] }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    
 
-            {% if npc.ficha['usos'] %}
-            <hr>
-            <h3><strong>Dicas de Uso</strong></h3>
-            <p>
-                <span contenteditable="true" class="editable" data-field="usos">{{ npc.ficha['usos'] }}</span>
-            </p>                    
-            {% endif %}
 
-            <br>
-            <br>
-            <button id="save-btn" class="btn btn-primary">Salvar</button>
+                    <!-- Ataques -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex align-items-center">
+                                <h3 class="text-white mb-0 me-3"><b>Ataques</b></h3>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary"
+                                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-ataque">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="ataques-container">
+                        {% for ataque in npc.ficha['ataques_atuais'] %}
+                        <div class="row">
+                            <div class="col-md-1 form-group">
+                                <label for="ataque_nome_{{ loop.index }}">Ataque</label>
+                                <input type="text" id="ataque_nome_{{ loop.index }}" name="ataque_nome_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ ataque['nome'] }}">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="ataque_bonus_{{ loop.index }}">Bônus</label>
+                                <input type="text" id="ataque_bonus_{{ loop.index }}" name="ataque_bonus_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ ataque['bonus'] }}">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="ataque_tipo_{{ loop.index }}">Tipo</label>
+                                <input type="text" id="ataque_tipo_{{ loop.index }}" name="ataque_tipo_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ ataque['tipo'] }}">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="ataque_alcance_{{ loop.index }}">Alcance</label>
+                                <input type="text" id="ataque_alcance_{{ loop.index }}" name="ataque_alcance_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ ataque['alcance'] }}">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="ataque_dano_{{ loop.index }}">Dano</label>
+                                <input type="text" id="ataque_dano_{{ loop.index }}" name="ataque_dano_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ ataque['dano'] }}">
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="ataque_dado_{{ loop.index }}">Dado</label>
+                                <input type="text" id="ataque_dado_{{ loop.index }}" name="ataque_dado_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ ataque['dado'] }}">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="ataque_tipodano_{{ loop.index }}">Tipo de Dano</label>
+                                <input type="text" id="ataque_tipodano_{{ loop.index }}" name="ataque_tipodano_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ ataque['tipodano'] }}">
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="ataque_extra_{{ loop.index }}">Efeito Extra</label>
+                                <input type="text" id="ataque_extra_{{ loop.index }}" name="ataque_extra_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ ataque['extra'] }}">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex align-items-center">
+                                <h3 class="text-white mb-0 me-3"><b>Ações Lendárias</b></h3>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary"
+                                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-acao-lendaria">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="desclendaria">Descrição Lendária</label>
+                            <input type="text" id="desclendaria" name="desclendaria" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['desclendaria']| join(', ')}}">
+                        </div>
+                    </div>
+                    
+                    <br>
+                    
+                    <div id="acoes-lendarias-container">
+                        {% for lendarias in npc.ficha['acoes_lendarias_atuais'] %}
+                        <div class="row">
+                            <div class="col-md-2 form-group">
+                                <label for="acao_lendaria_nome_{{ loop.index }}">Ação Lendária</label>
+                                <input type="text" id="acao_lendaria_nome_{{ loop.index }}" name="acao_lendaria_nome_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ lendarias['nome'] }}">
+                            </div>
+                            <div class="col-md-10 form-group">
+                                <label for="acao_lendaria_descricao_{{ loop.index }}">Descrição da Ação Lendária</label>
+                                <input type="text" id="acao_lendaria_descricao_{{ loop.index }}" name="acao_lendaria_descricao_{{ loop.index }}" class="form-control bg-dark text-white border-light" value="{{ lendarias['descricao'] }}">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    
+
+
+                    <!-- Informações -->
+                    <h3><strong>Informações</strong></h3>
+                    <div class="form-group">
+
+                        <textarea rows="5" id="informacoes" name="informacoes" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['informacoes'] }}"></textarea>
+
+
+                    
+                    <hr>
+                    <h3><strong>Dicas de Uso</strong></h3>
+                    <div class="form-group">
+
+                        <textarea id="usos" rows="5" name="usos" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['usos'] }}"></textarea>
+                    </div>
+
+
+                    <br>
+
+                    {% if npc.tipo == 'NPC' %}
+                    <hr>
+                    <h3><strong>Histórico de encontros</strong></h3>
+                    <div class="form-group">
+
+                        <textarea id="usos" rows="5" name="historico" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['historico'] }}"></textarea>
+                    </div>
+                    <br>
+                    {% endif %}
+                    
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary w-100">Alterar</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary w-100">Salvar Nova Criatura</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary w-100">Salvar Novo NPC</button>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+
+
+        </form>
     </div>
     <br>
 
 
+
+    <script>
+        document.getElementById('add-pericia').addEventListener('click', function() {
+            // Identificar o container onde as perícias estão sendo adicionadas
+            const container = document.getElementById('pericias-container');
+            
+            // Contar quantas perícias já existem
+            const index = container.getElementsByClassName('form-group').length / 2; // Dividido por 2 pois são dois inputs por perícia
+            
+            // Criar novo elemento de perícia (nome)
+            const novaPericiaNome = document.createElement('div');
+            novaPericiaNome.classList.add('col-md-2', 'form-group');
+            novaPericiaNome.innerHTML = `
+                <label for="pericia_nome_${index + 1}">Perícia</label>
+                <input type="text" id="pericia_nome_${index + 1}" name="pericia_nome_${index + 1}" class="form-control bg-dark text-white border-light">
+            `;
+            
+            // Criar novo elemento de perícia (valor)
+            const novaPericiaValor = document.createElement('div');
+            novaPericiaValor.classList.add('col-md-1', 'form-group');
+            novaPericiaValor.innerHTML = `
+                <label for="pericia_valor_${index + 1}">Valor</label>
+                <input type="text" id="pericia_valor_${index + 1}" name="pericia_valor_${index + 1}" class="form-control bg-dark text-white border-light">
+            `;
+            
+            // Adicionar os novos campos ao container
+            container.appendChild(novaPericiaNome);
+            container.appendChild(novaPericiaValor);
+        });
+    </script>
+
+    <script>
+        document.getElementById('add-habilidade').addEventListener('click', function() {
+            // Identificar o container onde as habilidades estão sendo adicionadas
+            const container = document.getElementById('habilidades-container');
+            
+            // Contar quantas habilidades já existem
+            const index = container.getElementsByClassName('form-group').length / 2; // Cada habilidade tem dois inputs
+            
+            // Criar novo elemento de habilidade (nome)
+            const novaHabilidadeNome = document.createElement('div');
+            novaHabilidadeNome.classList.add('col-md-2', 'form-group');
+            novaHabilidadeNome.innerHTML = `
+                <label for="habilidade_nome_${index + 1}">Habilidade</label>
+                <input type="text" id="habilidade_nome_${index + 1}" name="habilidade_nome_${index + 1}" class="form-control bg-dark text-white border-light">
+            `;
+            
+            // Criar novo elemento de habilidade (descrição)
+            const novaHabilidadeDescricao = document.createElement('div');
+            novaHabilidadeDescricao.classList.add('col-md-10', 'form-group');
+            novaHabilidadeDescricao.innerHTML = `
+                <label for="habilidade_descricao_${index + 1}">Descrição</label>
+                <input type="text" id="habilidade_descricao_${index + 1}" name="habilidade_descricao_${index + 1}" class="form-control bg-dark text-white border-light">
+            `;
+            
+            // Adicionar os novos campos ao container
+            container.appendChild(novaHabilidadeNome);
+            container.appendChild(novaHabilidadeDescricao);
+        });
+    </script>
+    
+    <script>
+        document.getElementById('add-reacao').addEventListener('click', function() {
+            // Identificar o container onde as reações estão sendo adicionadas
+            const container = document.getElementById('reacoes-container');
+            
+            // Contar quantas reações já existem
+            const index = container.getElementsByClassName('form-group').length / 2; // Cada reação tem dois inputs
+            
+            // Criar novo elemento de reação (nome)
+            const novaReacaoNome = document.createElement('div');
+            novaReacaoNome.classList.add('col-md-2', 'form-group');
+            novaReacaoNome.innerHTML = `
+                <label for="reacao_nome_${index + 1}">Nome da Reação</label>
+                <input type="text" id="reacao_nome_${index + 1}" name="reacao_nome_${index + 1}" class="form-control bg-dark text-white border-light">
+            `;
+            
+            // Criar novo elemento de reação (descrição)
+            const novaReacaoDescricao = document.createElement('div');
+            novaReacaoDescricao.classList.add('col-md-10', 'form-group');
+            novaReacaoDescricao.innerHTML = `
+                <label for="reacao_descricao_${index + 1}">Descrição</label>
+                <input type="text" id="reacao_descricao_${index + 1}" name="reacao_descricao_${index + 1}" class="form-control bg-dark text-white border-light">
+            `;
+            
+            // Adicionar os novos campos ao container
+            container.appendChild(novaReacaoNome);
+            container.appendChild(novaReacaoDescricao);
+        });
+    </script>
+    
+    <script>
+        document.getElementById('add-acao').addEventListener('click', function() {
+            // Identificar o container onde as ações estão sendo adicionadas
+            const container = document.getElementById('acoes-container');
+            
+            // Contar quantas ações já existem
+            const index = container.getElementsByClassName('form-group').length / 2; // Cada ação tem dois inputs
+            
+            // Criar novo elemento de ação (nome)
+            const novaAcaoNome = document.createElement('div');
+            novaAcaoNome.classList.add('col-md-2', 'form-group');
+            novaAcaoNome.innerHTML = `
+                <label for="acao_nome_${index + 1}">Nome da Ação</label>
+                <input type="text" id="acao_nome_${index + 1}" name="acao_nome_${index + 1}" class="form-control bg-dark text-white border-light">
+            `;
+            
+            // Criar novo elemento de ação (descrição)
+            const novaAcaoDescricao = document.createElement('div');
+            novaAcaoDescricao.classList.add('col-md-10', 'form-group');
+            novaAcaoDescricao.innerHTML = `
+                <label for="acao_descricao_${index + 1}">Descrição da Ação</label>
+                <input type="text" id="acao_descricao_${index + 1}" name="acao_descricao_${index + 1}" class="form-control bg-dark text-white border-light">
+            `;
+            
+            // Adicionar os novos campos ao container
+            container.appendChild(novaAcaoNome);
+            container.appendChild(novaAcaoDescricao);
+        });
+    </script>
+    
+
+    <script>
+        document.getElementById('add-ataque').addEventListener('click', function() {
+            // Identificar o container onde os ataques estão sendo adicionados
+            const container = document.getElementById('ataques-container');
+            
+            // Contar quantos ataques já existem
+            const index = container.getElementsByClassName('form-group').length / 8; // Cada ataque tem 8 inputs
+            
+            // Criar novo elemento de ataque (nome, bônus, tipo, alcance, dano, dado, tipo de dano, efeito extra)
+            const novoAtaque = `
+            <div class="row">
+                <div class="col-md-1 form-group">
+                    <label for="ataque_nome_${index + 1}">Ataque</label>
+                    <input type="text" id="ataque_nome_${index + 1}" name="ataque_nome_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+                <div class="col-md-1 form-group">
+                    <label for="ataque_bonus_${index + 1}">Bônus</label>
+                    <input type="text" id="ataque_bonus_${index + 1}" name="ataque_bonus_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+                <div class="col-md-1 form-group">
+                    <label for="ataque_tipo_${index + 1}">Tipo</label>
+                    <input type="text" id="ataque_tipo_${index + 1}" name="ataque_tipo_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+                <div class="col-md-1 form-group">
+                    <label for="ataque_alcance_${index + 1}">Alcance</label>
+                    <input type="text" id="ataque_alcance_${index + 1}" name="ataque_alcance_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+                <div class="col-md-1 form-group">
+                    <label for="ataque_dano_${index + 1}">Dano</label>
+                    <input type="text" id="ataque_dano_${index + 1}" name="ataque_dano_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+                <div class="col-md-1 form-group">
+                    <label for="ataque_dado_${index + 1}">Dado</label>
+                    <input type="text" id="ataque_dado_${index + 1}" name="ataque_dado_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="ataque_tipodano_${index + 1}">Tipo de Dano</label>
+                    <input type="text" id="ataque_tipodano_${index + 1}" name="ataque_tipodano_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label for="ataque_extra_${index + 1}">Efeito Extra</label>
+                    <input type="text" id="ataque_extra_${index + 1}" name="ataque_extra_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+            </div>
+            `;
+            
+            // Adicionar os novos campos ao container
+            container.insertAdjacentHTML('beforeend', novoAtaque);
+        });
+    </script>
+    
+    <script>
+        document.getElementById('add-acao-lendaria').addEventListener('click', function() {
+            // Identificar o container onde as ações lendárias estão sendo adicionadas
+            const container = document.getElementById('acoes-lendarias-container');
+            
+            // Contar quantas ações já existem
+            const index = container.getElementsByClassName('form-group').length / 2; // Cada ação lendária tem 2 inputs
+            
+            // Criar novo elemento de ação lendária
+            const novaAcaoLendaria = `
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="acao_lendaria_nome_${index + 1}">Ação Lendária</label>
+                    <input type="text" id="acao_lendaria_nome_${index + 1}" name="acao_lendaria_nome_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+                <div class="col-md-10 form-group">
+                    <label for="acao_lendaria_descricao_${index + 1}">Descrição da Ação Lendária</label>
+                    <input type="text" id="acao_lendaria_descricao_${index + 1}" name="acao_lendaria_descricao_${index + 1}" class="form-control bg-dark text-white border-light">
+                </div>
+            </div>
+            `;
+            
+            // Adicionar os novos campos ao container
+            container.insertAdjacentHTML('beforeend', novaAcaoLendaria);
+        });
+    </script>
+    
     {% endif %}
 
 {% endblock %}
-
-<script>
-    document.getElementById('save-btn').addEventListener('click', function() {
-        const data = {};
-        const editables = document.querySelectorAll('.editable');
-    
-        editables.forEach(el => {
-            data[el.getAttribute('data-field')] = el.innerText; // Captura o valor editado
-        });
-    
-        // Envia os dados para o servidor
-        fetch(`/edit/${{ npc.id }}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data) // Converte o objeto em JSON
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.reload(); // Atualiza a página após salvar
-            } else {
-                alert('Erro ao salvar.'); // Lida com erro
-            }
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-        });
-    });
-    </script>

@@ -455,31 +455,6 @@ def deletar_npc(id):
         return {"error": "NPC não encontrado ou não autorizado"}, 404  
 
 
-
-
-
-
-
-"""
-classmethod
-    def update_ficha(cls, id, nova_ficha, novo_nome):
-        npc = cls.query.get(id)
-        if npc:
-            npc.ficha = nova_ficha
-            npc.nome = novo_nome
-            db.session.commit()
-            return npc
-        return None
-"""
-
-
-
-
-
-
-
-
-
 @blueprint_npc.route('/edit/<id>', methods=['GET', 'POST'])
 def editar_npc(id):    
     if request.method == 'GET':
