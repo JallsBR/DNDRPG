@@ -656,7 +656,7 @@ def editar_npc(id):
             nova_criatura = Personagem(id_user=current_user.id, ficha=nova_ficha, nome=novo_nome, tipo="Criatura")
             db.session.add(nova_criatura)
             db.session.commit()
-            return jsonify({'status': 'success', 'message': 'Nova criatura criada com sucesso!'})
+            return jsonify({'status': 'success', 'message': 'Nova criatura criada com sucesso!'}), redirect('/npc/')
 
         elif acao == 'novo_npc':
             # Criar novo NPC

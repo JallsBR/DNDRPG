@@ -20,6 +20,8 @@ class User(db.Model, UserMixin):
 
     personagens = db.relationship("Personagem", foreign_keys=[Personagem.id_user], back_populates="user")
 
+    
+
 
     def __init__(self, nome, sobrenome, email, telefone, login, senha, tipo="não informado"):
         self.nome = nome

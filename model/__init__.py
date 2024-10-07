@@ -10,3 +10,12 @@ from .reacoes_model import Reacoes
 from .lendarias_model import Lendarias
 from .magias_model import Magias
 from .classe_model import Classe
+
+from .campanha_model import Campanha
+from .npcscampanha_model import NPCsCampanha
+from .cenario_model import Cenario
+from .cenariocampanha_model import CenarioCampanha
+from .organizacoes_model import Organizacoes
+from .organizacoescampanha_model import OrganizacoesCampanha
+from .encontro_model import Encontro
+from .encontrocampanha_model import EncontroCampanha
