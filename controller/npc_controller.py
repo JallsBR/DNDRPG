@@ -270,7 +270,7 @@ class NPCController:
         if 'savecarisma' in proefsaves:
             atributos['save_carisma'] += proef
         
-        print('Atributos', atributos)
+        #print('Atributos', atributos)
             
         iniciativa = atributos['bdestreza']
         

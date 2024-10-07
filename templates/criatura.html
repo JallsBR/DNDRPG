@@ -158,6 +158,19 @@
                             , Visão no escuro {{npc.ficha['darkvision']}}'
                         {% endif %}
                     </p>
+                    {% if npc.ficha['resistencias'] %}
+                    <p>
+                        <strong>Resistências:</strong>
+                        {{ npc.ficha['resistencias'] | join(', ') }}
+                    </p>
+                    {% endif %}
+                    {% if npc.ficha['imunidades'] %}
+                    <p>
+                        <strong>Imunidades:</strong>
+                        {{ npc.ficha['imunidades'] | join(', ') }}
+                    </p>
+                    {% endif %}
+                    
                     <p><strong>ND:</strong> {{npc.ficha['nd']}} ({{npc.ficha['xp']}})- <strong>Proeficiência </strong>+ {{npc.ficha['proef']}}  </p>
 
                     
@@ -222,7 +235,7 @@
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-danger ms-2" onclick="confirmDelete({{ npc.id }})">Deletar</button> 
+                <button type="button" class="btn btn-danger ms-2" onclick="deletarNPC({{ npc.id }})">Deletar</button> 
                 <a href="/npc/edit/{{ npc.id }}" class="btn btn-primary">Editar</a>
                 </div>
             </div>

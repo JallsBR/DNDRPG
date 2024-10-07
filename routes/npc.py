@@ -456,15 +456,221 @@ def deletar_npc(id):
 
 
 @blueprint_npc.route('/edit/<id>', methods=['GET', 'POST'])
-def editar_npc(id):    
+def editar_npc(id):
+    npc = Personagem.npc_por_id(id)    
     if request.method == 'GET':
-            npc = Personagem.npc_por_id(id)
-            return render_template('edit_npc.html', npc = npc)
+        return render_template('edit_npc.html', npc=npc)
+
     if request.method == 'POST':
-        data = request.get_json()  
-        nova_ficha = data.get('ficha')  
-        novo_nome = data.get('nome')  
-        print ('Ficha: ', nova_ficha, 'Nome: ', novo_nome)
+        # Inicializando as listas que irão conter os dados
+        pericias_atuais = []
+        habilidades_atuais = []
+        acoes_atuais = []
+        reacoes_atuais = []
+
+        # Capturando as perícias do formulário
+        i = 1
+        while True:
+            pericia_nome = request.form.get(f'pericia_nome_{i}')
+            pericia_valor = request.form.get(f'pericia_valor_{i}')
+            
+            if pericia_nome and pericia_valor:
+                pericias_atuais.append({
+                    'nome': pericia_nome,
+                    'valor': pericia_valor
+                })
+            else:
+                break
+            i += 1
+        # Capturando as habilidades do formulário
+        i = 1
+        while True:
+            habilidade_nome = request.form.get(f'habilidade_nome_{i}')
+            habilidade_descricao = request.form.get(f'habilidade_descricao_{i}')
+            
+            if habilidade_nome and habilidade_descricao:
+                habilidades_atuais.append({
+                    'nome': habilidade_nome,
+                    'descricao': habilidade_descricao
+                })
+            else:
+                break
+            i += 1
         
-        #Personagem.update_ficha(id, nova_ficha, novo_nome)  # Atualiza no DB
-        return jsonify({'status': 'success'})  
+
+        # Inicializando as listas que irão conter os dados
+        pericias_atuais = []
+        habilidades_atuais = []
+        acoes_atuais = []
+        reacoes_atuais = []
+
+        # Capturando as perícias do formulário
+        i = 1
+        while True:
+            pericia_nome = request.form.get(f'pericia_nome_{i}')
+            pericia_valor = request.form.get(f'pericia_valor_{i}')
+            
+            if pericia_nome and pericia_valor:
+                pericias_atuais.append({
+                    'nome': pericia_nome,
+                    'valor': pericia_valor
+                })
+            else:
+                break
+            i += 1
+
+        # Capturando as habilidades do formulário
+        i = 1
+        while True:
+            habilidade_nome = request.form.get(f'habilidade_nome_{i}')
+            habilidade_descricao = request.form.get(f'habilidade_descricao_{i}')
+            
+            if habilidade_nome and habilidade_descricao:
+                habilidades_atuais.append({
+                    'nome': habilidade_nome,
+                    'descricao': habilidade_descricao
+                })
+            else:
+                break
+            i += 1
+
+        # Capturando as ações do formulário
+        i = 1
+        while True:
+            acao_nome = request.form.get(f'acao_nome_{i}')
+            acao_descricao = request.form.get(f'acao_descricao_{i}')
+            
+            if acao_nome and acao_descricao:
+                acoes_atuais.append({
+                    'nome': acao_nome,
+                    'descricao': acao_descricao
+                })
+            else:
+                break
+            i += 1
+            
+            # Capturando as reações do formulário
+        i = 1
+        while True:
+            reacao_nome = request.form.get(f'reacao_nome_{i}')
+            reacao_descricao = request.form.get(f'reacao_descricao_{i}')
+            
+            if reacao_nome and reacao_descricao:
+                reacoes_atuais.append({
+                    'nome': reacao_nome,
+                    'descricao': reacao_descricao
+                })
+            else:
+                break
+            i += 1
+        
+        
+        # Coletando dados do formulário
+        ataques_atuais = []
+        for i in range(int(request.form.get('ataques_count', 0))):  # Supondo que você tenha um campo 'ataques_count' para saber quantos ataques foram adicionados
+            ataque = {
+                'nome': request.form.get(f'ataque_nome_{i + 1}'),
+                'bonus': request.form.get(f'ataque_bonus_{i + 1}'),
+                'tipo': request.form.get(f'ataque_tipo_{i + 1}'),
+                'alcance': request.form.get(f'ataque_alcance_{i + 1}'),
+                'dano': request.form.get(f'ataque_dano_{i + 1}'),
+                'dado': request.form.get(f'ataque_dado_{i + 1}'),
+                'tipodano': request.form.get(f'ataque_tipodano_{i + 1}'),
+                'extra': request.form.get(f'ataque_extra_{i + 1}'),
+            }
+            if ataque['nome']:  # Verifica se o nome do ataque não está vazio
+                ataques_atuais.append(ataque)
+
+        acoes_lendarias_atuais = []
+        for i in range(int(request.form.get('acoes_lendarias_count', 0))):  # Supondo que você tenha um campo 'acoes_lendarias_count'
+            acao_lendaria = {
+                'nome': request.form.get(f'acao_lendaria_nome_{i + 1}'),
+                'descricao': request.form.get(f'acao_lendaria_descricao_{i + 1}'),
+            }
+            if acao_lendaria['nome']:  # Verifica se o nome da ação lendária não está vazio
+                acoes_lendarias_atuais.append(acao_lendaria)
+        
+        novo_nome = request.form.get('nome')
+        nova_ficha = {
+            'nome': request.form.get('nome'),
+            'raca': request.form.get('raca'),
+            'tamanho': request.form.get('tamanho'),
+            'tendencia': request.form.get('tendencia'),
+            'ca': request.form.get('ca'),
+            'armadurausada': request.form.get('armadurausada'),
+            'iniciativa': request.form.get('iniciativa'),
+            'pv': request.form.get('pv'),
+            'dadosvida': request.form.get('dadosvida'),
+            'linguas': request.form.get('linguas').split(', '),
+            'speed': request.form.get('speed'),
+            'voo': request.form.get('voo'),
+            'natacao': request.form.get('natacao'),
+            'darkvision': request.form.get('darkvision'),
+            'Percepcão_passiva': request.form.get('percepcao_passiva'),
+            'nd': request.form.get('nd'),
+            'xp': request.form.get('xp'),
+            'proef': request.form.get('proef'),
+            'atributos': {
+                'forca': request.form.get('forca'),
+                'bforca': request.form.get('bforca'),
+                'save_forca': request.form.get('save_forca'),
+                'inteligência': request.form.get('inteligencia'),
+                'binteligência': request.form.get('binteligencia'),
+                'save_inteligencia': request.form.get('save_inteligencia'),
+                'destreza': request.form.get('destreza'),
+                'bdestreza': request.form.get('bdestreza'),
+                'save_destreza': request.form.get('save_destreza'),
+                'sabedoria': request.form.get('sabedoria'),
+                'bsabedoria': request.form.get('bsabedoria'),
+                'save_sabedoria': request.form.get('save_sabedoria'),
+                'constituição': request.form.get('constituicao'),
+                'bconstituição': request.form.get('bconstituicao'),
+                'save_constituicao': request.form.get('save_constituicao'),
+                'carisma': request.form.get('carisma'),
+                'bcarisma': request.form.get('bcarisma'),
+                'save_carisma': request.form.get('save_carisma')
+            },
+            'pericias_atuais': pericias_atuais,
+            'habilidades_atuais': habilidades_atuais,
+            'acoes_atuais': acoes_atuais,
+            'reacoes_atuais': reacoes_atuais,
+            'ataques_atuais': ataques_atuais, 
+            'acoes_lendarias_atuais': acoes_lendarias_atuais,
+            'desclendaria': request.form.get('desclendaria'), 
+            'informacoes': request.form.get('informacoes'), 
+            'usos': request.form.get('usos'),  
+            'historico': request.form.get('historico'),
+            'resistencia': False, 
+            'imunidade': False, 
+            'nataques': npc.ficha['nataques'],
+            'nmagias': npc.ficha['nmagias'],
+            'cd': npc.ficha['cd'],            
+            'resistencias': request.form.get('resistencias').split(', '), 
+            'imunidades': request.form.get('imunidades').split(', '),
+        }
+        acao = request.form.get('action')
+        print('Acao: ', acao)
+        
+        if acao == 'nova_criatura':
+            # Criar nova criatura
+            nova_criatura = Personagem(id_user=current_user.id, ficha=nova_ficha, nome=novo_nome, tipo="Criatura")
+            db.session.add(nova_criatura)
+            db.session.commit()
+            return jsonify({'status': 'success', 'message': 'Nova criatura criada com sucesso!'})
+
+        elif acao == 'novo_npc':
+            # Criar novo NPC
+            novo_npc = Personagem(id_user=current_user.id, ficha=nova_ficha, nome=novo_nome, tipo="NPC")
+            db.session.add(novo_npc)
+            db.session.commit()
+            return jsonify({'status': 'success', 'message': 'Novo NPC criado com sucesso!'})
+
+        elif acao == 'alterar':
+            # Alterar NPC existente
+            Personagem.update_ficha(id=id, nova_ficha=nova_ficha, novo_nome=novo_nome)
+            db.session.commit()
+            return jsonify({'status': 'success', 'message': 'NPC alterado com sucesso!'})
+        
+        print('Ficha: ', nova_ficha, 'Nome: ', novo_nome)   
+        
+        return jsonify({'status': 'error', 'message': 'Ação desconhecida.'})

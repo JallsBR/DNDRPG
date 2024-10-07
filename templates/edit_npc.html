@@ -21,7 +21,7 @@
     <div class="card shadow p-5 bg-dark text-white no-margin">
         <h1 class="text-white col-md-12 mb-0" ><b>{{ npc.nome }}</b></h1>
         <hr>
-        <form>
+        <form method="POST">
             <h3 class="text-white mb-0 me-3"><b>Descrição</b></h3>
             <div class="row">
 
@@ -201,8 +201,25 @@
                         <input type="text" id="save_carisma" name="save_carisma" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['atributos']['save_carisma'] }}">
                     </div>
                 </div>
+                <hr>
+                <h3 class="text-white mb-0 me-3"><b>Resistências e Imunidades</b></h3>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="resistencias">Resistencias</label>
+                        <input type="text" id="resistencias" name="resistencias" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['resistencias'] | join(', ') }}">
+                    </div>
 
-                    
+                    <div class="col-md-6 form-group">
+                        <label for="imunidades">Imunidades</label>
+                        <input type="text" id="imunidades" name="imunidades" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['imunidades'] | join(', ') }}">
+                    </div>
+                </div>
+
+
+
+
+
+
                     <br>
                     <hr>
 
@@ -423,15 +440,13 @@
                     <h3><strong>Informações</strong></h3>
                     <div class="form-group">
 
-                        <textarea rows="5" id="informacoes" name="informacoes" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['informacoes'] }}"></textarea>
-
-
+                        <textarea rows="5" id="informacoes" name="informacoes" class="form-control bg-dark text-white border-light">{{ npc.ficha['informacoes']}}</textarea>
                     
                     <hr>
                     <h3><strong>Dicas de Uso</strong></h3>
                     <div class="form-group">
 
-                        <textarea id="usos" rows="5" name="usos" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['usos'] }}"></textarea>
+                        <textarea id="usos" rows="5" name="usos" class="form-control bg-dark text-white border-light" >{{ npc.ficha['usos'] }}</textarea>
                     </div>
 
 
@@ -442,22 +457,24 @@
                     <h3><strong>Histórico de encontros</strong></h3>
                     <div class="form-group">
 
-                        <textarea id="usos" rows="5" name="historico" class="form-control bg-dark text-white border-light" value="{{ npc.ficha['historico'] }}"></textarea>
+                        <textarea id="historico" rows="5" name="historico" class="form-control bg-dark text-white border-light">{{ npc.ficha['historico'] }}</textarea>
                     </div>
                     <br>
                     {% endif %}
                     
 
 
-                    <div class="row">
+                    <div class="row" id="botoes">
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-primary w-100">Alterar</button>
+                            <button type="submit" name="action" value="nova_criatura" class="btn btn-primary w-100">Salvar Nova Criatura</button>
                         </div>
+                
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-primary w-100">Salvar Nova Criatura</button>
+                            <button type="submit" name="action" value="novo_npc" class="btn btn-primary w-100">Salvar Novo NPC</button>
                         </div>
+                
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-primary w-100">Salvar Novo NPC</button>
+                            <button type="submit" name="action" value="alterar" class="btn btn-primary w-100">Alterar</button>
                         </div>
                     </div>
 
@@ -670,6 +687,42 @@
             container.insertAdjacentHTML('beforeend', novaAcaoLendaria);
         });
     </script>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede o comportamento padrão de recarregar a página
+        
+            const formData = new FormData(this);
+            
+            // Capturar o valor do botão clicado
+            const actionValue = document.querySelector('button[type=submit][clicked=true]').value;
+            formData.append('action', actionValue);  // Adicionar o valor ao formData
+        
+            fetch(`/npc/edit/{{ npc.id }}`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message); // Exibe a mensagem de sucesso
+                    window.location.href = '/npc'; // Redireciona para a rota desejada
+                } else {
+                    alert("Erro: " + data.message); // Exibe a mensagem de erro
+                }
+            })
+            .catch(error => console.error('Erro:', error));
+        });
+        
+        // Detectar o clique no botão submit
+        document.querySelectorAll('button[type=submit]').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('button[type=submit]').forEach(btn => btn.removeAttribute('clicked'));
+                this.setAttribute('clicked', 'true');
+            });
+        });
+    </script>
+    
     
     {% endif %}
 
