@@ -548,14 +548,18 @@
     document.getElementById('form-cenario').onsubmit = async function (event) {
         event.preventDefault(); // Evita o comportamento padrão do formulário
 
-        // Captura todos os dados do formulário automaticamente
-        let formData = new FormData(document.getElementById('form-cenario'));
+        // Captura os dados do formulário
+        let cenario_data = document.getElementById('cenario_data').value;
+        let categoria = document.getElementById('categoria').value;
 
         try {
             // Faz a requisição para o backend
             let response = await fetch('/mestre/cenario', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ cenario_data: cenario_data, categoria: categoria })
             });
 
             let result = await response.json(); // Pega a resposta em formato JSON
@@ -563,7 +567,6 @@
             // Exibe o alerta com base no status da resposta
             if (result.status === 'success') {
                 alert(result.message);
-                window.location.reload();
             } else {
                 alert(result.message);
             }
@@ -574,20 +577,31 @@
     }
 </script>
 
+<script>
+    document.getElementById('cenario-select').addEventListener('change', function() {
+        var cenarioId = this.value;
+        if (cenarioId) {
+            var modalId = '#cenarioModal' + cenarioId;
+            var modal = new bootstrap.Modal(document.querySelector(modalId));
+            modal.show();
+        }
+    });
+</script>
+
 
 <script>
     function deletarCenario(cenarioId) {
         if (confirm("Tem certeza que deseja deletar esse NPC?")) {
-            fetch(`/mestre/delete_cenario/${cenarioId}`, {
+            fetch(`/mestre/cenario/delete/${cenarioId}`, {
                 method: 'DELETE'
             })
             .then(response => response.json())
             .then(data => {
                 if (data.message) {
-                    alert("Cenário deletado com sucesso!");
+                    alert("NPC deletado com sucesso!");
                     location.reload();
                 } else {
-                    alert("Erro ao deletar Cenário");
+                    alert("Erro ao deletar NPC");
                 }
             })
             .catch(error => console.error('Erro:', error));

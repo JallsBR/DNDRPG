@@ -37,16 +37,106 @@ def index_cenario():
         return render_template('cenarios.html', cenarios=cenarios)
     
     if request.method == 'POST':
-        cenario_data = request.json.get('cenario')
-        tipo = request.json.get('tipo')
 
+        # Coletando dados do formulário
+        nome = request.form.get('nome')
+        descricaocurta = request.form.get('descricaocurta')
+        categoria = request.form.get('categoria')
+        if not categoria:
+            categoria = 'Geral'
+        descricao = request.form.get('descricao')
+        historia = request.form.get('historia')
+        
+        # Coletando regras
+        nome_regras = request.form.getlist('nome_regra[]')
+        descricao_regras = request.form.getlist('descricao_regra[]')
+        observacao_regras = request.form.getlist('observacao_regra[]')
+        
+        # Coletando informações
+        pericias = request.form.getlist('pericia[]')
+        cds = request.form.getlist('cd[]')
+        informacoes = request.form.getlist('informacao[]')
+        
+        # Coletando NPCs
+        nomes_npcs = request.form.getlist('nome_npc[]')
+        ids_npcs = request.form.getlist('id_npc[]')
+        observacoes_npcs = request.form.getlist('observacao_npc[]')
+        
+        # Coletando organizações
+        nomes_organizacoes = request.form.getlist('nome_organizacao[]')
+        ids_organizacoes = request.form.getlist('id_organizacao[]')
+        observacoes_organizacoes = request.form.getlist('observacao_organizacao[]')
+        
+        # Coletando cenários agregados
+        nomes_cenarios = request.form.getlist('nome_cenario_agregado[]')
+        ids_cenarios = request.form.getlist('id_cenario_agregado[]')
+        observacoes_cenarios = request.form.getlist('observacao_cenario_agregado[]')
+
+        # Coletando outras informações
+        titulos_outros = request.form.getlist('titulo[]')
+        textos_outros = request.form.getlist('texto[]')
+        
+        cenarios_data = {
+        "nome": nome,
+        "descricaocurta": descricaocurta,
+        "descricao": descricao,
+        "historia": historia,
+        "categoria": categoria,
+        "regras": [
+            {
+                "nome_regra": nome_regras[i],
+                "descricao_regra": descricao_regras[i],
+                "observacao": observacao_regras[i]
+            } for i in range(len(nome_regras))
+        ],
+        "info_cenario": [
+            {
+                "pericia": pericias[i],
+                "cd": cds[i],
+                "informacao": informacoes[i]
+            } for i in range(len(pericias))
+        ],
+        "npcs": [
+            {
+                "nome": nomes_npcs[i],
+                "id": ids_npcs[i],
+                "observacao": observacoes_npcs[i]
+            } for i in range(len(nomes_npcs))
+        ],
+        "organizacoes": [
+            {
+                "nome": nomes_organizacoes[i],
+                "id": ids_organizacoes[i],
+                "observacao": observacoes_organizacoes[i]
+            } for i in range(len(nomes_organizacoes))
+        ],
+        "outras": [
+            {
+                "titulo": titulos_outros[i],
+                "texto": textos_outros[i]
+            } for i in range(len(titulos_outros))
+        ],
+        "cenarios_agregados": [
+            {
+                "nome": nomes_cenarios[i],
+                "id": ids_cenarios[i],
+                "observacao": observacoes_cenarios[i]
+            } for i in range(len(nomes_cenarios))
+            ]
+        }        
+        
+        
+        cenario_data = cenarios_data
+        print("CENARIO: ",cenario_data)
+        tipo = categoria
+        
         if cenario_data and tipo:
             novo_cenario = Cenario(id_user=current_user.id, cenario=cenario_data, tipo=tipo)
             db.session.add(novo_cenario)
             db.session.commit()
-            return jsonify({"message": "Cenário criado com sucesso."}), 201
+            return jsonify({'status': 'success', 'message': 'Novo cenário criado com sucesso!'}), 201
         else:
-            return jsonify({"error": "Dados insuficientes para criar o cenário."}), 400
+            return jsonify({'status': 'error', 'message': 'Dados insuficientes para criar o cenário.'}), 400
 
 
 @blueprint_mestre.route('/edit_cenario/<id>', methods=['GET', 'POST'])
@@ -76,7 +166,7 @@ def deletar_cenario(id):
         Cenario.delete(id)
         return jsonify({"message": "Cenário deletado com sucesso."}), 200
     else:
-        return jsonify({"error": "Cenário não encontrado ou não autorizado."}), 404
+        return jsonify({"error": "Cenário não encontrado ou não autorizado."}), 404, 
     
     
 # Campanha -----------------------------------------------------------------
