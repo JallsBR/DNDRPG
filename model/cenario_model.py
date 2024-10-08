@@ -15,7 +15,7 @@ class Cenario(db.Model):
         self.tipo = tipo
 
     @classmethod
-    def get_all_por_userid(cls, id_user):
+    def cenario_userid(cls, id_user):
         return cls.query.filter_by(id_user=id_user).all()
 
     @classmethod
@@ -23,9 +23,9 @@ class Cenario(db.Model):
         cenario_obj = cls.query.filter_by(id=id).first()
         if cenario_obj:
             if cenario is not None:
-                cenario_obj.cenario = cenario  # Atualiza o cenario se fornecido
+                cenario_obj.cenario = cenario  
             if tipo is not None:
-                cenario_obj.tipo = tipo  # Atualiza o tipo se fornecido
+                cenario_obj.tipo = tipo  
             db.session.commit()
             return cenario_obj
         return None

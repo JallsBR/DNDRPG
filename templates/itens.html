@@ -5,7 +5,7 @@
     {% if current_user.is_authenticated %}
 
 <!-- Índice de navegação -->
-<div class="navbar navbar-expand-lg navbar bg-dark">
+<div class="navbar navbar-expand-lg navbar bg-dark rounded">
     <h5 class="d-inline-block mx-3">
         <a href="#armas" class="text-white-50 link-underline link-underline-opacity-0">Armas</a>
     </h5>
@@ -34,8 +34,8 @@
                 <tr>
                     <th>Nome</th>
                     <th>Categoria</th>
-                    <th>Dano</th> 
-                    <th>Propriedades</th>
+                    <th style="width: 200px;">Dano - Tipo</th> 
+                    <th>Propriedades (metros)</th>
                     <th>Maestria</th>
                     <th>Peso</th>
                     <th>Preço</th>
@@ -70,7 +70,7 @@
                     <th>Classe de Armadura (CA)</th>
                     <th>Força</th>
                     <th>Furtividade</th>
-                    <th>Peso</th>
+                    <th>Peso(kg)</th>
                     <th>Preço</th>
                 </tr>
             </thead>
@@ -100,7 +100,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>Descrição</th>
-                    <th>Peso</th>
+                    <th>Peso(kg)</th>
                     <th>Preço</th>
                 </tr>
             </thead>

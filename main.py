@@ -9,10 +9,9 @@ from routes.user import blueprint_user
 from routes.npc import blueprint_npc
 from routes.personagens import blueprint_pj
 from routes.equipamentos import blueprint_equip
-from routes.campanhas import blueprint_campanha
 from routes.rolador import blueprint_rolador
 from routes.encontros import blueprint_encontros
-
+from routes.mestre import blueprint_mestre
 
 app = Flask(__name__)
 login_manager.init_app(app)
@@ -30,9 +29,9 @@ app.register_blueprint(blueprint_user, url_prefix='/user')
 app.register_blueprint(blueprint_npc, url_prefix='/npc')
 app.register_blueprint(blueprint_pj, url_prefix='/pj')
 app.register_blueprint(blueprint_equip, url_prefix='/equip')
-app.register_blueprint(blueprint_campanha, url_prefix='/campanha')
 app.register_blueprint(blueprint_rolador, url_prefix='/rolador')
 app.register_blueprint(blueprint_encontros, url_prefix='/encontros')
+app.register_blueprint(blueprint_mestre, url_prefix='/mestre')
 
 migrate = Migrate(app, db)
 

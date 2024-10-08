@@ -24,23 +24,77 @@
             <ul class="navbar-nav">
               <img src="/static/imagem/logo35.png"/>
               {% if current_user.is_authenticated %}  
-              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/">Inicial</a> </li>
-              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/pj/">Personagens</a> </li>
-              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/equip/">Equipamentos</a> </li>              
-              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/npc/">NPCs</a> </li>
-              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/campanha/">Mestre</a> </li>
-              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/rolador/">Rolador de Dados</a> </li>
-              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="#">Combate</a> </li>
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="/">Inicial</a> </li>
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="/pj/">Personagens</a> </li>
+              <li class="nav-item">
+                
+                <div class="dropdown">
+                  <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Equipamento
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="/equip">Todos</a></li>
+                    <li><a class="dropdown-item" href="/equip/arma">Armas</a></li>
+                    <li><a class="dropdown-item" href="/equip/armadura">Armadura</a></li>
+                    <li><a class="dropdown-item" href="/equip/equip" >Gerais</a></li>
+                    <li><a class="dropdown-item disabled " href="/equip/consumiveis" aria-disabled="true">Consumíveis</a></li>
+                    <li><a class="dropdown-item disabled" href="/equip/magicos"  aria-disabled="true">Mágicos</a></li>
+                    <li><a class="dropdown-item disabled" href="/equip/extras"  aria-disabled="true">Extras</a></li>
+
+                  </ul>
+                </div> 
+
+
+              </li>              
+              <li class="nav-item"> 
+                
+                <div class="dropdown">
+                  <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    NPCs
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="/npc">NPCs</a></li>
+                    <li><a class="dropdown-item" href="/npc/criatura">Criaturas</a></li>
+                    <li><a class="dropdown-item" href="/npc/create">Gerador NPC</a></li>
+                  </ul>
+                </div>
+
+
+              </li>
+              <li class="nav-item">
+                
+
+                <div class="dropdown">
+                  <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Mestre
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="/mestre">Mestre</a></li>
+                    <li><a class="dropdown-item" href="/mestre/campanha">Campanha</a></li>
+                    <li><a class="dropdown-item" href="/mestre/cenario">Cenário</a></li>
+                    <li><a class="dropdown-item disabled" href="#"  aria-disabled="true" >Organizações</a></li>
+                    <li><a class="dropdown-item" href="/mestre/encontro">Encontro</a></li>
+                    <li><a class="dropdown-item disabled" href="#"  aria-disabled="true">Mapas</a></li>
+                    <li><a class="dropdown-item disabled" href="#"  aria-disabled="true">Tabelas</a></li>
+
+                  </ul>
+                </div> 
+                
+                
+
+              </li>
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="/rolador/">Rolador de Dados</a> </li>
+              <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="#">Combate</a> </li>
               {% endif %}
             </ul>
    
               <ul class="navbar-nav ms-auto">
               {% if current_user.is_authenticated %}                
-                <li class="nav-item"><p class="nav-link active mb-0 h1 text-white-50"><b> {{current_user.nome}} {{current_user.sobrenome}}</b></p> </li>
-                <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/logout">Logout</a> </li>
+                <li class="nav-item"><p class="nav-link active mb-0 h1 text-white"><b> {{current_user.nome}} {{current_user.sobrenome}}</b></p> </li>
+                <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="/logout">Logout</a> </li>
               {% else %}
-                <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/login">Login</a> </li>
-                <li class="nav-item"><a class="nav-link active mb-0 h1 text-white-50" href="/login/register">Register</a> </li>
+                <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="/login">Login</a> </li>
+                <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="/login/register">Register</a> </li>
               {% endif %}
               </ul>
             </ul>

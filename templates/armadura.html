@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+
+    <!-- Lista de Armaduras -->
+    <div id="armaduras" class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Lista de Armaduras</h4>
+        
+        <table class="table table-striped table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Classe de Armadura (CA)</th>
+                    <th>Força</th>
+                    <th>Furtividade</th>
+                    <th>Peso(kg)</th>
+                    <th>Preço</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for armadura in armaduras %}
+                    <tr>
+                        <td>{{ armadura.nome }} <i>({{ armadura.nome_original }})</i></td>
+                        <td>{{ armadura.categoria }}</td>
+                        <td>{{ armadura.classe_armadura }}</td>
+                        <td>{% if armadura.forca %} {{ armadura.forca }} {% else %} - {% endif %}</td>
+                        <td>{% if armadura.furtividade %} Desvantagem {% else %} - {% endif %}</td>
+                        <td>{{ armadura.peso }}</td>
+                        <td>{{ armadura.preco }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+
+    {% endif %}
+
+{% endblock %}
