@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+
+    <div id="armas" class="card shadow p-5 bg-dark text-white-50">
+        <h4 class="text-white">Lista de Magias</h4>       
+        <table class="table table-striped table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Nível</th>
+                    <th>Componentes</th> 
+                    <th>Classes</th>
+                    <th>Duração</th>
+                    <th>Conjuração</th>
+                    <th>Distância</th>
+                    <th>Detalhes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for magia in magias %}
+                    <tr>
+                        <td>{{ magia.magia["nome"] }}<i>({{ magia.magia["spellname"] }})</i></td>                     
+                        {% if magia.magia["nivel"] == 'Truque' %} 
+                            <td>{{ magia.magia["nivel"] }} de {{ magia.magia["escola"] }}</td>
+                        {% else %}
+                            <td>{{ magia.magia["nivel"] }}º círculo de {{ magia.magia["escola"] }}</td>
+                        {% endif %}     
+                         <td>{{ magia.magia["componentes"]|join(", ") }}</td>        
+                         <td>{{ magia.magia["classes"]|join(", ")}}</td>        
+                         <td>{{ magia.magia["duracao"] }}</td>        
+                         <td>{{ magia.magia["casting"] }}</td>        
+                         <td>{{ magia.magia["distancia"] }}</td>
+                         <td><button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#magiaModal{{ magia.id }}">+</button></td>         
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+    {% for magia in magias %}
+    <div class="modal fade" id="magiaModal{{ magia.id }}" tabindex="-1" aria-labelledby="magiaModalLabel{{ magia.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-body">
+                    <div class="magia-detalhes no-margin">
+
+                        <h1><b>{{ magia.magia['nome']|title  }}<i>({{ magia.magia['spellname']|title  }})</i></b></h1>
+                        <label>
+                            <input type="checkbox" id="toggleIdioma{{ magia.id }}" onchange="toggleDescricao({{ magia.id }})"> Descrição em Inglês
+                        </label>
+
+                        {% if magia.magia["nivel"] == 'Truque' %} 
+                            <p><i>{{ magia.magia["nivel"] }} de {{ magia.magia["escola"] }} ({{ magia.magia["classes"]|join(", ")}})</i></p>
+                        {% else %}
+                            <p><i>{{ magia.magia["nivel"] }}º círculo de {{ magia.magia["escola"] }} ({{ magia.magia["classes"]|join(", ")}})</i></p>
+                        {% endif %}
+
+                        <p><b>Tempo de Conjuração:</b> {{ magia.magia["casting"] }}</p>
+                        <p><b>Distância:</b> {{ magia.magia["distancia"] }}</p>
+                        <p><b>Componentes:</b> {{ magia.magia["componentes"] | join(", ")}}</p>
+                        <p><b>Duração:</b> {{ magia.magia["duracao"] }}</p>
+                        <br>
+                        
+                        <!-- Texto em português e inglês controlado por JavaScript -->
+                        <p id="descricaoPT{{ magia.id }}">{{ magia.magia["texto"] }} <br> <b>Level mais alto:</b> {{ magia.magia["upgrade"] }} </p>
+                        <p id="descricaoEN{{ magia.id }}" style="display:none">{{ magia.magia["spelldescription"] }}</p>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-danger ms-2" onclick="deletarMagia({{ magia.id }})">Deletar</button> 
+                            <button name="action" value="editar" class="btn btn-primary">Editar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Script para alternar entre as descrições -->
+    <script>
+        function toggleDescricao(magiaId) {
+            var checkbox = document.getElementById('toggleIdioma' + magiaId);
+            var descricaoPT = document.getElementById('descricaoPT' + magiaId);
+            var descricaoEN = document.getElementById('descricaoEN' + magiaId);
+
+            if (checkbox.checked) {
+                descricaoPT.style.display = 'none';
+                descricaoEN.style.display = 'block';
+            } else {
+                descricaoPT.style.display = 'block';
+                descricaoEN.style.display = 'none';
+            }
+        }
+    </script>
+
+    {% endif %}
+
+{% endblock %}

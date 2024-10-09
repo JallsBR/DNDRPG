@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect,  jsonify, flash
+import json
 from model.magias_model import Magias
 from model.cenario_model import Cenario
 
@@ -15,8 +16,8 @@ blueprint_magia = Blueprint("magia", __name__, template_folder="templates")
 @blueprint_magia.route('/', methods=['GET', 'POST'])
 def index_magia():
     if request.method == 'GET':
-
-        return render_template('mestre.html')
+        magias = Magias.todas_magias()
+        return render_template('magias.html', magias=magias)
     
     if request.method == 'POST':        
         return redirect('/')
@@ -43,13 +44,14 @@ def criarmagia():
         casting = request.form.get('casting')
         duracao = request.form.get('duracao')
         componentes = request.form.get('componentes')
+        componentes = componentes.split(',')
         texto = request.form.get('texto')
         spelldescription = request.form.get('spelldescription')
         upgrade = request.form.get('upgrade')
         livro = request.form.get('livro')
 
         classes = []
-        for classe in ['Mago', 'Clérigo', 'Feiticeiro', 'Bardo', 'Druida', 'Bruxo', 'Paladino', 'Ranger']:
+        for classe in ['Mago', 'Clérigo', 'Feiticeiro', 'Bardo', 'Druida', 'Bruxo', 'Paladino', 'Patrulheiro']:
             if request.form.get(classe):
                 classes.append(classe)
 
@@ -92,15 +94,24 @@ def criarmagiajson():
 
     if request.method == 'POST':
         texto = request.form.get('texto')
-      
-        print("Magia", texto)
-              
-        if texto:
-                magia = Magias.criar_magia(texto)
+        try:
+            # Converte a string JSON em um dicionário Python
+            magia_data = json.loads(texto)
 
+            # Verifica se o dicionário está no formato esperado
+            if isinstance(magia_data, dict):
+                # Cria a magia usando os dados fornecidos
+                magia = Magias.criar_magia(magia_data=magia_data)
+
+                # Verifica se ocorreu algum erro
                 if isinstance(magia, str):
-                    flash(f"Erro ao criar magia: {texto['nome']}", "danger")
+                    flash(f"Erro ao criar magia: {magia_data.get('nome', 'Nome não encontrado')}", "danger")
                 else:
-                    flash(f"Magia '{texto['nome']}' criada com sucesso!", "success")
+                    flash(f"Magia '{magia_data.get('nome', 'Nome não encontrado')}' criada com sucesso!", "success")
+            else:
+                flash("Erro: O JSON enviado não está no formato correto.", "danger")
+        
+        except json.JSONDecodeError as e:
+            flash(f"Erro ao interpretar o JSON: {str(e)}", "danger")
 
         return redirect(request.url)
