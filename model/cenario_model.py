@@ -1,4 +1,6 @@
 from database.database import db
+from sqlalchemy import func
+
 
 class Cenario(db.Model):
     __tablename__ = "cenario"
@@ -16,7 +18,7 @@ class Cenario(db.Model):
 
     @classmethod
     def cenario_userid(cls, id_user):
-        return cls.query.filter_by(id_user=id_user).all()
+        return cls.query.filter_by(id_user=id_user).order_by(func.json_extract(cls.cenario, '$.nome')).all()
 
     @classmethod
     def update(cls, id, cenario=None, tipo=None):

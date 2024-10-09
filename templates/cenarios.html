@@ -5,13 +5,21 @@
     {% if current_user.is_authenticated %}
 
     <div class="card shadow p-5 bg-dark text-white no-margin"> 
-        <h1><b>CENARIOS</b></h1>
+        <h1><b>CENÁRIOS</b></h1> 
+        <br>
+        <p> Bem-vindo à sua porta de entrada para a criação e manutenção de <b>Locais</b> fascinantes que darão vida 
+            às suas aventuras e narrativas! Aqui, você pode descrever tudo, desde uma sombria masmorra até uma 
+            pitoresca vila, uma vasta região ou um imponente bastião — as possibilidades são infinitas! Além disso, 
+            é possível adicionar <b>NPCs e Organizações</b> que irão complementar e enriquecer sua história. Os cenários 
+            que você criar aqui podem ser utilizados em uma ou mais </b>Campanhas e Encontros</b>, proporcionando uma experiência 
+            de jogo verdadeiramente memorável! </p>
+            <br>
 
         <div class="col-md-4">
             <select id="cenario-select" class="form-select bg-dark text-white border-light">
                 <option value="" disabled selected>Selecione um Cenário</option>
                 {% for cenario in cenarios %}
-                    <option value="{{ cenario.id }}">{{ cenario.cenario['nome'] }} - {{ cenario.cenario['categoria'] }}</option>
+                    <option value="{{ cenario.id }}">{{ cenario.cenario['nome'] |title}} - {{ cenario.cenario['categoria'] |title}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -22,7 +30,7 @@
             <div class="d-flex flex-wrap gap-2">
                 <!-- O ID do botão está vinculado ao ID único do modal -->
                 <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#cenarioModal{{ cenario.id }}"> 
-                    <strong class="text-white">{{ cenario.cenario['nome'] }}</strong> 
+                    <strong class="text-white">{{ cenario.cenario['nome']|title }}</strong> 
                 </button>
             </div>
         
@@ -32,8 +40,8 @@
                     <div class="modal-content bg-dark text-white">
                         <div class="modal-body">
                             <div class="cenario-detalhes">
-                                <h1><b>{{ cenario.cenario['nome'] }}</b></h1>
-                                <p><i>#{{ cenario.id}}</i> {{ cenario.cenario['categoria'] }}</p>
+                                <h1><b>{{ cenario.cenario['nome']|title  }}</b></h1>
+                                <p><i>#{{ cenario.id}}</i> {{ cenario.cenario['categoria']|title }}</p>
                                 <hr>
                                 
                                 {% if cenario.cenario['descricaocurta']  %}
@@ -171,6 +179,17 @@
             <div class="modal-body">
                 <br>
                 <h2><b>NOVO CENÁRIO</b></h2>
+                <br>
+                <p> 
+                    Para dar vida ao seu cenário, preencha os campos abaixo. 
+                    Apenas o nome é obrigatório, mas sinta-se à vontade para adicionar 
+                    detalhes especiais no campo de <b>Outras Informações</b>. 
+                    Ao inserir <b>NPCs, Cenários e Organizações</b>, você poderá conectar-se a 
+                    informações já existentes, enriquecendo sua narrativa. E não se esqueça de usar 
+                    campo de observação para descrever a atuação ou função de cada elemento no seu mundo, 
+                    tornando a experiência ainda mais imersiva! 
+                </p>
+
                 <hr>
                 <!-- INICIO DO FORM -->
 
