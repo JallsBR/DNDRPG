@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    
+    <div class="card shadow p-5 bg-dark text-white"> 
+        <h1><b>Magias</b></h1>
+        <p> Cadastrar uma nova magia </p>
+
+
+        <div class="container">
+            <form method="POST" action="/magia/criarmagia">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="nome">Nome da Magia</label>
+                        <input type="text" id="nome" name="nome" class="form-control bg-dark text-white border-light" required>
+                    </div>
+        
+                    <div class="col-md-6 form-group">
+                        <label for="spellname">Spell Name</label>
+                        <input type="text" id="spellname" name="spellname" class="form-control bg-dark text-white border-light" required>
+                    </div>
+                </div>    
+                
+                <!-----------CLASSES ------------->
+                
+                <hr>
+                    <div class="row">
+                            <div class="col">
+                                <h3 class="text-white mb-0 me-3">Classes</h3> 
+                            </div>
+
+                        <br>
+
+                        <div class="d-flex flex-wrap">
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="form-check-input" id="Mago" name="Mago">
+                                <label class="form-check-label" for="Mago">Mago</label>
+                            </div>
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="form-check-input" id="Clérigo" name="Clérigo">
+                                <label class="form-check-label" for="Clérigo">Clérigo</label>
+                            </div>
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="form-check-input" id="Feiticeiro" name="Feiticeiro">
+                                <label class="form-check-label" for="Feiticeiro">Feiticeiro</label>
+                            </div>
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="form-check-input" id="Bardo" name="Bardo">
+                                <label class="form-check-label" for="Bardo">Bardo</label>
+                            </div>
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="form-check-input" id="Druida" name="Druida">
+                                <label class="form-check-label" for="Druida">Druida</label>
+                            </div>
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="form-check-input" id="Bruxo" name="Bruxo">
+                                <label class="form-check-label" for="Bruxo">Bruxo</label>
+                            </div>
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="form-check-input" id="Paladino" name="Paladino">
+                                <label class="form-check-label" for="Paladino">Paladino</label>
+                            </div>
+                            <div class="form-check me-3 mb-2">
+                                <input type="checkbox" class="form-check-input" id="Ranger" name="Ranger">
+                                <label class="form-check-label" for="Ranger">Ranger</label>
+                            </div>
+                        </div>    
+                    </div>
+                    
+                    <hr>
+
+
+                <!-----------Fim das CLASSES -------------->
+                <div class="row">
+                    <div class="col-md-1 form-group">
+                        <label for="nivel">Nível</label>
+                        <input type="text" id="nivel" name="nivel" class="form-control bg-dark text-white border-light" required>
+                    </div>
+        
+                    <div class="col-md-2 form-group">
+                        <label for="escola">Escola de Magia</label>
+                        <input type="text" id="escola" name="escola" class="form-control bg-dark text-white border-light" required>
+                    </div>
+
+                    <div class="col-md-2 form-group">
+                        <label for="distancia">Distância</label>
+                        <input type="text" id="distancia" name="distancia" class="form-control bg-dark text-white border-light" required>
+                    </div>
+        
+                    <div class="col-md-3 form-group">
+                        <label for="casting">Tipo de Cast ou Tempo</label>
+                        <input type="text" id="casting" name="casting" class="form-control bg-dark text-white border-light" required>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="duracao">Duração</label>
+                        <input type="text" id="duracao" name="duracao" class="form-control bg-dark text-white border-light" required>
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <label for="componentes">Componentes (separados por vírgula)</label>
+                        <input type="text" id="componentes" name="componentes" class="form-control bg-dark text-white border-light">
+                    </div>
+                </div>
+        
+                <div class="row">
+
+        
+                    <div class="col-md-12 form-group">
+                        <label for="texto">Descrição da magia</label>
+                        <textarea id="texto" name="texto" class="form-control bg-dark text-white border-light" rows="4"></textarea>
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <label for="spelldescription">Descrição em inglês</label>
+                        <textarea id="spelldescription" name="spelldescription" class="form-control bg-dark text-white border-light" rows="4"></textarea>
+                    </div>
+
+
+        
+                    <div class="col-md-12 form-group">
+                        <label for="upgrade">Upgrade</label>
+                        <textarea id="upgrade" name="upgrade" class="form-control bg-dark text-white border-light" rows="2"></textarea>
+                    </div>
+        
+                    <div class="col-md-12 form-group">
+                        <label for="livro">Livro</label>
+                        <input type="text" id="livro" name="livro" class="form-control bg-dark text-white border-light" required>
+                    </div>
+                </div>    
+                <br>   
+        
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <button type="submit" class="btn btn-primary">Cadastrar Magia</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+
+
+    </div>
+
+
+    {% endif %}
+
+{% endblock %}

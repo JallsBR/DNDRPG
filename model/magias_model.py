@@ -59,9 +59,9 @@ class Magias(db.Model):
     def todas_magias(cls, pt=True):
         """Retorna todas as magias em ordem alfabética pelo nome em português ou inglês"""
         if pt:
-            return cls.query.order_by(asc(cls.magia['nome'].astext)).all()
+            return cls.query.order_by(asc(cls.magia['nome'])).all()
         else:
-            return cls.query.order_by(asc(cls.magia['spellname'].astext)).all()
+            return cls.query.order_by(asc(cls.magia['spellname'])).all()
 
     @classmethod
     def classe_magias(cls, classe, pt=True, nivel=None):
@@ -81,9 +81,9 @@ class Magias(db.Model):
 
         # Ordena pelo nome em português ou inglês
         if pt:
-            return query.order_by(asc(cls.magia['nome'].astext)).all()
+            return query.order_by(asc(cls.magia['nome'])).all()
         else:
-            return query.order_by(asc(cls.magia['spellname'].astext)).all()
+            return query.order_by(asc(cls.magia['spellname'])).all()
 
     @classmethod
     def todas_magias_por_nivel(cls, pt=True):

@@ -12,6 +12,7 @@ from routes.equipamentos import blueprint_equip
 from routes.rolador import blueprint_rolador
 from routes.encontros import blueprint_encontros
 from routes.mestre import blueprint_mestre
+from routes.magia import blueprint_magia
 
 app = Flask(__name__)
 login_manager.init_app(app)
@@ -32,6 +33,7 @@ app.register_blueprint(blueprint_equip, url_prefix='/equip')
 app.register_blueprint(blueprint_rolador, url_prefix='/rolador')
 app.register_blueprint(blueprint_encontros, url_prefix='/encontros')
 app.register_blueprint(blueprint_mestre, url_prefix='/mestre')
+app.register_blueprint(blueprint_magia, url_prefix='/magia')
 
 migrate = Migrate(app, db)
 

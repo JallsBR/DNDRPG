@@ -26,8 +26,22 @@
               {% if current_user.is_authenticated %}  
               <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="/">Inicial</a> </li>
               <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="/pj/">Personagens</a> </li>
-              <li class="nav-item">
-                
+              
+              <li class="nav-item">                
+                <div class="dropdown">
+                  <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Magias
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item disabled " href="/magia" aria-disabled="true">Magias</a></li>
+                    <li><a class="dropdown-item disabled" href="/magia/regras"  aria-disabled="true">Regras</a></li>
+                    <li><a class="dropdown-item" href="/magia/criarmagia" >Criar Magias</a></li>
+                  </ul>
+                </div> 
+              </li>            
+              
+
+              <li class="nav-item">                
                 <div class="dropdown">
                   <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Equipamento
@@ -40,49 +54,32 @@
                     <li><a class="dropdown-item disabled " href="/equip/consumiveis" aria-disabled="true">Consumíveis</a></li>
                     <li><a class="dropdown-item disabled" href="/equip/magicos"  aria-disabled="true">Mágicos</a></li>
                     <li><a class="dropdown-item disabled" href="/equip/extras"  aria-disabled="true">Extras</a></li>
-
                   </ul>
                 </div> 
-
-
-              </li>              
-              <li class="nav-item"> 
-                
-                <div class="dropdown">
-                  <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    NPCs
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" href="/npc">NPCs</a></li>
-                    <li><a class="dropdown-item" href="/npc/criatura">Criaturas</a></li>
-                    <li><a class="dropdown-item" href="/npc/create">Gerador NPC</a></li>
-                  </ul>
-                </div>
-
-
-              </li>
+              </li> 
+              
+                            
               <li class="nav-item">
-                
-
                 <div class="dropdown">
                   <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Mestre
                   </button>
                   <ul class="dropdown-menu dropdown-menu-dark">
                     <li><a class="dropdown-item" href="/mestre">Mestre</a></li>
+                    <li><a class="dropdown-item" href="/npc">NPCs</a></li>
+                    <li><a class="dropdown-item" href="/npc/criatura">Criaturas</a></li>
+                    <li><a class="dropdown-item" href="/npc/create">Gerador NPC</a></li>
                     <li><a class="dropdown-item" href="/mestre/campanha">Campanha</a></li>
                     <li><a class="dropdown-item" href="/mestre/cenario">Cenário</a></li>
                     <li><a class="dropdown-item disabled" href="#"  aria-disabled="true" >Organizações</a></li>
                     <li><a class="dropdown-item" href="/mestre/encontro">Encontro</a></li>
                     <li><a class="dropdown-item disabled" href="#"  aria-disabled="true">Mapas</a></li>
                     <li><a class="dropdown-item disabled" href="#"  aria-disabled="true">Tabelas</a></li>
-
                   </ul>
                 </div> 
-                
-                
-
               </li>
+
+
               <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="/rolador/">Rolador de Dados</a> </li>
               <li class="nav-item"><a class="nav-link active mb-0 h1 text-white" href="#">Combate</a> </li>
               {% endif %}

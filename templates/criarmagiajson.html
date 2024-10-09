@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    
+    <div class="card shadow p-5 bg-dark text-white"> 
+        <h1><b>Magias</b></h1>
+        <p> Cadastrar uma nova magia por json </p>
+
+        <br>
+        <p><b>Modelo Json:</b></p>
+        <p> {"nome": "nome da magia", "spellname": "nome da magia em ingês", "spelldescription": "descrição em ingês",
+            "nivel": "nivel da magia, nivel 0 = truque", "escola": "escola de magia", "classes": [], "casting": "tipo de cast ou tempo",
+            "distancia": "distância", "componentes": [], "duracao": "duração", "texto": "texto", "upgrade": "upgrade",
+            "livro":"livro"}      
+       </p>
+        <br>
+
+        <div class="container">
+            <form method="POST" action="/magia/criarmagia">
+              
+                    <div class="col-md-12 form-group">
+                        <label for="texto">Json da magia</label>
+                        <textarea id="texto" name="texto" class="form-control bg-dark text-white border-light" rows="8"></textarea>
+                    </div>
+   
+                <br>   
+        
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <button type="submit" class="btn btn-primary">Cadastrar Magia</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+
+
+    </div>
+
+
+    {% endif %}
+
+{% endblock %}
