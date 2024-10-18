@@ -19,3 +19,8 @@ hr {
 span[contenteditable="true"] {
     cursor: text;
 }
+
+::placeholder {
+    color: #adb5bd; /* Cor neutra que combina com o tema Bootstrap */
+    opacity: 1; /* Para visibilidade total */
+}

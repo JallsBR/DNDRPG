@@ -3,7 +3,485 @@
 {% block conteudo %}
 
     {% if current_user.is_authenticated %}
-   <h1>Construcao</h1>
+<div class="card shadow p-5 bg-dark text-white no-margin"> 
+    <h1><b>EDITAR CENÁRIO - {{cenario.cenario['nome']}}</b></h1>
+    <hr>
+    <form method="POST" action="/mestre/editar_cenario/{{ cenario.id }}">
+
+        <div class="row">
+
+            <div class="col-md-8 form-group ">
+                <label for="nome">Nome do Cenário</label>
+                <input type="text" class="bg-dark text-white border-light form-control" id="nome" name="nome" value="{{ cenario.cenario['nome'] }}" required>
+            </div>
+            <br>
+            <div class="col-md-4 form-group">
+                <label for="categoria">Categoria</label>
+                <input type="text" class="bg-dark text-white border-light form-control" id="categoria" name="categoria" value="{{ cenario.tipo }}">
+            </div>                      
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label for="descricaocurta">Descrição Curta</label>
+            <textarea class="bg-dark text-white border-light form-control" id="descricaocurta" name="descricaocurta" rows="2" required>{{ cenario.cenario['descricaocurta'] }}</textarea>
+        </div>
+
+
+        <!-- Campo de categoria -->
+
+        <br>
+        <!-- Campo de descrição completa -->
+        <div class="form-group">
+            <label for="descricao">Descrição Completa</label>
+            <textarea class="bg-dark text-white border-light form-control" id="descricao" rows="4" name="descricao">{{ cenario.cenario['descricao'] }}</textarea>
+        </div>
+        <br>
+        <!-- Campo de história -->
+        <div class="form-group">
+            <label for="historia">História</label>
+            <textarea class="bg-dark text-white border-light form-control" id="historia" rows="4" name="historia">{{ cenario.cenario['historia'] }}</textarea>
+        </div>
+        <br>
+        <hr>
+
+
+        <!-- Regras -->
+        <div class="row">
+            <div class="col">
+                <div class="d-flex align-items-center">
+                    <h3 class="text-white mb-0 me-3"><b>Regras</b></h3>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary"
+                        style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-regra">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="form-group" id="regras-container">
+            <!-- Iteração sobre as regras existentes -->
+            {% for i, regra in enumerate(cenario.cenario['regras']) %}
+            <div class="row regra-group">
+                <div class="col-md-4 form-group">
+                    <label >Nome da Regra</label>
+                    <input  class="bg-dark text-white border-light form-control" type="text" name="nome_regra[]" value="{{ regra['nome_regra'] }}" placeholder="Nome da Regra">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label >Descrição da Regra</label>
+                    <input  class="bg-dark text-white border-light4 form-control" type="text" name="descricao_regra[]" value="{{ regra['descricao_regra'] }}" placeholder="Descrição da Regra">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label >Observação da Regra</label>
+                    <input  class="bg-dark text-white border-light form-control" type="text" name="observacao_regra[]" value="{{ regra['observacao'] }}" placeholder="Observação da Regra">
+                </div>
+            </div>  
+            <br>          
+            {% endfor %}
+        </div>
+        <br>
+        <hr>
+
+        <!-- Campo hidden para armazenar a contagem de regras -->
+        <input type="hidden" id="regras_count" name="regras_count" value="{{ cenario.cenario['regras']|length }}">
+
+        <!-- Script para adicionar novas regras -->
+        <script>
+            let regrasCount = {{ cenario.cenario['regras']|length }};
+            
+            document.getElementById('add-regra').addEventListener('click', function() {
+                // Atualiza o valor do contador de regras
+                regrasCount++;
+                document.getElementById('regras_count').value = regrasCount;
+                
+                // Adiciona nova regra ao container
+                const container = document.getElementById('regras-container');
+                const index = regrasCount; // Usando o count atualizado
+                
+                const novaRegra = `
+                <div class="row regra-group">
+                    <div class="col-md-4 form-group">
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="nome_regra[]" placeholder="Nome da Regra">
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="descricao_regra[]" placeholder="Descrição da Regra">
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="observacao_regra[]" placeholder="Observação da Regra">
+                    </div>
+                </div>
+                <br>`;
+                
+                container.insertAdjacentHTML('beforeend', novaRegra);
+            });
+        </script>
+                
+        
+        
+        <!-- Informações -->
+        <div class="row">
+            <div class="col">
+                <div class="d-flex align-items-center">
+                    <h3 class="text-white mb-0 me-3"><b>Informações</b></h3>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary"
+                        style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-info">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="form-group" id="infos-container">
+            <!-- Iteração sobre as informações existentes -->
+            {% for i, info in enumerate(cenario.cenario['info_cenario']) %}
+            <div class="row info-group">
+                <div class="col-md-2 form-group">
+                    <label >Perícia</label>
+                    <input  class="bg-dark text-white border-light form-control" type="text" name="pericia[]" value="{{ info['pericia'] }}" placeholder="Perícia">
+                </div>
+                <div class="col-md-1 form-group">
+                    <label >CD</label>
+                    <input  class="bg-dark text-white border-light form-control" type="text" name="cd[]" value="{{ info['cd'] }}" placeholder="CD">
+                </div>
+                <div class="col-md-9 form-group">
+                    <label >Informação</label>
+                    <input  class="bg-dark text-white border-light form-control" type="text" name="informacao[]" value="{{ info['informacao'] }}" placeholder="Informação">
+                </div>              
+            </div>
+            <br>
+            {% endfor %}
+        </div>
+        <br>
+        <hr>
+
+        <!-- Campo hidden para armazenar a contagem de informações -->
+        <input type="hidden" id="infos_count" name="infos_count" value="{{ cenario.cenario['info_cenario']|length }}">
+
+        <!-- Script para adicionar novas informações -->
+        <script>
+            let infosCount = {{ cenario.cenario['info_cenario']|length }};
+            
+            document.getElementById('add-info').addEventListener('click', function() {
+                // Atualiza o valor do contador de informações
+                infosCount++;
+                document.getElementById('infos_count').value = infosCount;
+                
+                // Adiciona nova informação ao container
+                const container = document.getElementById('infos-container');
+                const index = infosCount; // Usando o count atualizado
+                
+                const novaInfo = `
+                <div class="row info-group">
+                    <div class="col-md-2 form-group">
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="pericia[]" placeholder="Perícia">
+                    </div>
+                    <div class="col-md-1 form-group">
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="cd[]" placeholder="CD">
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="informacao[]" placeholder="Informação">
+                    </div>              
+                </div>
+                <br>`;
+                
+                container.insertAdjacentHTML('beforeend', novaInfo);
+            });
+        </script>
+
+
+
+
+
+        <!-- NPCs -->
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center">
+                        <h3 class="text-white mb-0 me-3"><b>NPCs</b></h3>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary"
+                            style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-npc">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- Iteração sobre os NPCs existentes -->
+            <div id="npcs-container">
+                {% for i, npc in enumerate(cenario.cenario['npcs']) %}
+                <div class="row npc-group">
+                    <div class="col-md-2 form-group">
+                        <label >Nome</label>
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="nome_npc[]" value="{{ npc['nome'] }}" placeholder="Nome do NPC">
+                    </div>
+                    <div class="col-md-10 form-group">
+                        <label >Observação</label>
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="observacao_npc[]" value="{{ npc['observacao'] }}" placeholder="Observação do NPC">
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <hr>
+
+        <!-- Campo hidden para armazenar a contagem de NPCs -->
+        <input type="hidden" id="npcs_count" name="npcs_count" value="{{ cenario.cenario['npcs']|length }}">
+
+        <!-- Script para adicionar novos NPCs -->
+        <script>
+            let npcsCount = {{ cenario.cenario['npcs']|length }};
+            
+            document.getElementById('add-npc').addEventListener('click', function() {
+                // Atualiza o valor do contador de NPCs
+                npcsCount++;
+                document.getElementById('npcs_count').value = npcsCount;
+                
+                // Adiciona novo NPC ao container
+                const container = document.getElementById('npcs-container');
+                const index = npcsCount; // Usando o count atualizado
+                
+                const novoNpc = `
+                <div class="row npc-group">
+                    <div class="col-md-2 form-group">
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="nome_npc[]" placeholder="Nome do NPC">
+                    </div>
+                    <div class="col-md-10 form-group">
+                        <input  class="bg-dark text-white border-light form-control" type="text" name="observacao_npc[]" placeholder="Observação do NPC">
+                    </div>
+                </div>
+                <br>`;
+                
+                container.insertAdjacentHTML('beforeend', novoNpc);
+            });
+        </script>
+
+
+
+        <!-- Organizações -->
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center">
+                        <h3 class="text-white mb-0 me-3"><b>Organizações</b></h3>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary"
+                            style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-organizacao">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- Iteração sobre as Organizações existentes -->
+            <div id="organizacoes-container">
+                {% for i, organizacao in enumerate(cenario.cenario['organizacoes']) %}
+                <div class="row organizacao-group">
+                    <div class="col-md-2 form-group">
+                        <label >Nome</label>
+                        <input class="bg-dark text-white border-light form-control" type="text" name="nome_organizacao[]" value="{{ organizacao['nome'] }}" placeholder="Nome da Organização">
+                    </div>
+                    <div class="col-md-10 form-group">
+                        <label >Observação</label>
+                        <input class="bg-dark text-white border-light form-control" type="text" name="observacao_organizacao[]" value="{{ organizacao['observacao'] }}" placeholder="Observação da Organização">
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <hr>
+
+        <!-- Campo hidden para armazenar a contagem de Organizações -->
+        <input type="hidden" id="organizacoes_count" name="organizacoes_count" value="{{ cenario.cenario['organizacoes']|length }}">
+
+        <!-- Script para adicionar novas Organizações -->
+        <script>
+            let organizacoesCount = {{ cenario.cenario['organizacoes']|length }};
+            
+            document.getElementById('add-organizacao').addEventListener('click', function() {
+                // Atualiza o valor do contador de Organizações
+                organizacoesCount++;
+                document.getElementById('organizacoes_count').value = organizacoesCount;
+                
+                // Adiciona nova Organização ao container
+                const container = document.getElementById('organizacoes-container');
+                const index = organizacoesCount; // Usando o count atualizado
+                
+                const novaOrganizacao = `
+                <div class="row organizacao-group">
+                    <div class="col-md-2 form-group">
+                        <input class="bg-dark text-white border-light form-control" type="text" name="nome_organizacao[]" placeholder="Nome da Organização">
+                    </div>
+                    <div class="col-md-10 form-group">
+                        <input class="bg-dark text-white border-light form-control" type="text" name="observacao_organizacao[]" placeholder="Observação da Organização">
+                    </div>
+                </div>
+                <br>`;
+                
+                container.insertAdjacentHTML('beforeend', novaOrganizacao);
+            });
+        </script>
+
+
+
+        <!-- Cenários Agregados -->
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center">
+                        <h3 class="text-white mb-0 me-3"><b>Cenários Agregados</b></h3>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary"
+                            style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-cenarios_agregados">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- Container para os Cenários Agregados -->
+            <div id="cenarios-agregados-container">
+                {% for i, cenario_agregado in enumerate(cenario.cenario['cenarios_agregados']) %}
+                <div class="row cenario-agregado-group">
+                    <div class="col-md-2 form-group"> 
+                        <label >Nome</label>   
+                        <input class="bg-dark text-white border-light form-control" type="text" name="nome_cenario_agregado[]" value="{{ cenario_agregado['nome'] }}" placeholder="Nome do Cenário Agregado">
+                    </div>
+                    <div class="col-md-10 form-group">
+                        <label >Observação</label>
+                        <input class="bg-dark text-white border-light form-control" type="text" name="observacao_cenario_agregado[]" value="{{ cenario_agregado['observacao'] }}" placeholder="Observação do Cenário Agregado">
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <hr>
+
+        <!-- Campo hidden para armazenar a contagem de Cenários Agregados -->
+        <input type="hidden" id="cenarios_agregados_count" name="cenarios_agregados_count" value="{{ cenario.cenario['cenarios_agregados']|length }}">
+
+        <!-- Script para adicionar novos Cenários Agregados -->
+        <script>
+            let cenariosAgregadosCount = {{ cenario.cenario['cenarios_agregados']|length }};
+            
+            document.getElementById('add-cenarios_agregados').addEventListener('click', function() {
+                // Atualiza o valor do contador de Cenários Agregados
+                cenariosAgregadosCount++;
+                document.getElementById('cenarios_agregados_count').value = cenariosAgregadosCount;
+                
+                // Adiciona novo Cenário Agregado ao container
+                const container = document.getElementById('cenarios-agregados-container');
+                const index = cenariosAgregadosCount; // Usando o count atualizado
+                
+                const novoCenarioAgregado = `
+                <div class="row cenario-agregado-group">
+                    <div class="col-md-2 form-group">    
+                        <input class="bg-dark text-white border-light form-control" type="text" name="nome_cenario_agregado[]" placeholder="Nome do Cenário Agregado">
+                    </div>
+                    <div class="col-md-10 form-group">
+                        <input class="bg-dark text-white border-light form-control" type="text" name="observacao_cenario_agregado[]" placeholder="Observação do Cenário Agregado">
+                    </div>
+                </div>
+                <br>`;
+                
+                container.insertAdjacentHTML('beforeend', novoCenarioAgregado);
+            });
+        </script>
+
+
+
+
+
+        <!-- OUTRAS INFORMAÇÕES -->
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center">
+                        <h3 class="text-white mb-0 me-3"><b>OUTRAS INFORMAÇÕES</b></h3>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary"
+                            style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="add-other-info">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- Container para as Outras Informações -->
+            <div id="other-info-container">
+                {% for i, outras in enumerate(cenario.cenario['outras']) %}
+                <div class="row other-info-row mt-3">
+                    <div class="col-md-12 form-group">
+                        <label for="titulo{{i}}">Título</label>
+                        <input type="text" id="titulo{{i}}" name="titulo[]" value="{{ outras['titulo'] }}" class="form-control bg-dark text-white border-light">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="texto{{i}}">Texto</label>
+                        <textarea id="texto{{i}}" name="texto[]" class="form-control bg-dark text-white border-light" rows="3">{{ outras['texto'] }}</textarea>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <hr>
+
+        <!-- Campo hidden para armazenar a contagem de outras informações -->
+        <input type="hidden" id="other_info_count" name="other_info_count" value="{{ cenario.cenario['outras']|length }}">
+
+        <!-- Script para adicionar novas Outras Informações -->
+        <script>
+            let otherInfoCount = {{ cenario.cenario['outras_informacoes']|length }};
+            
+            document.getElementById('add-other-info').addEventListener('click', function() {
+                // Atualiza o valor do contador de Outras Informações
+                otherInfoCount++;
+                document.getElementById('other_info_count').value = otherInfoCount;
+                
+                // Adiciona nova Outra Informação ao container
+                const container = document.getElementById('other-info-container');
+                const index = otherInfoCount; // Usando o count atualizado
+                
+                const novaOtherInfo = `
+                <div class="row other-info-row mt-3">
+                    <div class="col-md-12 form-group">
+                        <label for="titulo${index}">Título</label>
+                        <input type="text" id="titulo${index}" name="titulo[]" class="form-control bg-dark text-white border-light">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="texto${index}">Texto</label>
+                        <textarea id="texto${index}" name="texto[]" class="form-control bg-dark text-white border-light" rows="3"></textarea>
+                    </div>
+                </div>
+                <br>`;
+                
+                container.insertAdjacentHTML('beforeend', novaOtherInfo);
+            });
+        </script>
+
+
+
+
+
+        <!-- Botão de enviar -->
+        <br>
+        <hr>
+        <button type="submit" class="btn btn-primary">Atualizar Cenário</button>
+    </form>
+</div>
 
     {% endif %}
 

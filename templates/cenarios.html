@@ -124,7 +124,7 @@
                                 {% endif %}
 
                                 {% if  cenario.cenario['outras'] != []  %}
-                                <h5><strong>Organizações</strong></h5>
+                                <h5><strong>Outras Informações</strong></h5>
                                 {% for outra in cenario.cenario['outras'] %}
                                     <h5><strong>{{ outra['titulo'] }}</strong></h5>
                                     <p>Texto: {{ outra['texto'] }}</p>
@@ -136,7 +136,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                                     <button type="button" class="btn btn-danger ms-2" onclick="deletarCenario({{ cenario.id }})">Deletar</button> 
-                                    <a href="/mestre/edit_cenario/{{ cenario.id }}" class="btn btn-primary">Editar</a>
+                                    <a href="/mestre/editar_cenario/{{ cenario.id }}" class="btn btn-primary">Editar</a>
                                 </div>
 
 
@@ -365,11 +365,7 @@
                                 <label for="nome_npc1">Nome do NPC</label>
                                 <input type="text" id="nome_npc1" name="nome_npc[]" class="form-control bg-dark text-white border-light">
                             </div>
-                            <div class="col-md-2 form-group">
-                                <label for="id_npc1">Selecionar NPC</label>
-                                <input type="text" id="id_npc1" name="id_npc[]" class="form-control bg-dark text-white border-light">
-                            </div>
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-10 form-group">
                                 <label for="observacao_npc1">Observações</label>
                                 <input type="text" id="observacao_npc1" name="observacao_npc[]" class="form-control bg-dark text-white border-light">
                             </div>
@@ -392,11 +388,7 @@
                                     <label for="nome_npc${npcCount}">Nome do NPC</label>
                                     <input type="text" id="nome_npc${npcCount}" name="nome_npc[]" class="form-control bg-dark text-white border-light">
                                 </div>
-                                <div class="col-md-2 form-group">
-                                    <label for="id_npc${npcCount}">Selecionar NPC</label>
-                                    <input type="text" id="id_npc${npcCount}" name="id_npc[]" class="form-control bg-dark text-white border-light">
-                                </div>
-                                <div class="col-md-8 form-group">
+                                <div class="col-md-10 form-group">
                                     <label for="observacao_npc${npcCount}">Observações</label>
                                     <input type="text" id="observacao_npc${npcCount}" name="observacao_npc[]" class="form-control bg-dark text-white border-light">
                                 </div>
@@ -421,11 +413,7 @@
                                 <label for="nome_organizacao1">Nome</label>
                                 <input type="text" id="nome_organizacao1" name="nome_organizacao[]" class="form-control bg-dark text-white border-light">
                             </div>
-                            <div class="col-md-2 form-group">
-                                <label for="id_organizacao1">Selecionar</label>
-                                <input type="text" id="id_organizacao1" name="id_organizacao[]" class="form-control bg-dark text-white border-light">
-                            </div>
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-10 form-group">
                                 <label for="observacao_organizacao1">Observações</label>
                                 <input type="text" id="observacao_organizacao1" name="observacao_organizacao[]" class="form-control bg-dark text-white border-light">
                             </div>
@@ -448,11 +436,7 @@
                                     <label for="nome_organizacao${organizationCount}">Nome</label>
                                     <input type="text" id="nome_organizacao${organizationCount}" name="nome_organizacao[]" class="form-control bg-dark text-white border-light">
                                 </div>
-                                <div class="col-md-2 form-group">
-                                    <label for="id_organizacao${organizationCount}">Selecionar</label>
-                                    <input type="text" id="id_organizacao${organizationCount}" name="id_organizacao[]" class="form-control bg-dark text-white border-light">
-                                </div>
-                                <div class="col-md-8 form-group">
+                                <div class="col-md-10 form-group">
                                     <label for="observacao_organizacao${organizationCount}">Observações</label>
                                     <input type="text" id="observacao_organizacao${organizationCount}" name="observacao_organizacao[]" class="form-control bg-dark text-white border-light">
                                 </div>
@@ -477,11 +461,7 @@
                                 <label for="nome_cenario_agregado1">Nome</label>
                                 <input type="text" id="nome_cenario_agregado1" name="nome_cenario_agregado[]" class="form-control bg-dark text-white border-light">
                             </div>
-                            <div class="col-md-2 form-group">
-                                <label for="id_cenario_agregado1">Selecionar Cenário</label>
-                                <input type="text" id="id_cenario_agregado1" name="id_cenario_agregado[]" class="form-control bg-dark text-white border-light">
-                            </div>
-                            <div class="col-md-8 form-group">
+                            <div class="col-md-10 form-group">
                                 <label for="observacao_cenario_agregado1">Observações</label>
                                 <input type="text" id="observacao_cenario_agregado1" name="observacao_cenario_agregado[]" class="form-control bg-dark text-white border-light">
                             </div>
@@ -504,11 +484,7 @@
                                     <label for="nome_cenario_agregado${scenarioCount}">Nome</label>
                                     <input type="text" id="nome_cenario_agregado${scenarioCount}" name="nome_cenario_agregado[]" class="form-control bg-dark text-white border-light">
                                 </div>
-                                <div class="col-md-2 form-group">
-                                    <label for="id_cenario_agregado${scenarioCount}">Selecionar Cenário</label>
-                                    <input type="text" id="id_cenario_agregado${scenarioCount}" name="id_cenario_agregado[]" class="form-control bg-dark text-white border-light">
-                                </div>
-                                <div class="col-md-8 form-group">
+                                <div class="col-md-10 form-group">
                                     <label for="observacao_cenario_agregado${scenarioCount}">Observações</label>
                                     <input type="text" id="observacao_cenario_agregado${scenarioCount}" name="observacao_cenario_agregado[]" class="form-control bg-dark text-white border-light">
                                 </div>
