@@ -1,0 +1,652 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+
+    <div class="card shadow p-5 bg-dark text-white no-margin"> 
+        <h1><b>ORGANIZAÇÕES</b></h1> 
+        <br>
+        <p> Bem-vindo ao espaço dedicado à criação e gestão de <b>Organizações</b>, onde você pode definir guildas, 
+            seitas, religiões, ordens de cavalaria, tropas de elite e qualquer outro grupo importante para 
+            suas aventuras! Aqui, você poderá detalhar hierarquias, motivações, aliados e inimigos, assim como os 
+            membros-chave de cada organização. Esses grupos podem ser conectados a <b>Campanhas e Encontros</b>, 
+            influenciando eventos e decisões de forma significativa, tornando suas histórias ainda mais profundas e 
+            envolventes!</p>
+        <br>
+
+        <div class="col-md-4">
+            <select id="organizacao-select" class="form-select bg-dark text-white border-light">
+                <option value="" disabled selected>Selecione uma Organização</option>
+                {% for org in organiza %}
+                    <option value="{{ org.id }}">{{ org.org['nome'] |title}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+
+        <div class="d-flex flex-wrap gap-2">
+            {% for org in organiza %}
+            <div class="d-flex flex-wrap gap-2">
+                <!-- O ID do botão está vinculado ao ID único do modal -->
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#orgModal{{ org.id }}"> 
+                    <strong class="text-white">{{ org.org['nome']|title }}</strong> 
+                </button>
+            </div>
+        
+            <!-- Modal para cada organização -->
+            <div class="modal fade" id="orgModal{{ org.id }}" tabindex="-1" aria-labelledby="orgModalLabel{{ org.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content bg-dark text-white">
+                        <div class="modal-body">
+                            <div class="organizacao-detalhes">
+                                <h1><b>{{ org.org['nome']|title }}</b></h1>
+                                <hr>
+
+                                <h5><strong>Descrição Rápida</strong></h5>
+                                <p>{{ org.org['descricaoRapida'] }}</p>
+                                <hr>
+
+                                {% if org.org['descricao'] %}
+                                <h5><strong>Descrição</strong></h5>
+                                <p>{{ org.org['descricao'] }}</p>
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['lideranca'] %}
+                                <h5><strong>Liderança</strong></h5>
+                                {% for lider in org.org['lideranca'] %}
+                                    <p><b>{{ lider['lider'] }}</b> - {{ lider['descricao'] }}</p>
+                                    {% if lider['anotacoes'] %}
+                                        <p>Anotações: {{ lider['anotacoes'] }}</p>
+                                    {% endif %}
+                                    <hr>
+                                {% endfor %}
+                                {% endif %}
+
+                                {% if org.org['estruturaDePoderInterno'] %}
+                                <h5><strong>Estrutura de Poder Interno</strong></h5>
+                                <p>{{ org.org['estruturaDePoderInterno'] }}</p>
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['objetivosCurtos'] or org.org['objetivosMedio'] or org.org['objetivosLongos'] %}
+                                <h5><strong>Objetivos</strong></h5>
+                                <p>Curto Prazo: {{ org.org['objetivosCurtos'] }}</p>
+                                <p>Médio Prazo: {{ org.org['objetivosMedio'] }}</p>
+                                <p>Longo Prazo: {{ org.org['objetivosLongos'] }}</p>
+                                <hr>
+                                {% endif %}
+
+                                {% if org['estrategias'] %}
+                                <h5><strong>Estrategias</strong></h5>
+                                {% for estrategia in org.org['estrategias'] %}
+                                    <p><b>{{ estrategia['nome'] }}</b> - {{ estrategia['acao'] }}</p>
+                                    <br>
+                                {% endfor %}
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['regrasInternas'] %}
+                                <h5><strong>Regras Internas</strong></h5>
+                                <ul>
+                                    {% for regra in org['regrasInternas'] %}
+                                        <li>{{ regra }}</li>
+                                    {% endfor %}
+                                </ul>
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['fraquezas'] %}
+                                <h5><strong>Fraquezas</strong></h5>
+                                {% for fraqueza in org.org['fraquezas'] %}
+                                    <p><b>{{ fraqueza['nome'] }}</b> - {{ fraqueza['descricao'] }}</p>
+                                {% endfor %}
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['principaisInimigos'] %}
+                                <h5><strong>Principais Inimigos</strong></h5>
+                                {% for inimigo in org.org['principaisInimigos'] %}
+                                    <p><b>NPC ID:</b> {{ inimigo['npc'] }}</p>
+                                    <p><b>Motivo:</b> {{ inimigo['motivo'] }}</p>
+                                {% endfor %}
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['estrutura'] %}
+                                <h5><strong>Estrutura</strong></h5>
+                                {% for estr in org.org['estrutura'] %}
+                                    <p><b>{{ estr['nome'] }}</b> - {{ estr['lugar'] }}: {{ estr['descricao'] }}</p>
+                                {% endfor %}
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['ideiasUsos'] %}
+                                <h5><strong>Ideias de Uso</strong></h5>
+                                {% for ideia in org.org['ideiasUsos'] %}
+                                    <p><b>{{ ideia['nome'] }}</b> - {{ ideia['descricao'] }}</p>
+                                {% endfor %}
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['historia'] %}
+                                <h5><strong>História</strong></h5>
+                                <p>{{ org.org['historia'] }}</p>
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['atualizacoes'] %}
+                                <h5><strong>Atualizações</strong></h5>
+                                {% for atualizacao in org.org['atualizacoes'] %}
+                                    <p><b>{{ atualizacao['nome'] }}</b> - {{ atualizacao['descricao'] }}</p>
+                                {% endfor %}
+                                <hr>
+                                {% endif %}
+
+                                {% if org.org['outros'] %}
+                                <h5><strong>Outras Informações</strong></h5>
+                                {% for outro in org.org['outros'] %}
+                                    <p><b>{{ outro['nome'] }}</b> - {{ outro['descricao'] }}</p>
+                                {% endfor %}
+                                <hr>
+                                {% endif %}
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <br>
+    <div class="row">
+        <div class="col text-end"> <!-- Alinha o conteúdo à direita -->
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#criarorg">
+                Criar Organização
+              </button>
+        </div>
+    </div>
+
+
+<!------------------------ Modal ------------------------------------------>
+
+
+
+
+<form id="form-cenario" method="POST">
+    <div class="modal fade modal-xl " id="criarorg" tabindex="-1" aria-labelledby="createorgModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-body">
+                <br>
+                <h2><b>NOVA ORGANIZAÇÃO</b></h2>
+                <br>
+                <p> 
+                    Dê forma à sua organização, preenchendo os campos abaixo. O nome é obrigatório, mas para enriquecer 
+                    sua criação, você pode adicionar detalhes como a <b>liderança</b> da organização, suas <b>estratégias</b>, 
+                    <b>objetivos</b> a curto, médio e longo prazo, além de informações sobre <b>estrutura interna</b>, 
+                    <b>fraquezas</b> e <b>principais inimigos</b>. Cada detalhe ajudará a definir a influência e o papel 
+                    da organização no seu mundo. Ao final, utilize o campo <b>Outras Informações</b> para adicionar qualquer dado 
+                    adicional que considere relevante e que ajude a dar ainda mais profundidade ao seu mundo e às interações da organização.
+            
+                </p>
+
+                <hr>
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" class="form-control bg-dark text-white border-light">
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <label for="descricaoRapida">Descrição Rápida</label>
+                        <input type="text" id="descricaoRapida" name="descricaoRapida" class="form-control bg-dark text-white border-light">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="descricao">Descrição Completa</label>
+                        <textarea id="descricao" name="descricao" class="form-control bg-dark text-white border-light" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="historia">História</label>
+                        <textarea id="historia" name="historia" class="form-control bg-dark text-white border-light" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="estruturaDePoderInterno">Estrutura de poder interno</label>
+                        <textarea id="estruturaDePoderInterno" name="estruturaDePoderInterno" class="form-control bg-dark text-white border-light" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <!-- Liderança -->
+                <div class="d-flex align-items-center justify-content-start">
+                    <h3 class="text-white mt-4 mb-0 me-2"><b>LIDERANÇA</b></h3>
+                    <button id="add-lideranca" class="btn btn-secondary btn-sm mt-4 mb-0 me-2" type="button">+</button>
+                </div>
+                <div id="lideranca-container">
+                    <div class="row lideranca-row mt-3">
+                        <div class="col-md-2 form-group">
+                            <label for="lider1">Nome do Líder</label>
+                            <input type="text" id="lider1" name="lider[]" class="form-control bg-dark text-white border-light">
+                        </div>
+
+                        <div class="col-md-10 form-group">
+                            <label for="descricaoLider1">Descrição</label>
+                            <input type="text" id="descricaoLider1" name="descricaoLider[]" class="form-control bg-dark text-white border-light">
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <label for="anotacoesLider1">Anotações</label>
+                            <textarea id="anotacoesLider1" name="anotacoesLider[]" class="form-control bg-dark text-white border-light" rows="3"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <!-- Script para adicionar lideranças -->
+                <script>
+                    let liderCount = 1;
+                    document.getElementById('add-lideranca').addEventListener('click', function() {
+                        liderCount++;
+                        const liderContainer = document.getElementById('lideranca-container');
+                        const newLider = `
+                        <hr>
+                            <div class="row lideranca-row mt-3">
+                                <div class="col-md-2 form-group">
+                                    <label for="lider${liderCount}">Nome do Líder</label>
+                                    <input type="text" id="lider${liderCount}" name="lider[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-10 form-group">
+                                    <label for="descricaoLider${liderCount}">Descrição</label>
+                                    <input type="text" id="descricaoLider${liderCount}" name="descricaoLider[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label for="anotacoesLider${liderCount}">Anotações</label>
+                                     <textarea id="anotacoesLider${liderCount}" name="anotacoesLider[]" class="form-control bg-dark text-white border-light" rows="3"></textarea>                                  
+                                </div>
+                            </div>`;
+                        liderContainer.insertAdjacentHTML('beforeend', newLider);
+                    });
+                </script>
+                
+                <hr>
+                
+                <!-- Objetivos -->
+                <h3 class="text-white mt-4 mb-0 me-2"><b>OBJETIVOS</b></h3>
+                <div class="row">
+                    
+                    <div class="col-md-12 form-group">
+                        <label for="objetivosCurtos">Objetivo Curto Prazo</label>
+                        <textarea id="objetivosCurtos" name="objetivosCurtos" class="form-control bg-dark text-white border-light" rows="3"></textarea>                                  
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="objetivosMedio">Objetivo Médio Prazo</label>
+                        <textarea id="objetivosMedio" name="objetivosMedio" class="form-control bg-dark text-white border-light" rows="3"></textarea>                               
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="objetivosLongos">Objetivo Longo Prazo</label>
+                        <textarea id="objetivosLongos" name="objetivosLongos" class="form-control bg-dark text-white border-light" rows="3"></textarea>                               
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <!-- Estratégias -->
+                <div class="d-flex align-items-center justify-content-start">
+                    <h3 class="text-white mt-4 mb-0 me-2"><b>ESTRATÉGIAS</b></h3>
+                    <button id="add-estrategia" class="btn btn-secondary btn-sm mt-4 mb-0 me-2" type="button">+</button>
+                </div>
+                <div id="estrategias-container">
+                    <div class="row estrategia-row mt-3">
+                        <div class="col-md-2 form-group">
+                            <label for="nome_estrategia1">Nome da Estratégia</label>
+                            <input type="text" id="nome_estrategia1" name="nome_estrategia[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-10 form-group">
+                            <label for="acao_estrategia1">Ação</label>
+                            <input type="text" id="acao_estrategia1" name="acao_estrategia[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Script para adicionar estratégias -->
+                <script>
+                    let estrategiaCount = 1;
+                    document.getElementById('add-estrategia').addEventListener('click', function() {
+                        estrategiaCount++;
+                        const estrategiaContainer = document.getElementById('estrategias-container');
+                        const newEstrategia = `
+                            <div class="row estrategia-row mt-3">
+                                <div class="col-md-2 form-group">
+                                    <label for="nome_estrategia${estrategiaCount}">Nome da Estratégia</label>
+                                    <input type="text" id="nome_estrategia${estrategiaCount}" name="nome_estrategia[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-10 form-group">
+                                    <label for="acao_estrategia${estrategiaCount}">Ação</label>
+                                    <input type="text" id="acao_estrategia${estrategiaCount}" name="acao_estrategia[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                            </div>`;
+                        estrategiaContainer.insertAdjacentHTML('beforeend', newEstrategia);
+                    });
+                </script>
+                
+                <hr>
+                
+                <!-- Regras Internas -->
+                <div class="d-flex align-items-center justify-content-start">
+                    <h3 class="text-white mt-4 mb-0 me-2"><b>REGRAS INTERNAS</b></h3>
+                    <button id="add-regra" class="btn btn-secondary btn-sm mt-4 mb-0 me-2" type="button">+</button>
+                </div>
+                <div id="regras-container">
+                    <div class="row regra-row mt-3">
+                        <div class="col-md-12 form-group">
+                            <label for="regra1">Regra Interna</label>
+                            <input type="text" id="regra1" name="regra[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Script para adicionar regras internas -->
+                <script>
+                    let regraCount = 1;
+                    document.getElementById('add-regra').addEventListener('click', function() {
+                        regraCount++;
+                        const regrasContainer = document.getElementById('regras-container');
+                        const newRegra = `
+                            <div class="row regra-row mt-3">
+                                <div class="col-md-12 form-group">
+                                    <label for="regra${regraCount}">Regra Interna</label>
+                                    <input type="text" id="regra${regraCount}" name="regra[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                            </div>`;
+                        regrasContainer.insertAdjacentHTML('beforeend', newRegra);
+                    });
+                </script>
+                
+                <hr>
+
+                <!-- Fraquezas -->
+                <div class="d-flex align-items-center justify-content-start">
+                    <h3 class="text-white mt-4 mb-0 me-2"><b>FRAQUEZAS</b></h3>
+                    <button id="add-fraqueza" class="btn btn-secondary btn-sm mt-4 mb-0 me-2" type="button">+</button>
+                </div>
+                <div id="fraquezas-container">
+                    <div class="row fraqueza-row mt-3">
+                        <div class="col-md-2 form-group">
+                            <label for="nome_fraqueza1">Nome da Fraqueza</label>
+                            <input type="text" id="nome_fraqueza1" name="nome_fraqueza[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-10 form-group">
+                            <label for="descricao_fraqueza1">Descrição</label>
+                            <input type="text" id="descricao_fraqueza1" name="descricao_fraqueza[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Script para adicionar fraquezas -->
+                <script>
+                    let fraquezaCount = 1;
+                    document.getElementById('add-fraqueza').addEventListener('click', function() {
+                        fraquezaCount++;
+                        const fraquezaContainer = document.getElementById('fraquezas-container');
+                        const newFraqueza = `
+                            <div class="row fraqueza-row mt-3">
+                                <div class="col-md-2 form-group">
+                                    <label for="nome_fraqueza${fraquezaCount}">Nome da Fraqueza</label>
+                                    <input type="text" id="nome_fraqueza${fraquezaCount}" name="nome_fraqueza[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-10 form-group">
+                                    <label for="descricao_fraqueza${fraquezaCount}">Descrição</label>
+                                    <input type="text" id="descricao_fraqueza${fraquezaCount}" name="descricao_fraqueza[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                            </div>`;
+                        fraquezaContainer.insertAdjacentHTML('beforeend', newFraqueza);
+                    });
+                </script>
+                
+                <hr>
+                
+                <!-- Principais Inimigos -->
+                <div class="d-flex align-items-center justify-content-start">
+                    <h3 class="text-white mt-4 mb-0 me-2"><b>PRINCIPAIS INIMIGOS</b></h3>
+                    <button id="add-inimigo" class="btn btn-secondary btn-sm mt-4 mb-0 me-2" type="button">+</button>
+                </div>
+                <div id="inimigos-container">
+                    <div class="row inimigo-row mt-3">
+                        <div class="col-md-2 form-group">
+                            <label for="npc_inimigo1">Inimigo</label>
+                            <input type="text" id="npc_inimigo1" name="npc_inimigo[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-10 form-group">
+                            <label for="motivo_inimigo1">Motivo</label>
+                            <input type="text" id="motivo_inimigo1" name="motivo_inimigo[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Script para adicionar inimigos -->
+                <script>
+                    let inimigoCount = 1;
+                    document.getElementById('add-inimigo').addEventListener('click', function() {
+                        inimigoCount++;
+                        const inimigoContainer = document.getElementById('inimigos-container');
+                        const newInimigo = `
+                            <div class="row inimigo-row mt-3">
+                                <div class="col-md-2 form-group">
+                                    <label for="npc_inimigo${inimigoCount}">NPC Inimigo</label>
+                                    <input type="text" id="npc_inimigo${inimigoCount}" name="npc_inimigo[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-10 form-group">
+                                    <label for="motivo_inimigo${inimigoCount}">Motivo</label>
+                                    <input type="text" id="motivo_inimigo${inimigoCount}" name="motivo_inimigo[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                            </div>`;
+                        inimigoContainer.insertAdjacentHTML('beforeend', newInimigo);
+                    });
+                </script>
+                
+                <hr>
+                
+                <!-- Estrutura -->
+                <div class="d-flex align-items-center justify-content-start">
+                    <h3 class="text-white mt-4 mb-0 me-2"><b>ESTRUTURA</b></h3>
+                    <button id="add-estrutura" class="btn btn-secondary btn-sm mt-4 mb-0 me-2" type="button">+</button>
+                </div>
+                <div id="estrutura-container">
+                    <div class="row estrutura-row mt-3">
+                        <div class="col-md-2 form-group">
+                            <label for="nome_estrutura1">Nome da Estrutura</label>
+                            <input type="text" id="nome_estrutura1" name="nome_estrutura[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="lugar_estrutura1">Lugar</label>
+                            <input type="text" id="lugar_estrutura1" name="lugar_estrutura[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <label for="descricao_estrutura1">Descrição</label>
+                            <input type="text" id="descricao_estrutura1" name="descricao_estrutura[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Script para adicionar estruturas -->
+                <script>
+                    let estruturaCount = 1;
+                    document.getElementById('add-estrutura').addEventListener('click', function() {
+                        estruturaCount++;
+                        const estruturaContainer = document.getElementById('estrutura-container');
+                        const newEstrutura = `
+                            <div class="row estrutura-row mt-3">
+                                <div class="col-md-2 form-group">
+                                    <label for="nome_estrutura${estruturaCount}">Nome da Estrutura</label>
+                                    <input type="text" id="nome_estrutura${estruturaCount}" name="nome_estrutura[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <label for="lugar_estrutura${estruturaCount}">Lugar</label>
+                                    <input type="text" id="lugar_estrutura${estruturaCount}" name="lugar_estrutura[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <label for="descricao_estrutura${estruturaCount}">Descrição</label>
+                                    <input type="text" id="descricao_estrutura${estruturaCount}" name="descricao_estrutura[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                            </div>`;
+                        estruturaContainer.insertAdjacentHTML('beforeend', newEstrutura);
+                    });
+                </script>
+                
+                <hr>
+                
+                <!-- Ideias de Uso -->
+                <div class="d-flex align-items-center justify-content-start">
+                    <h3 class="text-white mt-4 mb-0 me-2"><b>IDEIAS DE USO</b></h3>
+                    <button id="add-ideia-uso" class="btn btn-secondary btn-sm mt-4 mb-0 me-2" type="button">+</button>
+                </div>
+                <div id="ideias-uso-container">
+                    <div class="row ideia-uso-row mt-3">
+                        <div class="col-md-2 form-group">
+                            <label for="nome_ideia_uso1">Nome da Ideia</label>
+                            <input type="text" id="nome_ideia_uso1" name="nome_ideia_uso[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-10 form-group">
+                            <label for="descricao_ideia_uso1">Descrição</label>
+                            <input type="text" id="descricao_ideia_uso1" name="descricao_ideia_uso[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Script para adicionar ideias de uso -->
+                <script>
+                    let ideiaUsoCount = 1;
+                    document.getElementById('add-ideia-uso').addEventListener('click', function() {
+                        ideiaUsoCount++;
+                        const ideiaUsoContainer = document.getElementById('ideias-uso-container');
+                        const newIdeiaUso = `
+                            <div class="row ideia-uso-row mt-3">
+                                <div class="col-md-2 form-group">
+                                    <label for="nome_ideia_uso${ideiaUsoCount}">Nome da Ideia</label>
+                                    <input type="text" id="nome_ideia_uso${ideiaUsoCount}" name="nome_ideia_uso[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-10 form-group">
+                                    <label for="descricao_ideia_uso${ideiaUsoCount}">Descrição</label>
+                                    <input type="text" id="descricao_ideia_uso${ideiaUsoCount}" name="descricao_ideia_uso[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                            </div>`;
+                        ideiaUsoContainer.insertAdjacentHTML('beforeend', newIdeiaUso);
+                    });
+                </script>                
+                
+                <hr>
+                
+                <!-- Atualizações -->
+                <div class="d-flex align-items-center justify-content-start">
+                    <h3 class="text-white mt-4 mb-0 me-2"><b>ATUALIZAÇÕES</b></h3>
+                    <button id="add-atualizacao" class="btn btn-secondary btn-sm mt-4 mb-0 me-2" type="button">+</button>
+                </div>
+                <div id="atualizacoes-container">
+                    <div class="row atualizacao-row mt-3">
+                        <div class="col-md-3 form-group">
+                            <label for="nome_atualizacao1">Nome da Atualização</label>
+                            <input type="text" id="nome_atualizacao1" name="nome_atualizacao[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <label for="descricao_atualizacao1">Descrição</label>
+                            <input type="text" id="descricao_atualizacao1" name="descricao_atualizacao[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Script para adicionar atualizações -->
+                <script>
+                    let atualizacaoCount = 1;
+                    document.getElementById('add-atualizacao').addEventListener('click', function() {
+                        atualizacaoCount++;
+                        const atualizacaoContainer = document.getElementById('atualizacoes-container');
+                        const newAtualizacao = `
+                            <div class="row atualizacao-row mt-3">
+                                <div class="col-md-3 form-group">
+                                    <label for="nome_atualizacao${atualizacaoCount}">Nome da Atualização</label>
+                                    <input type="text" id="nome_atualizacao${atualizacaoCount}" name="nome_atualizacao[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <label for="descricao_atualizacao${atualizacaoCount}">Descrição</label>
+                                    <input type="text" id="descricao_atualizacao${atualizacaoCount}" name="descricao_atualizacao[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                            </div>`;
+                        atualizacaoContainer.insertAdjacentHTML('beforeend', newAtualizacao);
+                    });
+                </script>
+                
+                <hr>
+                
+                <!-- Outros -->
+                <div class="d-flex align-items-center justify-content-start">
+                    <h3 class="text-white mt-4 mb-0 me-2"><b>OUTROS</b></h3>
+                    <button id="add-outros" class="btn btn-secondary btn-sm mt-4 mb-0 me-2" type="button">+</button>
+                </div>
+                <div id="outros-container">
+                    <div class="row outros-row mt-3">
+                        <div class="col-md-12 form-group">
+                            <label for="nome_outros1">Nome</label>
+                            <input type="text" id="nome_outros1" name="nome_outros[]" class="form-control bg-dark text-white border-light">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label for="descricao_outros1">Descrição</label>
+                            <textarea type="text" id="descricao_outros1" name="descricao_outros[]" class="form-control bg-dark text-white border-light"  rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Script para adicionar outros -->
+                <script>
+                    let outrosCount = 1;
+                    document.getElementById('add-outros').addEventListener('click', function() {
+                        outrosCount++;
+                        const outrosContainer = document.getElementById('outros-container');
+                        const newOutros = `
+                        <hr>
+                            <div class="row outros-row mt-3">
+                                <div class="col-md-12 form-group">
+                                    <label for="nome_outros${outrosCount}">Nome</label>
+                                    <input type="text" id="nome_outros${outrosCount}" name="nome_outros[]" class="form-control bg-dark text-white border-light">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label for="descricao_outros${outrosCount}">Descrição</label>
+                                    <textarea type="text" id="descricao_outros${outrosCount}" name="descricao_outros[]" class="form-control bg-dark text-white border-light" rows="5"></textarea>    
+                                </div>
+                            </div>`;
+                        outrosContainer.insertAdjacentHTML('beforeend', newOutros);
+                    });
+                </script>
+
+                <hr>
+                
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary ">Salvar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</form>
+
+
+
+    {% endif %}
+
+{% endblock %}

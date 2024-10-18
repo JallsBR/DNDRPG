@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect,  jsonify
+from flask import Blueprint, render_template, request, redirect,  jsonify, flash
 from model.campanha_model import Campanha
 from model.cenario_model import Cenario
 from model.personagens_model import Personagem
@@ -195,7 +195,7 @@ def editar_cenario(id):
             "descricaocurta": descricaocurta,
             "descricao": descricao,
             "historia": historia,
-            "categoria": categoria,
+            "categoria": categoria,            
             "regras": [
                 {
                     "nome_regra": nome_regras[i],
@@ -241,7 +241,7 @@ def editar_cenario(id):
 
         if cenario and cenario.id_user == current_user.id:
             # Aqui você atualiza o cenário com os dados novos
-            Cenario.update(id, cenario=cenario_data)
+            Cenario.update(id, cenario=cenario_data, tipo=categoria)
             return jsonify({"message": "Cenário atualizado com sucesso."}), 200
         else:
             return jsonify({"error": "Cenário não encontrado ou não autorizado."}), 404
@@ -279,12 +279,115 @@ def index_encontro():
     if request.method == 'POST':        
         return redirect('/')
       
+# Organização -----------------------------------------------------------------
 
 @blueprint_mestre.route('/organizacao', methods=['GET', 'POST'])
 def index_organizacao():
     if request.method == 'GET':
-
-        return render_template('construcao.html')
+        organiza = Organizacoes.org_userid(current_user.id)
+        print(organiza)
+        return render_template('organizacao.html', organiza=organiza)
     
-    if request.method == 'POST':        
-        return redirect('/')
+    if request.method == 'POST':    
+        
+        nome = request.form.get('nome')
+        descricao_rapida = request.form.get('descricaoRapida')
+        descricao = request.form.get('descricao')
+        estrutura_poder = request.form.get('estruturaDePoderInterno')
+        objetivos_curtos = request.form.get('objetivosCurtos')
+        objetivos_medio = request.form.get('objetivosMedio')
+        objetivos_longos = request.form.get('objetivosLongos')
+        historia = request.form.get('historia')
+
+        # Coleta os arrays (com múltiplos campos)
+        lideranca = []
+        for i in range(len(request.form.getlist('lider'))):
+            lideranca.append({
+                "lider": request.form.getlist('lider')[i],
+                "npcId": request.form.getlist('npcId')[i],
+                "descricao": request.form.getlist('descricao_lider')[i],
+                "anotacoes": request.form.getlist('anotacoes')[i]
+            })
+
+        estrategias = []
+        for i in range(len(request.form.getlist('nome_estrategia'))):
+            estrategias.append({
+                "nome": request.form.getlist('nome_estrategia')[i],
+                "acao": request.form.getlist('acao_estrategia')[i]
+            })
+
+        fraquezas = []
+        for i in range(len(request.form.getlist('nome_fraqueza'))):
+            fraquezas.append({
+                "nome": request.form.getlist('nome_fraqueza')[i],
+                "descricao": request.form.getlist('descricao_fraqueza')[i]
+            })
+
+        principais_inimigos = []
+        for i in range(len(request.form.getlist('npc_inimigo'))):
+            principais_inimigos.append({
+                "npc": request.form.getlist('npc_inimigo')[i],
+                "motivo": request.form.getlist('motivo_inimigo')[i]
+            })
+
+        estrutura = []
+        for i in range(len(request.form.getlist('nome_estrutura'))):
+            estrutura.append({
+                "nome": request.form.getlist('nome_estrutura')[i],
+                "lugar": request.form.getlist('lugar_estrutura')[i],
+                "descricao": request.form.getlist('descricao_estrutura')[i]
+            })
+
+        ideias_usos = []
+        for i in range(len(request.form.getlist('nome_ideia_uso'))):
+            ideias_usos.append({
+                "nome": request.form.getlist('nome_ideia_uso')[i],
+                "descricao": request.form.getlist('descricao_ideia_uso')[i]
+            })
+
+        atualizacoes = []
+        for i in range(len(request.form.getlist('nome_atualizacao'))):
+            atualizacoes.append({
+                "nome": request.form.getlist('nome_atualizacao')[i],
+                "descricao": request.form.getlist('descricao_atualizacao')[i]
+            })
+
+        outros = []
+        for i in range(len(request.form.getlist('nome_outros'))):
+            outros.append({
+                "nome": request.form.getlist('nome_outros')[i],
+                "descricao": request.form.getlist('descricao_outros')[i]
+            })
+
+        regras_internas = request.form.getlist('regrasInternas')
+        
+        organizacao = {
+            "nome": nome,
+            "descricaoRapida": descricao_rapida,
+            "descricao": descricao,
+            "lideranca": lideranca,
+            "estruturaDePoderInterno": estrutura_poder,
+            "objetivosCurtos": objetivos_curtos,
+            "objetivosMedio": objetivos_medio,
+            "objetivosLongos": objetivos_longos,
+            "estrategias": estrategias,
+            "regrasInternas": regras_internas,
+            "fraquezas": fraquezas,
+            "principaisInimigos": principais_inimigos,
+            "estrutura": estrutura,
+            "ideiasUsos": ideias_usos,
+            "historia": historia,
+            "atualizacoes": atualizacoes,
+            "outros": outros
+        }
+        print("Organizacao: ", organizacao, )
+        try:
+            novaorganizacao= Organizacoes(id_user=current_user.id, org=organizacao)
+            db.session.add(novaorganizacao)
+            db.session.commit()
+            flash("Organização criada com sucesso!", "success")
+            return redirect('/')
+        except Exception as e:
+            print(f"Erro ao salvar a organização: {str(e)}")
+            flash("Erro ao salvar a organização.", "danger")
+            return redirect('/organizacao')
