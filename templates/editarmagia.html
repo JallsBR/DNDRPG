@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% if current_user.is_authenticated %}
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    
+    <div class="card shadow p-5 bg-dark text-white"> 
+
+        <h1> Editar <b>{{ magia.magia['nome']|title  }}</b></h1>
+
+
+        <div class="container">
+            <form method="POST" action="/magia/editar/{{magia.id}}">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="nome">Nome da Magia</label>
+                        <input type="text" id="nome" name="nome" class="form-control bg-dark text-white border-light" value="{{ magia.magia['nome'] }}" required>
+                    </div>
+        
+                    <div class="col-md-6 form-group">
+                        <label for="spellname">Spell Name</label>
+                        <input type="text" id="spellname" name="spellname" class="form-control bg-dark text-white border-light" value="{{ magia.magia['spellname'] }}" required>
+                    </div>
+                </div>  
+                
+
+                
+
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="classes">Classes <i>(separados por vírgula)</i></label>
+                        <input type="text" id="classes" name="classes" class="form-control bg-dark text-white border-light" value="{{ magia.magia['classes'] | join(', ')}}">
+                    </div>
+                </div>
+                    
+
+
+
+
+                <div class="row">
+                    <div class="col-md-1 form-group">
+                        <label for="nivel">Nível</label>
+                        <input type="text" id="nivel" name="nivel" class="form-control bg-dark text-white border-light" value="{{ magia.magia['nivel'] }}" required>
+                    </div>
+        
+                    <div class="col-md-2 form-group">
+                        <label for="escola">Escola de Magia</label>
+                        <input type="text" id="escola" name="escola" class="form-control bg-dark text-white border-light" value="{{ magia.magia['escola'] }}" required>
+                    </div>
+
+                    <div class="col-md-2 form-group">
+                        <label for="distancia">Distância</label>
+                        <input type="text" id="distancia" name="distancia" class="form-control bg-dark text-white border-light" value="{{ magia.magia['distancia'] }}" required>
+                    </div>
+        
+                    <div class="col-md-3 form-group">
+                        <label for="casting">Tipo de Cast ou Tempo</label>
+                        <input type="text" id="casting" name="casting" class="form-control bg-dark text-white border-light" value="{{ magia.magia['casting'] }}" required>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="duracao">Duração</label>
+                        <input type="text" id="duracao" name="duracao" class="form-control bg-dark text-white border-light" value="{{ magia.magia['duracao'] }}" required>
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <label for="componentes">Componentes (separados por vírgula)</label>
+                        <input type="text" id="componentes" name="componentes" class="form-control bg-dark text-white border-light" value="{{ magia.magia['componentes']| join(', ') }}">
+                    </div>
+                </div>
+        
+                <div class="row">
+
+        
+                    <div class="col-md-12 form-group">
+                        <label for="texto">Descrição da magia</label>
+                        <textarea id="texto" name="texto" class="form-control bg-dark text-white border-light" rows="4">{{ magia.magia['texto'] }}</textarea>
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <label for="spelldescription">Descrição em inglês</label>
+                        <textarea id="spelldescription" name="spelldescription" class="form-control bg-dark text-white border-light" rows="4">{{ magia.magia['spelldescription'] }}</textarea>
+                    </div>
+
+
+        
+                    <div class="col-md-12 form-group">
+                        <label for="upgrade">Upgrade</label>
+                        <textarea id="upgrade" name="upgrade" class="form-control bg-dark text-white border-light" rows="2">{{ magia.magia['upgrade'] }}</textarea>
+                    </div>
+        
+                    <div class="col-md-12 form-group">
+                        <label for="livro">Livro</label>
+                        <input type="text" id="livro" name="livro" class="form-control bg-dark text-white border-light" value="{{ magia.magia['livro'] }}" required>
+                    </div>
+                </div>    
+                <br>   
+        
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <button type="submit" class="btn btn-primary">Atualizar Magia</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+
+
+    </div>
+
+
+    {% endif %}
+
+{% endblock %}

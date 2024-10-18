@@ -15,15 +15,15 @@
             de jogo verdadeiramente memorável! </p>
             <br>
 
-        <div class="col-md-4">
-            <select id="cenario-select" class="form-select bg-dark text-white border-light">
-                <option value="" disabled selected>Selecione um Cenário</option>
-                {% for cenario in cenarios %}
-                    <option value="{{ cenario.id }}">{{ cenario.cenario['nome'] |title}} - {{ cenario.cenario['categoria'] |title}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <br>
+            <div class="col-md-4">
+                <select id="cenario-select" class="form-select bg-dark text-white border-light">
+                    <option value="" disabled selected>Selecione um Cenário</option>
+                    {% for cenario in cenarios %}
+                        <option value="{{ cenario.id }}">{{ cenario.cenario['nome'] |title}} - {{ cenario.cenario['categoria'] |title}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
         
         <div class="d-flex flex-wrap gap-2">
             {% for cenario in cenarios %}
@@ -136,7 +136,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                                     <button type="button" class="btn btn-danger ms-2" onclick="deletarCenario({{ cenario.id }})">Deletar</button> 
-                                    <button name="action" value="editar" class="btn btn-primary">Editar</button>
+                                    <a href="/mestre/edit_cenario/{{ cenario.id }}" class="btn btn-primary">Editar</a>
                                 </div>
 
 
@@ -146,6 +146,19 @@
                 </div>
             </div>
             {% endfor %}
+
+            <script>
+                document.getElementById('cenario-select').addEventListener('change', function() {
+                    // Captura o valor selecionado
+                    var selectedId = this.value;
+                    // Gera o ID do modal correspondente
+                    var modalId = '#cenarioModal' + selectedId;
+            
+                    // Abre o modal correspondente
+                    var modal = new bootstrap.Modal(document.querySelector(modalId));
+                    modal.show();
+                });
+            </script>
 
 
         </div>
@@ -596,7 +609,7 @@
 
 <script>
     function deletarCenario(cenarioId) {
-        if (confirm("Tem certeza que deseja deletar esse NPC?")) {
+        if (confirm("Tem certeza que deseja deletar esse Cenário?")) {
             fetch(`/mestre/delete_cenario/${cenarioId}`, {
                 method: 'DELETE'
             })

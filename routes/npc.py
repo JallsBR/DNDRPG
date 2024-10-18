@@ -567,7 +567,10 @@ def editar_npc(id):
         
         # Coletando dados do formulário
         ataques_atuais = []
-        for i in range(int(request.form.get('ataques_count', 0))):  # Supondo que você tenha um campo 'ataques_count' para saber quantos ataques foram adicionados
+        ataques_count = int(request.form.get('ataques_count', 0))
+
+            # Itera sobre a quantidade de ataques e recupera os dados
+        for i in range(ataques_count):
             ataque = {
                 'nome': request.form.get(f'ataque_nome_{i + 1}'),
                 'bonus': request.form.get(f'ataque_bonus_{i + 1}'),
@@ -578,7 +581,8 @@ def editar_npc(id):
                 'tipodano': request.form.get(f'ataque_tipodano_{i + 1}'),
                 'extra': request.form.get(f'ataque_extra_{i + 1}'),
             }
-            if ataque['nome']:  # Verifica se o nome do ataque não está vazio
+                # Apenas adiciona se o campo 'nome' do ataque estiver preenchido
+            if ataque['nome']:
                 ataques_atuais.append(ataque)
 
         acoes_lendarias_atuais = []
@@ -648,6 +652,7 @@ def editar_npc(id):
             'resistencias': request.form.get('resistencias').split(', '), 
             'imunidades': request.form.get('imunidades').split(', '),
         }
+        print('Ficha: html', nova_ficha)
         acao = request.form.get('action')
         print('Acao: ', acao)
         

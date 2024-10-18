@@ -4,8 +4,83 @@
 
     {% if current_user.is_authenticated %}
 
-    <div id="armas" class="card shadow p-5 bg-dark text-white-50">
-        <h4 class="text-white">Lista de Magias</h4>       
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div>
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+
+
+    <div id="magias" class="card shadow p-5 bg-dark text-white-50">
+
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <h2 class="text-white"><b>Lista de Magias</b></h2>       
+            </div>
+
+            <div class="col-md-2 form-group">
+                <label for="classe">Filtrar por Classe</label>
+                                <div class="dropdown-container">
+                                    <select id="classe" name="classe" class="form-control bg-dark text-white border-light">
+                                        <option value="" disabled selected>Classes</option>
+                                        <option value="Todas">Todas</option>
+                                        <option value="Mago">Mago</option>
+                                        <option value="Clérigo">Clérigo</option>
+                                        <option value="Feiticeiro">Feiticeiro</option>   
+                                        <option value="Bardo">Bardo</option>                                         
+                                        <option value="Druida">Druida</option>   
+                                        <option value="Bruxo">Bruxo</option>   
+                                        <option value="Paladino">Paladino</option>   
+                                        <option value="Patrulheiro">Patrulheiro</option>   
+                                    </select>
+                                </div>
+            </div>
+
+            <div class="col-md-2 form-group">
+                <label for="escola">Filtrar por Escola</label>
+                                <div class="dropdown-container">
+                                    <select id="escola" name="escola" class="form-control bg-dark text-white border-light">
+                                        <option value="" disabled selected>Escolas</option>
+                                        <option value="Todas">Todas</option>
+                                        <option value="Abjuracao">Abjuração</option>
+                                        <option value="Advinhação">Advinhação</option>        
+                                        <option value="Conjuração">Conjuração</option>  
+                                        <option value="Encantamento">Encantamento</option> 
+                                        <option value="Evocação"> Evocação</option> 
+                                        <option value="Ilusao"> Ilusão</option> 
+                                        <option value="Necromancia">Necromancia</option> 
+                                        <option value="Transmutação">Transmutação</option> 
+                                        <option value="Encantamento">Encantamento</option>                         
+                                    </select>
+                                </div>
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="organizar">Organizar por</label>
+                                <div class="dropdown-container">
+                                    <select id="organizar" name="organizar" class="form-control bg-dark text-white border-light">
+                                        <option value="" disabled selected>Organização</option>
+                                        <option value="Todas">Todas</option>
+                                        <option value="Nivel">Nível</option>
+                                        <option value="Nome">Nome</option> 
+                                        <option value="NomeOriginal">Nome Original</option>                                     
+                                    </select>
+                                </div>
+            </div>
+        
+            <div class="col-md-3 form-group">
+                
+            </div>
+
+        </div>
+        
         <table class="table table-striped table-dark table-hover">
             <thead>
                 <tr>
@@ -26,7 +101,7 @@
                         {% if magia.magia["nivel"] == 'Truque' %} 
                             <td>{{ magia.magia["nivel"] }} de {{ magia.magia["escola"] }}</td>
                         {% else %}
-                            <td>{{ magia.magia["nivel"] }}º círculo de {{ magia.magia["escola"] }}</td>
+                            <td>{{ magia.magia["nivel"] }}º de {{ magia.magia["escola"] }}</td>
                         {% endif %}     
                          <td>{{ magia.magia["componentes"]|join(", ") }}</td>        
                          <td>{{ magia.magia["classes"]|join(", ")}}</td>        
@@ -48,9 +123,10 @@
                 <div class="modal-body">
                     <div class="magia-detalhes no-margin">
 
-                        <h1><b>{{ magia.magia['nome']|title  }}<i>({{ magia.magia['spellname']|title  }})</i></b></h1>
+                        <h1><b>{{ magia.magia['nome']|title  }}</b></h1>
+                        <h3><i>#{{ magia.id }} ({{ magia.magia['spellname']|title  }})</i> </h3>
                         <label>
-                            <input type="checkbox" id="toggleIdioma{{ magia.id }}" onchange="toggleDescricao({{ magia.id }})"> Descrição em Inglês
+                            <input type="checkbox" class="form-check-input" id="toggleIdioma{{ magia.id }}" onchange="toggleDescricao({{ magia.id }})"> Descrição em Inglês
                         </label>
 
                         {% if magia.magia["nivel"] == 'Truque' %} 
@@ -66,14 +142,22 @@
                         <br>
                         
                         <!-- Texto em português e inglês controlado por JavaScript -->
-                        <p id="descricaoPT{{ magia.id }}">{{ magia.magia["texto"] }} <br> <b>Level mais alto:</b> {{ magia.magia["upgrade"] }} </p>
+                        <p id="descricaoPT{{ magia.id }}">{{ magia.magia["texto"] }}<br> 
+                            
+                            {% if  magia.magia["upgrade"] %}                           
+                            <b>Level mais alto:</b> {{ magia.magia["upgrade"] }} 
+                            {% endif %}
+                        </p>
+
                         <p id="descricaoEN{{ magia.id }}" style="display:none">{{ magia.magia["spelldescription"] }}</p>
+                        <br>
+                        <p><i>{{ magia.magia["livro"] }}</i></p>
 
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" class="btn btn-danger ms-2" onclick="deletarMagia({{ magia.id }})">Deletar</button> 
-                            <button name="action" value="editar" class="btn btn-primary">Editar</button>
+                            <a type="button" name="action" value="editar" href="/magia/editar/{{ magia.id }}" class="btn btn-primary">Editar</a>
                         </div>
                     </div>
                 </div>
@@ -97,6 +181,38 @@
                 descricaoEN.style.display = 'none';
             }
         }
+    </script>
+
+
+
+    <script>
+        function deletarMagia(magiaId) {
+            if (confirm("Tem certeza que deseja deletar essa magia?")) {
+                fetch(`/magia/deletar/${magiaId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(() => location.reload()) 
+                .catch(error => console.error('Erro:', error));
+            }
+        }
+    </script>
+
+    <script>
+        document.querySelectorAll('#classe, #escola, #organizar').forEach(function(el) {
+            el.addEventListener('change', function() {
+                let classe = document.getElementById('classe').value;
+                let escola = document.getElementById('escola').value;
+                let organizar = document.getElementById('organizar').value;
+        
+                // Garante que a URL comece da raiz (/) e vá para /magia/
+                let url = `/magia/?classe=${classe}&escola=${escola}&organizar=${organizar}`;
+                window.location.href = url; // Redireciona para a rota com os parâmetros de filtro
+            });
+        });
+        
     </script>
 
     {% endif %}

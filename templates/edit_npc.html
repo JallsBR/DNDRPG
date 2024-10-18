@@ -330,7 +330,7 @@
                     <hr>
                     
 
-
+                    <input type="hidden" id="ataques_count" name="ataques_count" value="{{ npc.ficha['ataques_atuais']|length }}">
                     <!-- Ataques -->
                     <div class="row">
                         <div class="col">
@@ -599,52 +599,53 @@
     
 
     <script>
+        let ataquesCount = {{ npc.ficha['ataques_atuais']|length }};
+        
         document.getElementById('add-ataque').addEventListener('click', function() {
-            // Identificar o container onde os ataques estão sendo adicionados
+            // Atualiza o valor do contador
+            ataquesCount++;
+            document.getElementById('ataques_count').value = ataquesCount;
+            
+            // Adiciona novo ataque ao container como antes
             const container = document.getElementById('ataques-container');
-            
-            // Contar quantos ataques já existem
-            const index = container.getElementsByClassName('form-group').length / 8; // Cada ataque tem 8 inputs
-            
-            // Criar novo elemento de ataque (nome, bônus, tipo, alcance, dano, dado, tipo de dano, efeito extra)
+            const index = ataquesCount; // Agora usando ataquesCount atualizado
+    
             const novoAtaque = `
             <div class="row">
                 <div class="col-md-1 form-group">
-                    <label for="ataque_nome_${index + 1}">Ataque</label>
-                    <input type="text" id="ataque_nome_${index + 1}" name="ataque_nome_${index + 1}" class="form-control bg-dark text-white border-light">
+                    <label for="ataque_nome_${index}">Ataque</label>
+                    <input type="text" id="ataque_nome_${index}" name="ataque_nome_${index}" class="form-control bg-dark text-white border-light">
                 </div>
                 <div class="col-md-1 form-group">
-                    <label for="ataque_bonus_${index + 1}">Bônus</label>
-                    <input type="text" id="ataque_bonus_${index + 1}" name="ataque_bonus_${index + 1}" class="form-control bg-dark text-white border-light">
+                    <label for="ataque_bonus_${index}">Bônus</label>
+                    <input type="text" id="ataque_bonus_${index}" name="ataque_bonus_${index}" class="form-control bg-dark text-white border-light">
                 </div>
                 <div class="col-md-1 form-group">
-                    <label for="ataque_tipo_${index + 1}">Tipo</label>
-                    <input type="text" id="ataque_tipo_${index + 1}" name="ataque_tipo_${index + 1}" class="form-control bg-dark text-white border-light">
+                    <label for="ataque_tipo_${index}">Tipo</label>
+                    <input type="text" id="ataque_tipo_${index}" name="ataque_tipo_${index}" class="form-control bg-dark text-white border-light">
                 </div>
                 <div class="col-md-1 form-group">
-                    <label for="ataque_alcance_${index + 1}">Alcance</label>
-                    <input type="text" id="ataque_alcance_${index + 1}" name="ataque_alcance_${index + 1}" class="form-control bg-dark text-white border-light">
+                    <label for="ataque_alcance_${index}">Alcance</label>
+                    <input type="text" id="ataque_alcance_${index}" name="ataque_alcance_${index}" class="form-control bg-dark text-white border-light">
                 </div>
                 <div class="col-md-1 form-group">
-                    <label for="ataque_dano_${index + 1}">Dano</label>
-                    <input type="text" id="ataque_dano_${index + 1}" name="ataque_dano_${index + 1}" class="form-control bg-dark text-white border-light">
+                    <label for="ataque_dano_${index}">Dano</label>
+                    <input type="text" id="ataque_dano_${index}" name="ataque_dano_${index}" class="form-control bg-dark text-white border-light">
                 </div>
                 <div class="col-md-1 form-group">
-                    <label for="ataque_dado_${index + 1}">Dado</label>
-                    <input type="text" id="ataque_dado_${index + 1}" name="ataque_dado_${index + 1}" class="form-control bg-dark text-white border-light">
+                    <label for="ataque_dado_${index}">Dado</label>
+                    <input type="text" id="ataque_dado_${index}" name="ataque_dado_${index}" class="form-control bg-dark text-white border-light">
                 </div>
                 <div class="col-md-2 form-group">
-                    <label for="ataque_tipodano_${index + 1}">Tipo de Dano</label>
-                    <input type="text" id="ataque_tipodano_${index + 1}" name="ataque_tipodano_${index + 1}" class="form-control bg-dark text-white border-light">
+                    <label for="ataque_tipodano_${index}">Tipo de Dano</label>
+                    <input type="text" id="ataque_tipodano_${index}" name="ataque_tipodano_${index}" class="form-control bg-dark text-white border-light">
                 </div>
                 <div class="col-md-4 form-group">
-                    <label for="ataque_extra_${index + 1}">Efeito Extra</label>
-                    <input type="text" id="ataque_extra_${index + 1}" name="ataque_extra_${index + 1}" class="form-control bg-dark text-white border-light">
+                    <label for="ataque_extra_${index}">Efeito Extra</label>
+                    <input type="text" id="ataque_extra_${index}" name="ataque_extra_${index}" class="form-control bg-dark text-white border-light">
                 </div>
-            </div>
-            `;
+            </div>`;
             
-            // Adicionar os novos campos ao container
             container.insertAdjacentHTML('beforeend', novoAtaque);
         });
     </script>

@@ -1,3 +1,4 @@
+# _*_ coding: utf-8 _*_
 from flask import Flask, render_template, redirect
 from flask_login import logout_user, current_user
 from database.database import db
