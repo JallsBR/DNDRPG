@@ -4,19 +4,6 @@
 
     {% if current_user.is_authenticated %}
 
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div>
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
     
     <div class="card shadow p-5 bg-dark text-white"> 
         <h1><b>Magias</b></h1>
@@ -97,15 +84,9 @@
                         <label for="escola">Escola de Magia</label>
                         <select id="escola" name="escola" class="form-control bg-dark text-white border-light">
                             <option value="" disabled selected>Escolas</option>
-                            <option value="Abjuração">Abjuração</option>
-                            <option value="Advinhação">Advinhação</option>        
-                            <option value="Conjuração">Conjuração</option>  
-                            <option value="Encantamento">Encantamento</option> 
-                            <option value="Evocação"> Evocação</option> 
-                            <option value="Ilusao"> Ilusão</option> 
-                            <option value="Necromancia">Necromancia</option> 
-                            <option value="Transmutação">Transmutação</option> 
-                            <option value="Encantamento">Encantamento</option>                            
+                            {% for nome_escola, numero in escolas_numero.items() %}
+                                <option value="{{ numero }}">{{ nome_escola }}</option>
+                            {% endfor %}
                         </select>
                     </div>
 

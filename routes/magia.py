@@ -6,9 +6,31 @@ from model.cenario_model import Cenario
 from flask_login import logout_user, current_user
 from database.database import db
 
+CLASSES_NUMERO = {
+    'Mago': 1,
+    'Clérigo': 2,
+    'Feiticeiro': 3,
+    'Bardo': 4,
+    'Druida': 5,
+    'Bruxo': 6,
+    'Paladino': 7,
+    'Patrulheiro': 8
+}
 
+NUMERO_CLASSES = {v: k for k, v in CLASSES_NUMERO.items()}
 
+ESCOLAS_NUMERO = {
+    'Abjuração': 1,
+    'Advinhação': 2,
+    'Conjuração': 3,
+    'Encantamento': 4,
+    'Evocação': 5,
+    'Ilusão': 6,
+    'Necromancia': 7,
+    'Transmutação': 8
+}
 
+NUMERO_ESCOLAS = {v: k for k, v in ESCOLAS_NUMERO.items()}
 
 
 blueprint_magia = Blueprint("magia", __name__, template_folder="templates")
@@ -16,15 +38,23 @@ blueprint_magia = Blueprint("magia", __name__, template_folder="templates")
 @blueprint_magia.route('/', methods=['GET', 'POST'])
 def index_magia():
     if request.method == 'GET':
-        # Captura os parâmetros de filtro da URL
         classe = request.args.get('classe', 'Todas')
         escola = request.args.get('escola', 'Todas')
         organizar = request.args.get('organizar', 'Nome')
-
-        # Filtra as magias com base nos parâmetros fornecidos
-        magias = Magias.filtrar_magias(classe=classe, escola=escola, organizar=organizar)
         
-        return render_template('magias.html', magias=magias)
+        magias = Magias.filtrar_magias(classe=classe, escola=escola, organizar=organizar)        
+
+        for magia in magias:
+            magia.magia['classes'] = [NUMERO_CLASSES.get(numero, 'Desconhecida') for numero in magia.magia['classes']]
+
+            if magia.magia['escola'] is not None:
+                magia.magia['escola'] = NUMERO_ESCOLAS.get(int(magia.magia['escola']))
+
+            else:
+                magia.magia['escola'] = 'Desconhecida'  
+        
+        
+        return render_template('magias.html', magias=magias,  escolas_numero=ESCOLAS_NUMERO)
     if request.method == 'POST':        
         return redirect('/')
     
@@ -34,7 +64,7 @@ def index_magia():
 def criarmagia():
     if request.method == 'GET':
         magias = Magias.todas_magias()
-        return render_template('criarmagia.html', magias=magias)
+        return render_template('criarmagia.html', magias=magias, escolas_numero=ESCOLAS_NUMERO)
 
     if request.method == 'POST':
         # Coletando os dados do formulário
@@ -44,8 +74,13 @@ def criarmagia():
         nivel = request.form.get('nivel')
         if nivel == '0':
             nivel = 'Truque'
-            
+        
+        # Capture the school directly from the form
         escola = request.form.get('escola')
+        
+        # Add debug print
+        print("Valor da escola capturado:", escola)
+
         distancia = request.form.get('distancia')
         casting = request.form.get('casting')
         duracao = request.form.get('duracao')
@@ -57,16 +92,16 @@ def criarmagia():
         livro = request.form.get('livro')
 
         classes = []
-        for classe in ['Mago', 'Clérigo', 'Feiticeiro', 'Bardo', 'Druida', 'Bruxo', 'Paladino', 'Patrulheiro']:
+        for classe, numero in CLASSES_NUMERO.items():
             if request.form.get(classe):
-                classes.append(classe)
+                classes.append(numero)
 
         magia_data = {
             'nome': nome,
             'spellname': spellname,
             'spelldescription': spelldescription,
             'nivel': nivel,
-            'escola': escola,
+            'escola': escola,  # Use the captured value directly
             'classes': classes, 
             'casting': casting,
             'distancia': distancia,
@@ -76,18 +111,19 @@ def criarmagia():
             'upgrade': upgrade,
             'livro': livro,
         }
-                  
-        print("Magia", magia_data)
-              
-        if magia_data:
-                magia = Magias.criar_magia(magia_data)
 
-                if isinstance(magia, str):
-                    flash(f"Erro ao criar magia: {magia}", "danger")
-                else:
-                    flash(f"Erro ao criar magia: {magia}", "danger")
+        print("Magia", magia_data)
+
+        if magia_data:
+            magia = Magias.criar_magia(magia_data)
+
+            if isinstance(magia, str):
+                flash(f"Erro ao criar magia: {magia}", "danger")
+            else:
+                flash(f"Magia criada com sucesso!", "success")
 
         return redirect(request.url)
+
     
     
     
@@ -134,29 +170,54 @@ def delete_magia(magia_id):
 
     return redirect(request.url) 
 
+
+
+
 @blueprint_magia.route('/editar/<id>', methods=['GET', 'POST'])
 def editar_magia(id):
     if request.method == 'GET':
-        magia = Magias.magia_id(id)
+        magia = Magias.magia_id(id)  
         if magia:
-            return render_template('editarmagia.html', magia=magia)
+            classes_selecionadas = [NUMERO_CLASSES.get(numero, 'Desconhecida') for numero in magia.magia['classes']]
+            magia_escola_numero = int(magia.magia['escola'])            
+
+
+            return render_template('editarmagia.html', 
+                                   magia=magia, 
+                                   classes_selecionadas=classes_selecionadas, 
+                                   classes_numero=CLASSES_NUMERO, 
+                                   escolas_numero=ESCOLAS_NUMERO, 
+                                   magia_escola_numero=magia_escola_numero)
         else:
-            flash("Magia não encontrada", "danger")            
+            flash("Magia não encontrada", "danger")
             return redirect(request.url)
         
     if request.method == 'POST':
         
+        escola = request.form.get('escola')
+        print(f"Valor da escola recebido: {escola}")  
+
+        escola_numero = ESCOLAS_NUMERO.get(escola)
+        print(f"Número da escola: {escola_numero}") 
+            
         nome = request.form.get('nome')
         spellname = request.form.get('spellname')
         
         nivel = request.form.get('nivel')
         if nivel == '0':
-            nivel = 'Truque'
-            
-        escola = request.form.get('escola')
+            nivel = 'Truque'           
+
+        
         distancia = request.form.get('distancia')
-        classes = request.form.get('classes')
-        classes = classes.split(',')
+       
+        # Convertendo classes (de nomes para números)
+        classes = []
+        for classe, numero in CLASSES_NUMERO.items():
+            if request.form.get(classe):
+                classes.append(numero)
+        
+        
+        
         casting = request.form.get('casting')
         duracao = request.form.get('duracao')
         componentes = request.form.get('componentes')

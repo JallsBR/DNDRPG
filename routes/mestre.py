@@ -301,13 +301,21 @@ def index_organizacao():
 
         # Coleta os arrays (com múltiplos campos)
         lideranca = []
-        for i in range(len(request.form.getlist('lider'))):
-            lideranca.append({
-                "lider": request.form.getlist('lider')[i],
-                "npcId": request.form.getlist('npcId')[i],
-                "descricao": request.form.getlist('descricao_lider')[i],
-                "anotacoes": request.form.getlist('anotacoes')[i]
-            })
+        try:
+            for i in range(len(request.form.getlist('lider'))):
+                lideranca.append({
+                    "lider": request.form.getlist('lider')[i],
+                    "npcId": 1,
+                    "descricao": request.form.getlist('descricaoLider')[i],  # Corrigido para 'descricaoLider'
+                    "anotacoes": request.form.getlist('anotacoesLider')[i]   # Corrigido para 'anotacoesLider'
+                })
+            print(lideranca)  # Debug para checar se os dados estão corretos
+        except Exception as e:
+            print(f"Erro ao processar os dados de liderança: {e}")
+            
+            
+            
+            
 
         estrategias = []
         for i in range(len(request.form.getlist('nome_estrategia'))):

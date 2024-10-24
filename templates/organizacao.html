@@ -41,10 +41,7 @@
                         <div class="modal-body">
                             <div class="organizacao-detalhes">
                                 <h1><b>{{ org.org['nome']|title }}</b></h1>
-                                <hr>
-
-                                <h5><strong>Descrição Rápida</strong></h5>
-                                <p>{{ org.org['descricaoRapida'] }}</p>
+                                <p><i>{{ org.org['descricaoRapida'] }}</i></p>
                                 <hr>
 
                                 {% if org.org['descricao'] %}
@@ -72,9 +69,9 @@
 
                                 {% if org.org['objetivosCurtos'] or org.org['objetivosMedio'] or org.org['objetivosLongos'] %}
                                 <h5><strong>Objetivos</strong></h5>
-                                <p>Curto Prazo: {{ org.org['objetivosCurtos'] }}</p>
-                                <p>Médio Prazo: {{ org.org['objetivosMedio'] }}</p>
-                                <p>Longo Prazo: {{ org.org['objetivosLongos'] }}</p>
+                                <p><b>Curto Prazo</b> {{ org.org['objetivosCurtos'] }}</p>
+                                <p><b>Médio Prazo</b> {{ org.org['objetivosMedio'] }}</p>
+                                <p><b>Longo Prazo</b> {{ org.org['objetivosLongos'] }}</p>
                                 <hr>
                                 {% endif %}
 
@@ -244,20 +241,19 @@
                             <label for="lider1">Nome do Líder</label>
                             <input type="text" id="lider1" name="lider[]" class="form-control bg-dark text-white border-light">
                         </div>
-
+            
                         <div class="col-md-10 form-group">
                             <label for="descricaoLider1">Descrição</label>
                             <input type="text" id="descricaoLider1" name="descricaoLider[]" class="form-control bg-dark text-white border-light">
                         </div>
-
+            
                         <div class="col-md-12 form-group">
                             <label for="anotacoesLider1">Anotações</label>
                             <textarea id="anotacoesLider1" name="anotacoesLider[]" class="form-control bg-dark text-white border-light" rows="3"></textarea>
                         </div>
-
                     </div>
                 </div>
-                
+
                 <!-- Script para adicionar lideranças -->
                 <script>
                     let liderCount = 1;
@@ -277,12 +273,16 @@
                                 </div>
                                 <div class="col-md-12 form-group">
                                     <label for="anotacoesLider${liderCount}">Anotações</label>
-                                     <textarea id="anotacoesLider${liderCount}" name="anotacoesLider[]" class="form-control bg-dark text-white border-light" rows="3"></textarea>                                  
+                                    <textarea id="anotacoesLider${liderCount}" name="anotacoesLider[]" class="form-control bg-dark text-white border-light" rows="3"></textarea>                                  
                                 </div>
                             </div>`;
                         liderContainer.insertAdjacentHTML('beforeend', newLider);
+                        
+                        // Adicionando um console log para checar o estado
+                        console.log(document.getElementsByName('lider[]')); // Para verificar se os inputs estão sendo adicionados
                     });
                 </script>
+
                 
                 <hr>
                 
