@@ -4,20 +4,6 @@
 
     {% if current_user.is_authenticated %}
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div>
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
-
-
 
     <div id="magias" class="card shadow p-5 bg-dark text-white-50">
 
@@ -28,55 +14,69 @@
 
             <div class="col-md-2 form-group">
                 <label for="classe">Filtrar por Classe</label>
-                                <div class="dropdown-container">
-                                    <select id="classe" name="classe" class="form-control bg-dark text-white border-light">
-                                        <option value="" disabled selected>Classes</option>
-                                        <option value="Todas">Todas</option>
-                                        <option value="Mago">Mago</option>
-                                        <option value="Clérigo">Clérigo</option>
-                                        <option value="Feiticeiro">Feiticeiro</option>   
-                                        <option value="Bardo">Bardo</option>                                         
-                                        <option value="Druida">Druida</option>   
-                                        <option value="Bruxo">Bruxo</option>   
-                                        <option value="Paladino">Paladino</option>   
-                                        <option value="Patrulheiro">Patrulheiro</option>   
-                                    </select>
-                                </div>
+                <div class="dropdown-container">
+                    <select id="classe" name="classe" class="form-control bg-dark text-white border-light">
+                        <option value="Todas" {% if classe == 'Todas' %}selected{% endif %}>Todas</option>
+                        <option value="1" {% if classe == '1' %}selected{% endif %}>Mago</option>
+                        <option value="2" {% if classe == '2' %}selected{% endif %}>Clérigo</option>
+                        <option value="3" {% if classe == '3' %}selected{% endif %}>Feiticeiro</option>
+                        <option value="4" {% if classe == '4' %}selected{% endif %}>Bardo</option>
+                        <option value="5" {% if classe == '5' %}selected{% endif %}>Druida</option>
+                        <option value="6" {% if classe == '6' %}selected{% endif %}>Bruxo</option>
+                        <option value="7" {% if classe == '7' %}selected{% endif %}>Paladino</option>
+                        <option value="8" {% if classe == '8' %}selected{% endif %}>Patrulheiro</option>
+                    </select>
+                </div>
             </div>
-
+            
             <div class="col-md-2 form-group">
                 <label for="escola">Filtrar por Escola</label>
-                                <div class="dropdown-container">
-                                    <select id="escola" name="escola" class="form-control bg-dark text-white border-light">
-                                        <option value="" disabled selected>Escolas</option>
-                                        <option value="Todas">Todas</option>
-                                        <option value="Abjuracao">Abjuração</option>
-                                        <option value="Advinhação">Advinhação</option>        
-                                        <option value="Conjuração">Conjuração</option>  
-                                        <option value="Encantamento">Encantamento</option> 
-                                        <option value="Evocação"> Evocação</option> 
-                                        <option value="Ilusao"> Ilusão</option> 
-                                        <option value="Necromancia">Necromancia</option> 
-                                        <option value="Transmutação">Transmutação</option> 
-                                        <option value="Encantamento">Encantamento</option>                         
-                                    </select>
-                                </div>
+                <div class="dropdown-container">
+                    <select id="escola" name="escola" class="form-control bg-dark text-white border-light">
+                        <option value="Todas" {% if escola == 'Todas' %}selected{% endif %}>Todas</option>
+                        <option value="1" {% if escola == '1' %}selected{% endif %}>Abjuração</option>
+                        <option value="2" {% if escola == '2' %}selected{% endif %}>Advinhação</option>
+                        <option value="3" {% if escola == '3' %}selected{% endif %}>Conjuração</option>
+                        <option value="4" {% if escola == '4' %}selected{% endif %}>Encantamento</option>
+                        <option value="5" {% if escola == '5' %}selected{% endif %}>Evocação</option>
+                        <option value="6" {% if escola == '6' %}selected{% endif %}>Ilusão</option>
+                        <option value="7" {% if escola == '7' %}selected{% endif %}>Necromancia</option>
+                        <option value="8" {% if escola == '8' %}selected{% endif %}>Transmutação</option>
+                    </select>
+                </div>
             </div>
+
+
+            <div class="col-md-2 form-group">
+                <label for="magianivel">Filtrar por Nível</label>
+                <div class="dropdown-container">
+                    <select id="magianivel" name="magianivel" class="form-control bg-dark text-white border-light">
+                        <option value="Todos" {% if filtronivel == 'Todos' %}selected{% endif %}>Todos</option> 
+                        <option value="Truque" {% if filtronivel == 'Truque' %}selected{% endif %}>Truque</option>
+                        <option value="1" {% if filtronivel == '1' %}selected{% endif %}>1º</option>
+                        <option value="2" {% if filtronivel == '2' %}selected{% endif %}>2º</option>
+                        <option value="3" {% if filtronivel == '3' %}selected{% endif %}>3º</option>
+                        <option value="4" {% if filtronivel == '4' %}selected{% endif %}>4º</option>
+                        <option value="5" {% if filtronivel == '5' %}selected{% endif %}>5º</option>
+                        <option value="6" {% if filtronivel == '6' %}selected{% endif %}>6º</option>
+                        <option value="7" {% if filtronivel == '7' %}selected{% endif %}>7º</option>
+                        <option value="8" {% if filtronivel == '8' %}selected{% endif %}>8º</option>
+                        <option value="9" {% if filtronivel == '9' %}selected{% endif %}>9º</option>
+                    </select>
+                </div>
+            </div>
+
+
+            
             <div class="col-md-2 form-group">
                 <label for="organizar">Organizar por</label>
-                                <div class="dropdown-container">
-                                    <select id="organizar" name="organizar" class="form-control bg-dark text-white border-light">
-                                        <option value="" disabled selected>Organização</option>
-                                        <option value="Todas">Todas</option>
-                                        <option value="Nivel">Nível</option>
-                                        <option value="Nome">Nome</option> 
-                                        <option value="NomeOriginal">Nome Original</option>                                     
-                                    </select>
-                                </div>
-            </div>
-        
-            <div class="col-md-3 form-group">
-                
+                <div class="dropdown-container">
+                    <select id="organizar" name="organizar" class="form-control bg-dark text-white border-light">
+                        <option value="Nome" {% if organizar == 'Nome' %}selected{% endif %}>Nome</option> 
+                        <option value="Nivel" {% if organizar == 'Nivel' %}selected{% endif %}>Nível</option>
+                        <option value="NomeOriginal" {% if organizar == 'NomeOriginal' %}selected{% endif %}>Nome Original</option>
+                    </select>
+                </div>
             </div>
 
         </div>
@@ -213,6 +213,21 @@
             });
         });
         
+    </script>
+
+    <script>
+        document.querySelectorAll('#classe, #escola, #organizar, #filtronivel').forEach(function(el) {
+            el.addEventListener('change', function() {
+                let classe = document.getElementById('classe').value;
+                let escola = document.getElementById('escola').value;
+                let organizar = document.getElementById('organizar').value;
+                let magianivel = document.getElementById('magianivel').value;
+        
+                // Garante que a URL comece da raiz (/) e vá para /magia/
+                let url = `/magia/?classe=${classe}&escola=${escola}&organizar=${organizar}&nivel=${magianivel}`;
+                window.location.href = url; 
+            });
+        });
     </script>
 
     {% endif %}

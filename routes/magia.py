@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect,  jsonify, flash
 import json
 from model.magias_model import Magias
-from model.cenario_model import Cenario
+from controller.mestre_controller import MestreController
 
 from flask_login import logout_user, current_user
 from database.database import db
@@ -41,8 +41,11 @@ def index_magia():
         classe = request.args.get('classe', 'Todas')
         escola = request.args.get('escola', 'Todas')
         organizar = request.args.get('organizar', 'Nome')
+        nivel = request.args.get('magianivel', 'Todos')
+
+        print("filtro nivel: ", nivel)
         
-        magias = Magias.filtrar_magias(classe=classe, escola=escola, organizar=organizar)        
+        magias = MestreController.ajuste_exibir_magias(classe=classe, escola=escola, organizar=organizar, pt=True, nivel=nivel)        
 
         for magia in magias:
             magia.magia['classes'] = [NUMERO_CLASSES.get(numero, 'Desconhecida') for numero in magia.magia['classes']]
@@ -54,7 +57,7 @@ def index_magia():
                 magia.magia['escola'] = 'Desconhecida'  
         
         
-        return render_template('magias.html', magias=magias,  escolas_numero=ESCOLAS_NUMERO)
+        return render_template('magias.html', magias=magias, escolas_numero=ESCOLAS_NUMERO, classe=classe, escola=escola, organizar=organizar, magianivel=nivel)
     if request.method == 'POST':        
         return redirect('/')
     
@@ -67,7 +70,7 @@ def criarmagia():
         return render_template('criarmagia.html', magias=magias, escolas_numero=ESCOLAS_NUMERO)
 
     if request.method == 'POST':
-        # Coletando os dados do formulário
+
         nome = request.form.get('nome')
         spellname = request.form.get('spellname')
         
@@ -75,11 +78,9 @@ def criarmagia():
         if nivel == '0':
             nivel = 'Truque'
         
-        # Capture the school directly from the form
+
         escola = request.form.get('escola')
-        
-        # Add debug print
-        print("Valor da escola capturado:", escola)
+
 
         distancia = request.form.get('distancia')
         casting = request.form.get('casting')
@@ -101,7 +102,7 @@ def criarmagia():
             'spellname': spellname,
             'spelldescription': spelldescription,
             'nivel': nivel,
-            'escola': escola,  # Use the captured value directly
+            'escola': escola,  
             'classes': classes, 
             'casting': casting,
             'distancia': distancia,
@@ -137,15 +138,15 @@ def criarmagiajson():
     if request.method == 'POST':
         texto = request.form.get('texto')
         try:
-            # Converte a string JSON em um dicionário Python
+
             magia_data = json.loads(texto)
 
-            # Verifica se o dicionário está no formato esperado
+
             if isinstance(magia_data, dict):
-                # Cria a magia usando os dados fornecidos
+
                 magia = Magias.criar_magia(magia_data=magia_data)
 
-                # Verifica se ocorreu algum erro
+
                 if isinstance(magia, str):
                     flash(f"Erro ao criar magia: {magia_data.get('nome', 'Nome não encontrado')}", "danger")
                 else:
