@@ -50,15 +50,24 @@
                     {% endfor %}
                 </div>
                     
-
-
-
-
                 <div class="row">
                     <div class="col-md-1 form-group">
-                        <label for="nivel">Nível</label>
-                        <input type="text" id="nivel" name="nivel" class="form-control bg-dark text-white border-light" value="{{ magia.magia['nivel'] }}" required>
+                        <label for="nivel">Nível</label>                    
+                        <select id="nivel" name="nivel" class="form-control bg-dark text-white border-light">
+                            <option value="0" {% if magia.magia['nivel'] == '0' %}selected{% endif %}>Truque</option>
+                            <option value="1" {% if magia.magia['nivel'] == '1' %}selected{% endif %}>1º</option>
+                            <option value="2" {% if magia.magia['nivel'] == '2' %}selected{% endif %}>2º</option>
+                            <option value="3" {% if magia.magia['nivel'] == '3' %}selected{% endif %}>3º</option>
+                            <option value="4" {% if magia.magia['nivel'] == '4' %}selected{% endif %}>4º</option>
+                            <option value="5" {% if magia.magia['nivel'] == '5' %}selected{% endif %}>5º</option>
+                            <option value="6" {% if magia.magia['nivel'] == '6' %}selected{% endif %}>6º</option>
+                            <option value="7" {% if magia.magia['nivel'] == '7' %}selected{% endif %}>7º</option>
+                            <option value="8" {% if magia.magia['nivel'] == '8' %}selected{% endif %}>8º</option>
+                            <option value="9" {% if magia.magia['nivel'] == '9' %}selected{% endif %}>9º</option>
+                        </select>
                     </div>
+
+                    
         
                     <div class="col-md-2 form-group">
                         <label for="escola">Escola de Magia</label>

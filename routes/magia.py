@@ -75,8 +75,8 @@ def criarmagia():
         spellname = request.form.get('spellname')
         
         nivel = request.form.get('nivel')
-        if nivel == '0':
-            nivel = 'Truque'
+        if nivel == 'Truque':
+            nivel = '0'
         
 
         escola = request.form.get('escola')
@@ -205,8 +205,8 @@ def editar_magia(id):
         spellname = request.form.get('spellname')
         
         nivel = request.form.get('nivel')
-        if nivel == '0':
-            nivel = 'Truque'           
+        if nivel == 'Truque':
+            nivel = '0'           
 
         
         distancia = request.form.get('distancia')

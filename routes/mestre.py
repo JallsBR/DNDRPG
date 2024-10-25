@@ -285,7 +285,6 @@ def index_encontro():
 def index_organizacao():
     if request.method == 'GET':
         organiza = Organizacoes.org_userid(current_user.id)
-        print(organiza)
         return render_template('organizacao.html', organiza=organiza)
     
     if request.method == 'POST':    
@@ -311,12 +310,8 @@ def index_organizacao():
                 })
             print(lideranca)  # Debug para checar se os dados estão corretos
         except Exception as e:
-            print(f"Erro ao processar os dados de liderança: {e}")
+            print(f"Erro ao processar os dados de liderança: {e}")            
             
-            
-            
-            
-
         estrategias = []
         for i in range(len(request.form.getlist('nome_estrategia'))):
             estrategias.append({
@@ -399,3 +394,16 @@ def index_organizacao():
             print(f"Erro ao salvar a organização: {str(e)}")
             flash("Erro ao salvar a organização.", "danger")
             return redirect('/organizacao')
+        
+        
+        
+@blueprint_mestre.route('/organizacao/delete/<int:orgnizacao_id>', methods=['POST'])
+def delete_organizacao(orgnizacao_id):
+    """Rota para deletar uma organização pelo ID"""
+    sucesso = Organizacoes.delete(orgnizacao_id)  
+    if sucesso == True:
+        flash(f"Organização deletada com sucesso!", "success")  
+    else:
+        flash(f"Erro ao deletar Organização: {sucesso}", "danger") 
+
+    return redirect(request.url)     

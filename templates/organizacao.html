@@ -150,6 +150,7 @@
                                 {% endif %}
 
                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger ms-2" onclick="deletarOrg({{org.id }})">Deletar</button> 
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                                 </div>
                             </div>
@@ -645,6 +646,22 @@
     </div>
 </form>
 
+
+
+<script>
+    function deletarOrg(organizacaoId) {
+        if (confirm("Tem certeza que deseja deletar essa Organizacao?")) {
+            fetch(`/mestre/organizacao/delete/${organizacaoId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(() => location.reload()) 
+            .catch(error => console.error('Erro:', error));
+        }
+    }
+</script>
 
 
     {% endif %}

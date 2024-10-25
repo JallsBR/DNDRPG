@@ -82,25 +82,6 @@ class Magias(db.Model):
             return cls.query.order_by(asc(cls.magia['spellname'])).all()
 
     @classmethod
-    def classe_magias(cls, classe, pt=True, nivel=None):
-        classe_numero = CLASSES_NUMERO.get(classe)
-
-
-        query = cls.query.filter(cls.magia['classes'].contains([classe_numero]))
-
-        if nivel is not None:
-
-            if nivel == "truque":
-                query = query.filter(cls.magia['nivel'] == 'truque')
-            else:
-                query = query.filter(cls.magia['nivel'] == str(nivel))
-
-        if pt:
-            return query.order_by(asc(cls.magia['nome'])).all()
-        else:
-            return query.order_by(asc(cls.magia['spellname'])).all()
-
-    @classmethod
     def todas_magias_por_nivel(cls, pt=True):
         if pt:
             return cls.query.order_by(
@@ -117,37 +98,3 @@ class Magias(db.Model):
                 )
             ).all()
             
-    @classmethod
-    def filtrar_magias(cls, classe=None, escola=None, organizar=None, pt=True):
-        """
-        Filtra as magias com base em classe, escola e critério de organização.
-        """
-        query = cls.query
-
-        if classe and classe != "Todas":
-
-            classe_numero = CLASSES_NUMERO.get(classe)
-            if classe_numero is not None:
-
-                query = query.filter(cls.magia['classes'].contains([classe_numero]))       
-
-        if escola and escola != "Todas":
-            escola_numero = ESCOLAS_NUMERO.get(escola)
-            if escola_numero is not None:
-                query = query.filter(cls.magia['escola'] == escola_numero)
-
-        if organizar == 'Nome':
-            query = query.order_by(asc(cls.magia['nome'])) if pt else query.order_by(asc(cls.magia['spellname']))
-        elif organizar == 'NomeOriginal':
-            query = query.order_by(asc(cls.magia['spellname']))
-        elif organizar == 'Nivel':
-            query = query.order_by(
-                case(
-                    (cls.magia['nivel'] == 'truque', 0),
-                    else_=cast(cls.magia['nivel'], Integer)
-                )
-            )
-        else:
-            query = query.order_by(asc(cls.magia['nome']))
-
-        return query.all()
