@@ -50,4 +50,5 @@ def index():
 def logout():
     logout_user()
     return redirect ('/')
-app.run(host='0.0.0.0', port=81, debug=True)
+
+# app.run(host='0.0.0.0', port=81, debug=True)
